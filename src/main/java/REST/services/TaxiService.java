@@ -20,7 +20,14 @@ public class TaxiService {
     @Consumes("application/json")
     public Response addTaxi(Taxi taxi) {
         Taxis.getInstance().add(taxi);
-        System.out.println(taxi);
+        return Response.ok().build();
+    }
+
+    @Path("remove/{taxiId}")
+    @DELETE
+    @Consumes({"application/json"})
+    public Response removeTaxi(@PathParam("taxiId") int taxiId) {
+        Taxis.getInstance().remove(taxiId);
         return Response.ok().build();
     }
 

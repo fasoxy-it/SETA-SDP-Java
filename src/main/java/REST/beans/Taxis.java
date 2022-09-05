@@ -33,4 +33,14 @@ public class Taxis {
 
     public synchronized void add(Taxi taxi) { taxiList.add(taxi); }
 
+    public synchronized void remove(int taxiId) {
+
+        for (Taxi taxi: getTaxiList()) {
+            if (taxi.getId() == taxiId) {
+                taxiList.remove(taxi);
+            }
+        }
+
+    }
+
 }
