@@ -15,4 +15,13 @@ public class TaxiService {
         return Response.ok(Taxis.getInstance()).build();
     }
 
+    @Path("add")
+    @POST
+    @Consumes("application/json")
+    public Response addTaxi(Taxi taxi) {
+        Taxis.getInstance().add(taxi);
+        System.out.println(taxi);
+        return Response.ok().build();
+    }
+
 }
