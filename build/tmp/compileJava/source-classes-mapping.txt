@@ -6,3 +6,5 @@ REST/beans/Taxis.java
  REST.beans.Taxis
 REST/services/TaxiService.java
  REST.services.TaxiService
+REST/AdministratorClient.java
+ REST.AdministratorClient
