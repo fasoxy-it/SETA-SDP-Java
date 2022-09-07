@@ -19,8 +19,12 @@ public class TaxiService {
     @POST
     @Consumes("application/json")
     public Response addTaxi(Taxi taxi) {
-        Taxis.getInstance().add(taxi);
-        return Response.ok().build();
+        Taxi newTaxi = Taxis.getInstance().add(taxi);
+        if (newTaxi != null) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
     }
 
     @Path("remove/{taxiId}")

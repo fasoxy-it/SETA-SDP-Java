@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @XmlRootElement
 @XmlAccessorType (XmlAccessType.FIELD)
@@ -31,7 +32,18 @@ public class Taxis {
         return new ArrayList<>(taxiList);
     }
 
-    public synchronized void add(Taxi taxi) { taxiList.add(taxi); }
+    public synchronized Taxi add(Taxi taxi) {
+        for (Taxi oldTaxi: getTaxiList()) {
+            if (oldTaxi.getId() == taxi.getId()) {
+                return null;
+            }
+        }
+
+        Integer[] position = RandomPosition();
+        taxi.setPosition(position);
+        taxiList.add(taxi);
+        return taxi;
+    }
 
     public synchronized void remove(int taxiId) {
 
@@ -41,6 +53,16 @@ public class Taxis {
             }
         }
 
+    }
+
+    private Integer[] RandomPosition() {
+
+        Random random = new Random();
+
+        int x = random.nextInt(2) == 1 ? 0 : 9;
+        int y = random.nextInt(2) == 1 ? 0 : 9;
+
+        return new Integer[]{x, y};
     }
 
 }
