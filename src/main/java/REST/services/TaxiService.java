@@ -3,6 +3,7 @@ package REST.services;
 import REST.beans.Taxi;
 import REST.beans.Taxis;
 
+import javax.swing.text.html.parser.Entity;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -18,10 +19,12 @@ public class TaxiService {
     @Path("add")
     @POST
     @Consumes("application/json")
+    @Produces("application/json")
     public Response addTaxi(Taxi taxi) {
         Taxi newTaxi = Taxis.getInstance().add(taxi);
         if (newTaxi != null) {
-            return Response.ok().build();
+            //return Response.ok().build();
+            return Response.ok(Taxis.getInstance().getTaxiList()).build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }

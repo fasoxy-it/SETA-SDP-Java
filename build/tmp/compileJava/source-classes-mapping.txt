@@ -2,7 +2,7 @@ REST/AdministratorServer.java
  REST.AdministratorServer
 REST/beans/Taxi.java
  REST.beans.Taxi
-REST/services/TaxiService.java
- REST.services.TaxiService
 REST/beans/Taxis.java
  REST.beans.Taxis
+REST/services/TaxiService.java
+ REST.services.TaxiService
