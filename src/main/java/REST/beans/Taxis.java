@@ -33,6 +33,7 @@ public class Taxis {
     }
 
     public synchronized Taxi add(Taxi taxi) {
+
         for (Taxi oldTaxi: getTaxiList()) {
             if (oldTaxi.getId() == taxi.getId()) {
                 return null;
@@ -41,8 +42,10 @@ public class Taxis {
 
         Integer[] position = RandomPosition();
         taxi.setPosition(position);
+
         taxiList.add(taxi);
         return taxi;
+
     }
 
     public synchronized void remove(int taxiId) {
@@ -63,6 +66,7 @@ public class Taxis {
         int y = random.nextInt(2) == 1 ? 0 : 9;
 
         return new Integer[]{x, y};
+
     }
 
 }
