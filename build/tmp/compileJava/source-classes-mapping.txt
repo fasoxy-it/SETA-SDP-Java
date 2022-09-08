@@ -8,3 +8,9 @@ REST/services/TaxiService.java
  REST.services.TaxiService
 REST/AdministratorClient.java
  REST.AdministratorClient
+REST/beans/Report.java
+ REST.beans.Report
+REST/beans/Reports.java
+ REST.beans.Reports
+REST/services/ReportService.java
+ REST.services.ReportService
