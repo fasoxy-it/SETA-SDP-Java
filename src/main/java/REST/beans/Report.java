@@ -3,6 +3,7 @@ package REST.beans;
 public class Report {
 
     private int id;
+    private int taxi;
     private int pollution = 0;
     private int ride = 0;
     private int distance = 0;
@@ -11,6 +12,8 @@ public class Report {
     public Report() {}
 
     public int getId() { return id; }
+
+    public int getTaxi() { return taxi;}
 
     public int getPollution() { return pollution; }
 
