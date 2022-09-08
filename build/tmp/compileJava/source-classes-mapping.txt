@@ -10,7 +10,13 @@ REST/AdministratorClient.java
  REST.AdministratorClient
 REST/beans/Report.java
  REST.beans.Report
-REST/beans/Reports.java
- REST.beans.Reports
 REST/services/ReportService.java
  REST.services.ReportService
+REST/beans/Reports.java
+ REST.beans.Reports
+Config.java
+ Config
+MQTT/Ride.java
+ MQTT.Ride
+MQTT/SETA.java
+ MQTT.SETA
