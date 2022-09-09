@@ -29,7 +29,17 @@ public class Taxis {
     }
 
     public synchronized List<Taxi> getTaxiList() {
-        return new ArrayList<>(taxiList);
+        return taxiList;
+    }
+
+    public synchronized int getLastTaxi() {
+
+        if (taxiList.size() == 0) {
+            return 0;
+        } else {
+            return (taxiList.get(taxiList.size()-1)).getId();
+        }
+
     }
 
     public synchronized Taxi add(Taxi taxi) {

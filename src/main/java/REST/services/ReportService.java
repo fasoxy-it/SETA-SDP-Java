@@ -12,7 +12,7 @@ public class ReportService {
     @GET
     @Produces("application/json")
     public Response getReportList() {
-        return Response.ok(Reports.getInstance()).build();
+        return Response.ok(Reports.getInstance().getReportList()).build();
     }
 
     @Path("add")

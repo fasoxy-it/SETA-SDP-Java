@@ -27,7 +27,7 @@ public class Reports {
         return instance;
     }
 
-    public synchronized List<Report> getReportList() { return new ArrayList<>(reportList); }
+    public synchronized List<Report> getReportList() { return reportList; }
 
     public synchronized void add(Report report) {
         reportList.add(report);

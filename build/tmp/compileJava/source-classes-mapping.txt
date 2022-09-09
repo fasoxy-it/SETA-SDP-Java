@@ -4,19 +4,19 @@ REST/beans/Taxi.java
  REST.beans.Taxi
 REST/beans/Taxis.java
  REST.beans.Taxis
-REST/services/TaxiService.java
- REST.services.TaxiService
+MQTT/SETA.java
+ MQTT.SETA
 REST/AdministratorClient.java
  REST.AdministratorClient
 REST/beans/Report.java
  REST.beans.Report
-REST/services/ReportService.java
- REST.services.ReportService
-REST/beans/Reports.java
- REST.beans.Reports
-Config.java
- Config
 MQTT/Ride.java
  MQTT.Ride
-MQTT/SETA.java
- MQTT.SETA
+REST/services/TaxiService.java
+ REST.services.TaxiService
+REST/beans/Reports.java
+ REST.beans.Reports
+REST/services/ReportService.java
+ REST.services.ReportService
+Taxi.java
+ Taxi
