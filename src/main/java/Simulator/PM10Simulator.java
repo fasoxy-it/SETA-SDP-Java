@@ -1,5 +1,6 @@
-public class PM10Simulator extends Simulator {
+package Simulator;
 
+public class PM10Simulator extends Simulator {
 
     private final double A = 15;
     private final double W = 0.05;
