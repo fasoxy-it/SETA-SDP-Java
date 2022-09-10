@@ -2,6 +2,7 @@ package REST.services;
 
 import REST.beans.Report;
 import REST.beans.Reports;
+import REST.beans.Taxis;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -23,4 +24,12 @@ public class ReportService {
         Reports.getInstance().add(report);
         return Response.ok().build();
     }
+
+    @Path("get")
+    @GET
+    @Produces("application/json")
+    public Response getReport() {
+        return Response.ok(Reports.getInstance().getLastReport()).build();
+    }
+
 }

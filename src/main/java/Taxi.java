@@ -1,4 +1,3 @@
-import REST.beans.Taxis;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -90,8 +89,8 @@ public class Taxi {
 
         try {
 
-            payload.put("id", 1);
             payload.put("taxi", id);
+            payload.put("battery", 100);
 
         } catch (JSONException e) {
             throw new RuntimeException(e);

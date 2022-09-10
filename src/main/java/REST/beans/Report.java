@@ -7,11 +7,15 @@ public class Report {
     private int pollution = 0;
     private int ride = 0;
     private int distance = 0;
-    private int battery = 100;
+    private int battery;
 
     public Report() {}
 
     public int getId() { return id; }
+
+    public void setId() {
+        this.id = Reports.getInstance().getLastReport() + 1;
+    }
 
     public int getTaxi() { return taxi;}
 

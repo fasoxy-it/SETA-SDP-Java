@@ -8,16 +8,16 @@ MQTT/SETA.java
  MQTT.SETA
 REST/AdministratorClient.java
  REST.AdministratorClient
-REST/beans/Report.java
- REST.beans.Report
-MQTT/Ride.java
- MQTT.Ride
 REST/services/TaxiService.java
  REST.services.TaxiService
+MQTT/Ride.java
+ MQTT.Ride
+Taxi.java
+ Taxi
+ Taxi$1
+REST/beans/Report.java
+ REST.beans.Report
 REST/beans/Reports.java
  REST.beans.Reports
 REST/services/ReportService.java
  REST.services.ReportService
-Taxi.java
- Taxi
- Taxi$1
