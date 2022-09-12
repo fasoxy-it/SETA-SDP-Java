@@ -1,9 +1,8 @@
 package REST.services;
 
-import REST.beans.Taxi;
-import REST.beans.Taxis;
+import modules.Taxi;
+import modules.Taxis;
 
-import javax.swing.text.html.parser.Entity;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 

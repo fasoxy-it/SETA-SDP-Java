@@ -1,7 +1,5 @@
 package REST;
 
-import REST.beans.Taxis;
-
 import java.util.Scanner;
 
 public class AdministratorClient {

@@ -1,8 +1,7 @@
 package REST.services;
 
-import REST.beans.Report;
-import REST.beans.Reports;
-import REST.beans.Taxis;
+import modules.Report;
+import modules.Reports;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
