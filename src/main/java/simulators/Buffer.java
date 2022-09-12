@@ -1,4 +1,4 @@
-package Simulator;
+package simulators;
 
 import java.util.List;
 

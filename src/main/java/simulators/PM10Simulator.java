@@ -1,4 +1,4 @@
-package Simulator;
+package simulators;
 
 public class PM10Simulator extends Simulator {
 
