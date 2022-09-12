@@ -1,4 +1,4 @@
-package REST.beans;
+package modules;
 
 public class Report {
 

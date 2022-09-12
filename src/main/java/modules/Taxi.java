@@ -1,4 +1,4 @@
-package REST.beans;
+package modules;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
