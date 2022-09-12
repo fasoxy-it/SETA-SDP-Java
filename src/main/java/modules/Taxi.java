@@ -1,6 +1,16 @@
 package modules;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
 public class Taxi {
@@ -12,18 +22,87 @@ public class Taxi {
 
     public Taxi() {}
 
+    public Taxi(int id, String ip, int port) {
+        this.id = id;
+        this.ip = ip;
+        this.port = port;
+    }
+
     public String toString() { return this.id + " " + this.ip + " " + this.port + " " + this.position[0] + " " + this.position[1]; }
 
     public int getId() { return id; }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getIp() { return ip; }
 
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
     public int getPort() { return port; }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 
     public Integer[] getPosition() { return position; }
 
     public void setPosition(Integer[] position) {
         this.position = position;
+    }
+
+    public void check() {
+
+        Client client = Client.create();
+        WebResource webResource = client.resource("http://localhost:1337/taxis/get");
+
+        try {
+
+            ClientResponse response = webResource.type("application/json").get(ClientResponse.class);
+            response.getStatus();
+            String result = response.getEntity(String.class);
+            System.out.println(response);
+
+            setId(Integer.parseInt(result) + 1);
+            setIp("localhost");
+            setPort(Integer.parseInt(result) + 1);
+
+        } catch (ClientHandlerException clientHandlerException) {
+            clientHandlerException.printStackTrace();
+        }
+
+    }
+
+    public void start() {
+
+        Client client = Client.create();
+        JSONObject payload = new JSONObject();
+
+        try {
+
+            payload.put("id", id);
+            payload.put("ip", ip);
+            payload.put("port", port);
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        WebResource webResource = client.resource("http://localhost:1337/taxis/add");
+
+        try {
+
+            ClientResponse response = webResource.type("application/json").post(ClientResponse.class, payload);
+            response.getStatus();
+            System.out.println(response);
+
+        } catch (ClientHandlerException clientHandlerException) {
+            clientHandlerException.printStackTrace();
+        }
+
     }
 
 }

@@ -1,36 +1,35 @@
-Simulator/Measurement.java
- Simulator.Measurement
-REST/beans/Taxi.java
- REST.beans.Taxi
-REST/beans/Taxis.java
- REST.beans.Taxis
-MQTT/SETA.java
- MQTT.SETA
-REST/AdministratorClient.java
- REST.AdministratorClient
-REST/services/TaxiService.java
- REST.services.TaxiService
-MQTT/Ride.java
- MQTT.Ride
-Simulator/Buffer.java
- Simulator.Buffer
-REST/beans/Report.java
- REST.beans.Report
-REST/beans/Reports.java
- REST.beans.Reports
-Simulator/Simulator.java
- Simulator.Simulator
+simulators/Simulator.java
+ simulators.Simulator
+simulators/Buffer.java
+ simulators.Buffer
 REST/services/ReportService.java
  REST.services.ReportService
-Simulator/PM10Simulator.java
- Simulator.PM10Simulator
+modules/Report.java
+ modules.Report
+MQTT/Ride.java
+ MQTT.Ride
+modules/Reports.java
+ modules.Reports
+MQTT/SETA.java
+ MQTT.SETA
+simulators/PM10Simulator.java
+ simulators.PM10Simulator
 REST/AdministratorServer.java
  REST.AdministratorServer
-Taxi/Taxi.java
- Taxi.Taxi
- Taxi.Taxi$1
-Taxi/RideThread.java
- Taxi.RideThread
- Taxi.RideThread$1
-Taxi/ReportThread.java
- Taxi.ReportThread
+REST/AdministratorClient.java
+ REST.AdministratorClient
+simulators/Measurement.java
+ simulators.Measurement
+REST/services/TaxiService.java
+ REST.services.TaxiService
+modules/Taxi.java
+ modules.Taxi
+modules/Taxis.java
+ modules.Taxis
+taxi/threads/ReportThread.java
+ taxi.threads.ReportThread
+taxi/threads/RideThread.java
+ taxi.threads.RideThread
+ taxi.threads.RideThread$1
+taxi/TaxiProcess.java
+ taxi.TaxiProcess

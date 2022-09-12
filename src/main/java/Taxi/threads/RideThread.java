@@ -1,6 +1,7 @@
 package taxi.threads;
 
-import taxi.Taxi;
+import modules.Taxi;
+import taxi.TaxiProcess;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.sql.Timestamp;

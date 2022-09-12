@@ -1,6 +1,7 @@
 package taxi.threads;
 
-import taxi.Taxi;
+import modules.Taxi;
+import taxi.TaxiProcess;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
