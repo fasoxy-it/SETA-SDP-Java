@@ -1,46 +1,37 @@
 package MQTT;
 
+import modules.Position;
+
 import java.util.Random;
 
 public class Ride {
 
     private int id;
-    private int[] startingPosition;
-    private int[] destinationPosition;
+    private Position startingPosition;
+    private Position destinationPosition;
 
     public Ride(int id) {
         this.id = id;
-        this.startingPosition = RandomPosition();
-        this.destinationPosition = RandomPosition();
+        this.startingPosition = new Position().getRandomPosition();
+        this.destinationPosition = new Position().getRandomPosition();
     }
 
-    public String toString() { return "Id: " + this.id + ", Starting position: (" + this.startingPosition[0] + ", " + this.startingPosition[1] + "), Destination position: (" + this.destinationPosition[0] + ", " + this.destinationPosition[1] + ")"; }
+    public String toString() { return "Id: " + this.id + ", Starting position: (" + this.startingPosition.getX() + ", " + this.startingPosition.getY() + "), Destination position: (" + this.destinationPosition.getX() + ", " + this.destinationPosition.getY() + ")"; }
 
     public int getId() { return id; }
 
-    public int[] getStartingPosition() {
+    public Position getStartingPosition() {
         return startingPosition;
     }
 
-    public int[] getDestinationPosition() {
+    public Position getDestinationPosition() {
         return destinationPosition;
     }
 
-    private int[] RandomPosition() {
+    public String getDistrict(Position position) {
 
-        Random random = new Random();
-
-        int x = random.nextInt(10);
-        int y = random.nextInt(10);
-
-        return new int[]{x, y};
-
-    }
-
-    public String getDistrict(int[] position) {
-
-        int x = position[0];
-        int y = position[1];
+        int x = position.getX();
+        int y = position.getY();
 
         if (x < 5 && y < 5) {
             return "1";

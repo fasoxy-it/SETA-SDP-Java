@@ -8,12 +8,13 @@ REST/AdministratorServer.java
  REST.AdministratorServer
 modules/Report.java
  modules.Report
-MQTT/SETA.java
- MQTT.SETA
+modules/Taxis.java
+ modules.Taxis
 modules/Reports.java
  modules.Reports
-MQTT/Ride.java
- MQTT.Ride
+taxi/threads/RideThread.java
+ taxi.threads.RideThread
+ taxi.threads.RideThread$1
 REST/services/ReportService.java
  REST.services.ReportService
 simulators/PM10Simulator.java
@@ -28,12 +29,11 @@ REST/services/TaxiService.java
  REST.services.TaxiService
 modules/Taxi.java
  modules.Taxi
-taxi/threads/RideThread.java
- taxi.threads.RideThread
- taxi.threads.RideThread$1
-taxi/TaxiProcess.java
- taxi.TaxiProcess
-modules/Taxis.java
- modules.Taxis
+MQTT/Ride.java
+ MQTT.Ride
+MQTT/SETA.java
+ MQTT.SETA
 taxi/threads/ReportThread.java
  taxi.threads.ReportThread
+taxi/TaxiProcess.java
+ taxi.TaxiProcess
