@@ -47,4 +47,23 @@ public class Position {
 
     }
 
+    public static String getDistrict(Position position) {
+
+        int x = position.getX();
+        int y = position.getY();
+
+        if (x < 5 && y < 5) {
+            return "1";
+        } else if (x > 4 && y < 5) {
+            return "2";
+        } else if (x > 4 && y > 4) {
+            return "3";
+        } else if (x < 5 && y > 4) {
+            return "4";
+        } else {
+            return null;
+        }
+
+    }
+
 }

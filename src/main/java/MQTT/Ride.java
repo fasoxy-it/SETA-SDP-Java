@@ -2,8 +2,6 @@ package MQTT;
 
 import modules.Position;
 
-import java.util.Random;
-
 public class Ride {
 
     private int id;
@@ -28,22 +26,4 @@ public class Ride {
         return destinationPosition;
     }
 
-    public String getDistrict(Position position) {
-
-        int x = position.getX();
-        int y = position.getY();
-
-        if (x < 5 && y < 5) {
-            return "1";
-        } else if (x > 4 && y < 5) {
-            return "2";
-        } else if (x > 4 && y > 4) {
-            return "3";
-        } else if (x < 5 && y > 4) {
-            return "4";
-        } else {
-            return null;
-        }
-
-    }
 }
