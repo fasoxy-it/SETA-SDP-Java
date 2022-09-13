@@ -1,5 +1,6 @@
 package MQTT;
 
+import modules.Position;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -22,8 +23,9 @@ public class SETA {
             client = new MqttClient(broker, clientId);
             MqttConnectOptions connectOptions = new MqttConnectOptions();
             connectOptions.setCleanSession(true);
-            client.connect(connectOptions);
 
+            System.out.println("Connecting broker ...");
+            client.connect(connectOptions);
             System.out.println("Connected");
 
             while (true) {
@@ -36,7 +38,7 @@ public class SETA {
 
                     System.out.println("Publishing message: " + ride + " ...");
 
-                    client.publish(topic + ride.getDistrict(ride.getStartingPosition()), message);
+                    client.publish(topic + Position.getDistrict(ride.getStartingPosition()), message);
 
                     System.out.println("Message published");
 

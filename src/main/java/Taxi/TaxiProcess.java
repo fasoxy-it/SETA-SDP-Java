@@ -3,12 +3,6 @@ package taxi;
 import modules.Taxi;
 import taxi.threads.ReportThread;
 import taxi.threads.RideThread;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
 public class TaxiProcess {
 
@@ -24,13 +18,11 @@ public class TaxiProcess {
         taxi.check();
         taxi.start();
 
-        System.out.println(taxi);
-
         ReportThread reportThread = new ReportThread(taxi);
         RideThread rideThread = new RideThread(taxi);
 
-        //reportThread.start();
-        //rideThread.start();
+        reportThread.start();
+        rideThread.start();
 
     }
 
