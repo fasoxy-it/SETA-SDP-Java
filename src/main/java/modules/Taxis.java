@@ -50,10 +50,8 @@ public class Taxis {
             }
         }
 
-        Integer[] position = RandomPosition();
-        taxi.setPosition(position);
-
         taxiList.add(taxi);
+
         return taxi;
 
     }
@@ -65,17 +63,6 @@ public class Taxis {
                 taxiList.remove(taxi);
             }
         }
-
-    }
-
-    private Integer[] RandomPosition() {
-
-        Random random = new Random();
-
-        int x = random.nextInt(2) == 1 ? 0 : 9;
-        int y = random.nextInt(2) == 1 ? 0 : 9;
-
-        return new Integer[]{x, y};
 
     }
 

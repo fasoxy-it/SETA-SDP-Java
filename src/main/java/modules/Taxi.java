@@ -18,7 +18,11 @@ public class Taxi {
     private int id;
     private String ip;
     private int port;
-    private Integer[] position = {null, null};
+    @JsonIgnore
+    private Position position;
+
+    @JsonIgnore
+    private List<Taxi> taxiList;
 
     public Taxi() {}
 
@@ -26,9 +30,10 @@ public class Taxi {
         this.id = id;
         this.ip = ip;
         this.port = port;
+        taxiList = new ArrayList<>();
     }
 
-    public String toString() { return this.id + " " + this.ip + " " + this.port + " " + this.position[0] + " " + this.position[1]; }
+    public String toString() { return this.id + " " + this.ip + " " + this.port + " " + position.getX() + " " + position.getY(); }
 
     public int getId() { return id; }
 
@@ -48,11 +53,15 @@ public class Taxi {
         this.port = port;
     }
 
-    public Integer[] getPosition() { return position; }
+    public Position getPosition() { return position; }
 
-    public void setPosition(Integer[] position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
+
+    public List<Taxi> getTaxiList() { return taxiList; }
+
+    public void setTaxiList(List<Taxi> taxiList) { this.taxiList = taxiList; }
 
     public void check() {
 
@@ -98,6 +107,10 @@ public class Taxi {
             ClientResponse response = webResource.type("application/json").post(ClientResponse.class, payload);
             response.getStatus();
             System.out.println(response);
+
+            AddTaxiResponse addTaxiResponse = response.getEntity(AddTaxiResponse.class);
+            setTaxiList(addTaxiResponse.getTaxis());
+            setPosition(addTaxiResponse.getPosition());
 
         } catch (ClientHandlerException clientHandlerException) {
             clientHandlerException.printStackTrace();

@@ -24,11 +24,13 @@ public class TaxiProcess {
         taxi.check();
         taxi.start();
 
+        System.out.println(taxi);
+
         ReportThread reportThread = new ReportThread(taxi);
         RideThread rideThread = new RideThread(taxi);
 
-        reportThread.start();
-        rideThread.start();
+        //reportThread.start();
+        //rideThread.start();
 
     }
 

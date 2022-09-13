@@ -1,5 +1,7 @@
 package REST.services;
 
+import modules.AddTaxiResponse;
+import modules.Position;
 import modules.Taxi;
 import modules.Taxis;
 
@@ -22,7 +24,8 @@ public class TaxiService {
     public Response addTaxi(Taxi taxi) {
         Taxi newTaxi = Taxis.getInstance().add(taxi);
         if (newTaxi != null) {
-            return Response.ok(Taxis.getInstance().getTaxiList()).build();
+            AddTaxiResponse addTaxiResponse = new AddTaxiResponse(Taxis.getInstance().getTaxiList(), new Position().getRandomPosition());
+            return Response.ok(addTaxiResponse).build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
