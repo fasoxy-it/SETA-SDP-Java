@@ -2,38 +2,71 @@ simulators/Simulator.java
  simulators.Simulator
 simulators/Buffer.java
  simulators.Buffer
-simulators/Measurement.java
- simulators.Measurement
-REST/AdministratorServer.java
- REST.AdministratorServer
-modules/Report.java
- modules.Report
-REST/AdministratorClient.java
- REST.AdministratorClient
-modules/Reports.java
- modules.Reports
-taxi/threads/RideThread.java
- taxi.threads.RideThread
- taxi.threads.RideThread$1
-REST/services/ReportService.java
- REST.services.ReportService
-simulators/PM10Simulator.java
- simulators.PM10Simulator
+proto/Definition.java
+ proto.Definition
+ proto.Definition$1
+ proto.Definition$Position
+ proto.Definition$Position$1
+ proto.Definition$Position$Builder
+ proto.Definition$PositionOrBuilder
+ proto.Definition$WelcomeMessage
+ proto.Definition$WelcomeMessage$1
+ proto.Definition$WelcomeMessage$Builder
+ proto.Definition$WelcomeMessageOrBuilder
+ proto.Definition$WelcomeResponse
+ proto.Definition$WelcomeResponse$1
+ proto.Definition$WelcomeResponse$Builder
+ proto.Definition$WelcomeResponseOrBuilder
 modules/Position.java
  modules.Position
+simulators/PM10Simulator.java
+ simulators.PM10Simulator
+modules/Report.java
+ modules.Report
+MQTT/Ride.java
+ MQTT.Ride
+modules/Reports.java
+ modules.Reports
+MQTT/SETA.java
+ MQTT.SETA
+proto/ManagerGrpc.java
+ proto.ManagerGrpc
+ proto.ManagerGrpc$1
+ proto.ManagerGrpc$ManagerBaseDescriptorSupplier
+ proto.ManagerGrpc$ManagerBlockingStub
+ proto.ManagerGrpc$ManagerFileDescriptorSupplier
+ proto.ManagerGrpc$ManagerFutureStub
+ proto.ManagerGrpc$ManagerImplBase
+ proto.ManagerGrpc$ManagerMethodDescriptorSupplier
+ proto.ManagerGrpc$ManagerStub
+ proto.ManagerGrpc$MethodHandlers
 modules/AddTaxiResponse.java
  modules.AddTaxiResponse
+REST/AdministratorServer.java
+ REST.AdministratorServer
+REST/AdministratorClient.java
+ REST.AdministratorClient
+simulators/Measurement.java
+ simulators.Measurement
+REST/services/ReportService.java
+ REST.services.ReportService
+GRPC/GRPCTaxiServer.java
+ GRPC.GRPCTaxiServer
+taxi/threads/WelcomeThread.java
+ taxi.threads.WelcomeThread
+ taxi.threads.WelcomeThread$1
 REST/services/TaxiService.java
  REST.services.TaxiService
 modules/Taxi.java
  modules.Taxi
-MQTT/Ride.java
- MQTT.Ride
-taxi/threads/ReportThread.java
- taxi.threads.ReportThread
-modules/Taxis.java
- modules.Taxis
-MQTT/SETA.java
- MQTT.SETA
+GRPC/ManagerImpl.java
+ GRPC.ManagerImpl
+taxi/threads/RideThread.java
+ taxi.threads.RideThread
+ taxi.threads.RideThread$1
 taxi/TaxiProcess.java
  taxi.TaxiProcess
+modules/Taxis.java
+ modules.Taxis
+taxi/threads/ReportThread.java
+ taxi.threads.ReportThread
