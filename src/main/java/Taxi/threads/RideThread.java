@@ -1,5 +1,6 @@
 package taxi.threads;
 
+import modules.Position;
 import modules.Taxi;
 import taxi.TaxiProcess;
 import org.eclipse.paho.client.mqttv3.*;
@@ -19,7 +20,11 @@ public class RideThread extends Thread {
         MqttClient client;
         String broker = "tcp://localhost:1883";
         String clientId = MqttClient.generateClientId();
-        String topic = "seta/smartcity/rides/district1";
+        String topic = "seta/smartcity/rides/district";
+        String district = Position.getDistrict(taxi.getPosition());
+
+        topic = topic + district;
+
         int qos = 2;
 
         try {
