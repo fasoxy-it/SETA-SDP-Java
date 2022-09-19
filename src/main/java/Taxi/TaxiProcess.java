@@ -1,7 +1,9 @@
 package taxi;
 
 import GRPC.GRPCTaxiServer;
+import com.sun.jersey.api.client.Client;
 import modules.Taxi;
+import modules.Taxis;
 import taxi.threads.ReportThread;
 import taxi.threads.RideThread;
 import taxi.threads.WelcomeThread;
@@ -18,9 +20,11 @@ public class TaxiProcess {
 
     public static void main(String[] args) {
 
+        Client client = Client.create();
+
         Taxi taxi = new Taxi(id, ip, port);
-        taxi.check();
-        taxi.start();
+        taxi.check(client);
+        taxi.start(client);
 
         System.out.println(taxi);
 
