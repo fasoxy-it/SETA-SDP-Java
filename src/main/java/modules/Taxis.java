@@ -29,7 +29,7 @@ public class Taxis {
     }
 
     public synchronized List<Taxi> getTaxiList() {
-        return taxiList;
+        return new ArrayList<>(taxiList);
     }
 
     public synchronized int getLastTaxi() {

@@ -1,5 +1,6 @@
 package modules;
 
+import com.google.gson.JsonArray;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -33,7 +34,7 @@ public class Taxi {
         taxiList = new ArrayList<>();
     }
 
-    public String toString() { return this.id + " " + this.ip + " " + this.port + " " + position.getX() + " " + position.getY(); }
+    public String toString() { return this.id + " " + this.ip + " " + this.port; }
 
     public int getId() { return id; }
 
@@ -63,9 +64,8 @@ public class Taxi {
 
     public void setTaxiList(List<Taxi> taxiList) { this.taxiList = taxiList; }
 
-    public void check() {
+    public void check(Client client) {
 
-        Client client = Client.create();
         WebResource webResource = client.resource("http://localhost:1337/taxis/get");
 
         try {
@@ -85,9 +85,8 @@ public class Taxi {
 
     }
 
-    public void start() {
+    public void start(Client client) {
 
-        Client client = Client.create();
         JSONObject payload = new JSONObject();
 
         try {

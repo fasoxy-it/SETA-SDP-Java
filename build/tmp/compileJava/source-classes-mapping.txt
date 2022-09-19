@@ -40,16 +40,16 @@ proto/ManagerGrpc.java
  proto.ManagerGrpc$ManagerMethodDescriptorSupplier
  proto.ManagerGrpc$ManagerStub
  proto.ManagerGrpc$MethodHandlers
-modules/AddTaxiResponse.java
- modules.AddTaxiResponse
+REST/services/ReportService.java
+ REST.services.ReportService
 REST/AdministratorServer.java
  REST.AdministratorServer
 REST/AdministratorClient.java
  REST.AdministratorClient
 simulators/Measurement.java
  simulators.Measurement
-REST/services/ReportService.java
- REST.services.ReportService
+modules/AddTaxiResponse.java
+ modules.AddTaxiResponse
 GRPC/GRPCTaxiServer.java
  GRPC.GRPCTaxiServer
 taxi/threads/WelcomeThread.java
@@ -64,9 +64,9 @@ GRPC/ManagerImpl.java
 taxi/threads/RideThread.java
  taxi.threads.RideThread
  taxi.threads.RideThread$1
-taxi/TaxiProcess.java
- taxi.TaxiProcess
-modules/Taxis.java
- modules.Taxis
 taxi/threads/ReportThread.java
  taxi.threads.ReportThread
+modules/Taxis.java
+ modules.Taxis
+taxi/TaxiProcess.java
+ taxi.TaxiProcess
