@@ -3,6 +3,7 @@ package taxi.threads;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import modules.Position;
 import modules.Taxi;
 import proto.Definition;
 import proto.ManagerGrpc;
@@ -40,19 +41,26 @@ public class WelcomeThread extends Thread {
 
             @Override
             public void onNext(Definition.WelcomeResponse welcomeResponse) {
-                System.out.println("Taxi: " + welcomeResponse.getId() + " X: " + welcomeResponse.getPosition().getX() + " Y: " + welcomeResponse.getPosition().getY());
+
+                // Risposta dagli altri taxi già presenti
+                System.out.println("Home from --> Taxi: " + welcomeResponse.getId() + " Master: " +  welcomeResponse.getMaster() + " Position: (x: " + welcomeResponse.getPosition().getX() + ", y: " + welcomeResponse.getPosition().getY() + ")");
+
+                otherTaxi.setPosition(new Position(welcomeResponse.getPosition().getX(), welcomeResponse.getPosition().getY()));
+
+                if (welcomeResponse.getMaster()) {
+                    taxi.setMasterId(welcomeResponse.getId());
+                }
+
             }
 
             @Override
             public void onError(Throwable throwable) {
-                System.out.println("ERRORE!!!");
                 throwable.printStackTrace();
                 channel.shutdown();
             }
 
             @Override
             public void onCompleted() {
-                System.out.println("FATTO!!!");
                 channel.shutdown();
             }
 

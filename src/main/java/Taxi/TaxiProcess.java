@@ -3,7 +3,6 @@ package taxi;
 import GRPC.GRPCTaxiServer;
 import com.sun.jersey.api.client.Client;
 import modules.Taxi;
-import modules.Taxis;
 import taxi.threads.ReportThread;
 import taxi.threads.RideThread;
 import taxi.threads.WelcomeThread;
@@ -26,13 +25,11 @@ public class TaxiProcess {
         taxi.check(client);
         taxi.start(client);
 
-        System.out.println(taxi);
-
         ReportThread reportThread = new ReportThread(taxi);
         RideThread rideThread = new RideThread(taxi);
         GRPCTaxiServer grpcTaxiServer = new GRPCTaxiServer(taxi);
 
-        reportThread.start();
+        //reportThread.start();
         rideThread.start();
         grpcTaxiServer.start();
 
@@ -49,8 +46,14 @@ public class TaxiProcess {
                     welcomeThread.run();
                 }
             }
+
+            taxi.setMaster(false);
+
         } else {
-            System.out.println("Alone Taxi!");
+
+            taxi.setMaster(true);
+            taxi.setMasterId(taxi.getId());
+
         }
 
     }

@@ -2,7 +2,6 @@ package taxi.threads;
 
 import modules.Position;
 import modules.Taxi;
-import taxi.TaxiProcess;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.sql.Timestamp;
@@ -33,14 +32,14 @@ public class RideThread extends Thread {
             MqttConnectOptions connectOptions = new MqttConnectOptions();
             connectOptions.setCleanSession(true);
 
-            System.out.println(clientId + " Connecting Broker " + broker);
+            System.out.println("Connecting Broker " + broker);
             client.connect(connectOptions);
             System.out.println("Connected");
 
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
-                    System.out.println(clientId + " Connection lost! cause:" + cause.getMessage());
+                    System.out.println("Connection lost! cause:" + cause.getMessage());
                 }
 
                 @Override
@@ -48,7 +47,7 @@ public class RideThread extends Thread {
 
                     String time = new Timestamp(System.currentTimeMillis()).toString();
                     String receivedMessage = new String(message.getPayload());
-                    System.out.println(" Received a Message!" +
+                    System.out.println("Received a Message!" +
                             "\n\tTime:    " + time +
                             "\n\tTopic:   " + topic +
                             "\n\tMessage: " + receivedMessage +

@@ -47,6 +47,16 @@ public class Position {
 
     }
 
+    public Position getRandomSomething() {
+
+        Random random = new Random();
+
+        int x = random.nextInt(10);
+        int y = random.nextInt(10);
+
+        return new Position(x, y);
+    }
+
     public static String getDistrict(Position position) {
 
         int x = position.getX();

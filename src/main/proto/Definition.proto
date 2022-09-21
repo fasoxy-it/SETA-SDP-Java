@@ -20,5 +20,6 @@ message WelcomeMessage {
 
 message WelcomeResponse {
   required int32 id = 1;
-  required Position position = 2;
+  required bool master = 2;
+  required Position position = 3;
 }
