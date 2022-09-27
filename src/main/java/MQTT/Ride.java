@@ -1,6 +1,7 @@
 package MQTT;
 
 import modules.Position;
+import proto.Definition;
 
 public class Ride {
 
@@ -10,8 +11,8 @@ public class Ride {
 
     public Ride(int id) {
         this.id = id;
-        this.startingPosition = new Position().getRandomSomething();
-        this.destinationPosition = new Position().getRandomSomething();
+        this.startingPosition = new Position().getRandomStartingDestinationPosition();
+        this.destinationPosition = new Position().getRandomStartingDestinationPosition();
     }
 
     public String toString() { return "Id: " + this.id + ", Starting position: (" + this.startingPosition.getX() + ", " + this.startingPosition.getY() + "), Destination position: (" + this.destinationPosition.getX() + ", " + this.destinationPosition.getY() + ")"; }

@@ -7,7 +7,6 @@ import modules.Taxis;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
 
 @Path("taxis")
 public class TaxiService {
@@ -16,6 +15,13 @@ public class TaxiService {
     @Produces("application/json")
     public Response getTaxiList() {
         return Response.ok(Taxis.getInstance().getTaxiList()).build();
+    }
+
+    @Path("get")
+    @GET
+    @Produces("application/json")
+    public Response getTaxi() {
+        return Response.ok(Taxis.getInstance().getLastTaxi()).build();
     }
 
     @Path("add")
@@ -40,11 +46,6 @@ public class TaxiService {
         return Response.ok().build();
     }
 
-    @Path("get")
-    @GET
-    @Produces("application/json")
-    public Response getTaxi() {
-        return Response.ok(Taxis.getInstance().getLastTaxi()).build();
-    }
+
 
 }

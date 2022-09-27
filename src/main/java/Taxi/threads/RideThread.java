@@ -1,5 +1,7 @@
 package taxi.threads;
 
+import MQTT.Ride;
+import com.google.gson.Gson;
 import modules.Position;
 import modules.Taxi;
 import org.eclipse.paho.client.mqttv3.*;
@@ -36,6 +38,8 @@ public class RideThread extends Thread {
             client.connect(connectOptions);
             System.out.println("Connected");
 
+            Gson gson = new Gson();
+
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -54,6 +58,15 @@ public class RideThread extends Thread {
                             "\n\tQoS:     " + message.getQos() + "\n");
 
                     System.out.println("\n ***  Press a random key to exit *** \n");
+
+                    Ride ride = gson.fromJson(receivedMessage, Ride.class);
+
+                    for (Taxi otherTaxi : taxi.getTaxiList()) {
+
+                        RideRequestThread rideRequestThread = new RideRequestThread(taxi, otherTaxi, ride);
+                        rideRequestThread.run();
+
+                    }
 
                 }
 

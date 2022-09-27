@@ -1,9 +1,12 @@
 package modules;
 
+import javafx.geometry.Pos;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Random;
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Position {
@@ -47,7 +50,7 @@ public class Position {
 
     }
 
-    public Position getRandomSomething() {
+    public Position getRandomStartingDestinationPosition() {
 
         Random random = new Random();
 
@@ -73,6 +76,21 @@ public class Position {
         } else {
             return null;
         }
+
+    }
+
+    public static double getDistance(Position startingPosition, Position destinationPosition) {
+
+        double distance;
+
+        distance = Math.sqrt(
+                Math.pow(startingPosition.getX() - destinationPosition.getX(), 2) +
+                Math.pow(startingPosition.getY() - destinationPosition.getY(), 2)
+        );
+
+        System.out.println("DISTANCE: " + distance);
+
+        return distance;
 
     }
 

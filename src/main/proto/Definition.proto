@@ -3,6 +3,7 @@ package proto;
 service Manager {
 
   rpc Welcome(WelcomeMessage) returns (WelcomeResponse);
+  rpc Ride(RideRequest) returns (RideResponse);
 
 }
 
@@ -20,6 +21,14 @@ message WelcomeMessage {
 
 message WelcomeResponse {
   required int32 id = 1;
-  required bool master = 2;
-  required Position position = 3;
+  required Position position = 2;
+}
+
+message RideRequest {
+  required int32 id = 1;
+  required double distance = 2;
+}
+
+message RideResponse {
+  required string response = 1;
 }

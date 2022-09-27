@@ -1,12 +1,11 @@
 package MQTT;
 
+import com.google.gson.Gson;
 import modules.Position;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-
-import static java.lang.Thread.sleep;
 
 public class SETA {
 
@@ -18,6 +17,7 @@ public class SETA {
         String topic = "seta/smartcity/rides/district";
         int qos = 2;
         int rideId = 1;
+        Gson gson = new Gson();
 
         try {
             client = new MqttClient(broker, clientId);
@@ -33,7 +33,9 @@ public class SETA {
                 for (int i = 0; i < 2; i++) {
 
                     Ride ride = new Ride(rideId);
-                    MqttMessage message = new MqttMessage(ride.toString().getBytes());
+                    String jsonRide = gson.toJson(ride);
+
+                    MqttMessage message = new MqttMessage(jsonRide.getBytes());
                     message.setQos(qos);
 
                     System.out.println("Publishing message: " + ride + " ...");
@@ -42,13 +44,11 @@ public class SETA {
 
                     System.out.println("Message published");
 
-
-
                     rideId++;
 
                 }
 
-                sleep(5000);
+                Thread.sleep(5000);
 
             }
 

@@ -43,13 +43,9 @@ public class WelcomeThread extends Thread {
             public void onNext(Definition.WelcomeResponse welcomeResponse) {
 
                 // Risposta dagli altri taxi già presenti
-                System.out.println("Home from --> Taxi: " + welcomeResponse.getId() + " Master: " +  welcomeResponse.getMaster() + " Position: (x: " + welcomeResponse.getPosition().getX() + ", y: " + welcomeResponse.getPosition().getY() + ")");
+                System.out.println("Taxi: " + welcomeResponse.getId() + " Position: " + welcomeResponse.getPosition().getX() + " " + welcomeResponse.getPosition().getY());
 
                 otherTaxi.setPosition(new Position(welcomeResponse.getPosition().getX(), welcomeResponse.getPosition().getY()));
-
-                if (welcomeResponse.getMaster()) {
-                    taxi.setMasterId(welcomeResponse.getId());
-                }
 
             }
 

@@ -27,13 +27,6 @@ public class Taxi {
     private List<Taxi> taxiList;
 
     @JsonIgnore
-    private boolean master;
-
-    @JsonIgnore
-    private int masterId;
-
-
-    @JsonIgnore
     private Rides rides;
 
     public Taxi() {}
@@ -43,7 +36,6 @@ public class Taxi {
         this.ip = ip;
         this.port = port;
         taxiList = new ArrayList<>();
-        this.master = false;
         this.rides = new Rides();
     }
 
@@ -76,25 +68,6 @@ public class Taxi {
     public List<Taxi> getTaxiList() { return taxiList; }
 
     public void setTaxiList(List<Taxi> taxiList) { this.taxiList = taxiList; }
-
-    public boolean isMaster() { return master; }
-
-    public void setMaster(boolean isMaster) {
-        master = isMaster;
-
-        if (master) {
-            System.out.println("Sei il master!");
-        }
-
-    }
-
-    public int getMasterId() {
-        return masterId;
-    }
-
-    public void setMasterId(int masterId) {
-        this.masterId = masterId;
-    }
 
     public void check(Client client) {
 
