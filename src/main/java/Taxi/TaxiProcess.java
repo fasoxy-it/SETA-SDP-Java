@@ -5,10 +5,8 @@ import com.sun.jersey.api.client.Client;
 import modules.Position;
 import modules.Taxi;
 import taxi.threads.ReportThread;
-import taxi.threads.RideThread;
+import taxi.threads.RideRequestThread;
 import taxi.threads.WelcomeThread;
-
-import java.util.Iterator;
 
 public class TaxiProcess {
 
@@ -30,11 +28,11 @@ public class TaxiProcess {
 
         ReportThread reportThread = new ReportThread(taxi);
         GRPCTaxiServer grpcTaxiServer = new GRPCTaxiServer(taxi);
-        RideThread rideThread = new RideThread(taxi);
+        RideRequestThread rideRequestThread = new RideRequestThread(taxi);
 
         //reportThread.start();
         grpcTaxiServer.start();
-        rideThread.start();
+        rideRequestThread.start();
 
         for (Taxi otherTaxi : taxi.getTaxiList()) {
 
@@ -46,29 +44,6 @@ public class TaxiProcess {
             }
 
         }
-
-        /*
-
-
-        //if (taxi.getTaxiList().size() != 0) {
-
-            Iterator<Taxi> iterator = taxi.getTaxiList().iterator();
-
-            while (iterator.hasNext()) {
-
-                Taxi otherTaxi = iterator.next();
-
-                if (!(otherTaxi.getId() == taxi.getId())) {
-                    WelcomeThread welcomeThread = new WelcomeThread(taxi, otherTaxi);
-                    welcomeThread.run();
-                } else {
-                    otherTaxi.setPosition(new Position(taxi.getPosition().getX(), taxi.getPosition().getY()));
-                }
-            }
-
-       // }
-
-       */
 
     }
 

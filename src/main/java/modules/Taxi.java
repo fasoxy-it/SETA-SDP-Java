@@ -25,6 +25,9 @@ public class Taxi {
     private Position position;
 
     @JsonIgnore
+    private int battery;
+
+    @JsonIgnore
     private List<Taxi> taxiList;
 
     @JsonIgnore
@@ -36,6 +39,7 @@ public class Taxi {
         this.id = id;
         this.ip = ip;
         this.port = port;
+        battery = 100;
         taxiList = new ArrayList<>();
         rideList = new ArrayList<>();
     }
@@ -64,6 +68,12 @@ public class Taxi {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public int getBattery() { return battery; }
+
+    public void setBattery(int battery) {
+        this.battery = battery;
     }
 
     public List<Taxi> getTaxiList() { return taxiList; }

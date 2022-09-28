@@ -38,6 +38,11 @@ public class RideManagementThread extends Thread {
             @Override
             public void onNext(Definition.RideResponse rideResponse) {
                 System.out.println(rideResponse.getResponse());
+
+                if (rideResponse.getResponse() == true) {
+                    RideThread rideThread = new RideThread(taxi, ride);
+                    rideThread.run();
+                }
             }
 
             @Override
