@@ -21,8 +21,12 @@ public class Taxi {
     private int id;
     private String ip;
     private int port;
+
     @JsonIgnore
     private Position position;
+
+    @JsonIgnore
+    private double distance;
 
     @JsonIgnore
     private int battery;
@@ -40,6 +44,7 @@ public class Taxi {
         this.ip = ip;
         this.port = port;
         battery = 100;
+        distance = 0;
         taxiList = new ArrayList<>();
         rideList = new ArrayList<>();
     }
@@ -69,6 +74,10 @@ public class Taxi {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    public double getDistance() { return distance; }
+
+    public void setDistance(double distance) { this.distance = distance; }
 
     public int getBattery() { return battery; }
 
