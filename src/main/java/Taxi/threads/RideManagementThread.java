@@ -9,16 +9,13 @@ import modules.Taxi;
 import proto.Definition;
 import proto.ManagerGrpc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class RideRequestThread extends Thread {
+public class RideManagementThread extends Thread {
 
     Taxi taxi;
     Taxi otherTaxi;
     Ride ride;
 
-    public RideRequestThread(Taxi taxi, Taxi otherTaxi, Ride ride) {
+    public RideManagementThread(Taxi taxi, Taxi otherTaxi, Ride ride) {
         this.taxi = taxi;
         this.otherTaxi = otherTaxi;
         this.ride = ride;
