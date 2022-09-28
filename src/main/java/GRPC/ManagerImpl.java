@@ -1,5 +1,6 @@
 package GRPC;
 
+import MQTT.Ride;
 import io.grpc.stub.StreamObserver;
 import modules.Position;
 import modules.Taxi;
@@ -44,9 +45,26 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
     @Override
     public void ride(Definition.RideRequest request, StreamObserver<Definition.RideResponse> responseStreamObserver) {
 
+        boolean r = true;
+        double d = 0.0;
+
+        for (Ride rideOther : taxi.getRideList()) {
+
+            if (request.getId() == rideOther.getId()) {
+
+                d = Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition());
+
+                if (d < request.getDistance()) {
+                    r = false;
+                }
+
+            }
+
+        }
+
         Definition.RideResponse response = Definition.RideResponse
                 .newBuilder()
-                .setResponse("Arrivato!")
+                .setResponse(r)
                 .build();
 
         responseStreamObserver.onNext(response);

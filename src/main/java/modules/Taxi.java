@@ -1,5 +1,6 @@
 package modules;
 
+import MQTT.Ride;
 import MQTT.Rides;
 import com.google.gson.JsonArray;
 import com.sun.jersey.api.client.Client;
@@ -27,7 +28,7 @@ public class Taxi {
     private List<Taxi> taxiList;
 
     @JsonIgnore
-    private Rides rides;
+    private List<Ride> rideList;
 
     public Taxi() {}
 
@@ -36,7 +37,7 @@ public class Taxi {
         this.ip = ip;
         this.port = port;
         taxiList = new ArrayList<>();
-        this.rides = new Rides();
+        rideList = new ArrayList<>();
     }
 
     public String toString() { return this.id + " " + this.ip + " " + this.port; }
@@ -68,6 +69,18 @@ public class Taxi {
     public List<Taxi> getTaxiList() { return taxiList; }
 
     public void setTaxiList(List<Taxi> taxiList) { this.taxiList = taxiList; }
+
+    public synchronized void addTaxiToList(Taxi taxi) {
+        this.taxiList.add(taxi);
+    }
+
+    public List<Ride> getRideList() { return rideList; }
+
+    public void setRideList(List<Ride> rideList) { this.rideList = rideList; }
+
+    public synchronized void addRideToList(Ride ride) {
+        this.rideList.add(ride);
+    }
 
     public void check(Client client) {
 
@@ -122,8 +135,6 @@ public class Taxi {
 
     }
 
-    public synchronized void addTaxiToList(Taxi taxi) {
-        this.taxiList.add(taxi);
-    }
+
 
 }

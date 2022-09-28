@@ -9,6 +9,8 @@ public class Ride {
     private Position startingPosition;
     private Position destinationPosition;
 
+    public Ride() {}
+
     public Ride(int id) {
         this.id = id;
         this.startingPosition = new Position().getRandomStartingDestinationPosition();

@@ -33,7 +33,7 @@ public class RideRequestThread extends Thread {
         Definition.RideRequest request = Definition.RideRequest
                 .newBuilder()
                 .setId(ride.getId())
-                .setDistance(getDistance())
+                .setDistance(Position.getDistance(taxi.getPosition(), ride.getStartingPosition()))
                 .build();
 
         stub.ride(request, new StreamObserver<Definition.RideResponse>() {
@@ -51,25 +51,10 @@ public class RideRequestThread extends Thread {
 
             @Override
             public void onCompleted() {
-                System.out.println(request.getId());
-                System.out.println(request.getDistance());
                 channel.shutdown();
             }
 
         });
-
-    }
-
-    public double getDistance() {
-
-        double distance;
-
-        distance = Math.sqrt(
-                Math.pow(taxi.getPosition().getX() - ride.getStartingPosition().getX(), 2) +
-                Math.pow(taxi.getPosition().getY() - ride.getStartingPosition().getY(), 2)
-        );
-
-        return distance;
 
     }
 

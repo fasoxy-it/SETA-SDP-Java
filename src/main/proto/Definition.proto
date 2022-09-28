@@ -30,5 +30,5 @@ message RideRequest {
 }
 
 message RideResponse {
-  required string response = 1;
+  required bool response = 1;
 }

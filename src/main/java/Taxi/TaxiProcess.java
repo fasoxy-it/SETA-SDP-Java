@@ -27,8 +27,6 @@ public class TaxiProcess {
         taxi.start(client);
 
         System.out.println("New Taxi created with Id: " + taxi.getId());
-        System.out.println("New Taxi created with Battery: " + taxi.getBattery());
-
 
         ReportThread reportThread = new ReportThread(taxi);
         GRPCTaxiServer grpcTaxiServer = new GRPCTaxiServer(taxi);

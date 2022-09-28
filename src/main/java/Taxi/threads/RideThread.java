@@ -60,11 +60,14 @@ public class RideThread extends Thread {
                     System.out.println("\n ***  Press a random key to exit *** \n");
 
                     Ride ride = gson.fromJson(receivedMessage, Ride.class);
+                    taxi.addRideToList(ride);
 
                     for (Taxi otherTaxi : taxi.getTaxiList()) {
 
-                        RideRequestThread rideRequestThread = new RideRequestThread(taxi, otherTaxi, ride);
-                        rideRequestThread.run();
+                        if (taxi.getId() != otherTaxi.getId()) {
+                            RideRequestThread rideRequestThread = new RideRequestThread(taxi, otherTaxi, ride);
+                            rideRequestThread.run();
+                        }
 
                     }
 

@@ -9,8 +9,10 @@ public class Rides {
 
     public Rides() {}
 
-    public synchronized void addRide(Ride ride) {
+    public synchronized void add(Ride ride) {
         rides.add(ride);
     }
+
+    public synchronized int size() { return rides.size(); }
 
 }

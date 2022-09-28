@@ -88,8 +88,6 @@ public class Position {
                 Math.pow(startingPosition.getY() - destinationPosition.getY(), 2)
         );
 
-        System.out.println("DISTANCE: " + distance);
-
         return distance;
 
     }
