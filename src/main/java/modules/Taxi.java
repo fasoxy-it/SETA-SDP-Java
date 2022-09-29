@@ -10,6 +10,7 @@ import com.sun.jersey.api.client.WebResource;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import taxi.threads.RideRequestThread;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -35,7 +36,13 @@ public class Taxi {
     private List<Taxi> taxiList;
 
     @JsonIgnore
+    private RideRequestThread rideRequestThread;
+
+    @JsonIgnore
     private List<Ride> rideList;
+
+    @JsonIgnore
+    private boolean inRide;
 
     public Taxi() {}
 
@@ -47,6 +54,7 @@ public class Taxi {
         distance = 0;
         taxiList = new ArrayList<>();
         rideList = new ArrayList<>();
+        inRide = false;
     }
 
     public String toString() { return this.id + " " + this.ip + " " + this.port; }
@@ -93,6 +101,15 @@ public class Taxi {
         this.taxiList.add(taxi);
     }
 
+    public void startRideRequestThread() {
+        rideRequestThread = new RideRequestThread(this);
+        rideRequestThread.start();
+    }
+
+    public void stopRideRequestThread() {
+        rideRequestThread.unsubscribe();
+    }
+
     public List<Ride> getRideList() { return rideList; }
 
     public void setRideList(List<Ride> rideList) { this.rideList = rideList; }
@@ -100,6 +117,10 @@ public class Taxi {
     public synchronized void addRideToList(Ride ride) {
         this.rideList.add(ride);
     }
+
+    public boolean getInRide() { return inRide; }
+
+    public void setInRide(boolean inRide) { this.inRide = inRide; }
 
     public void check(Client client) {
 

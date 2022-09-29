@@ -20,6 +20,9 @@ public class RideThread extends Thread {
 
         System.out.println("Doing the delivery of the order: " + ride.getId());
 
+        taxi.setInRide(true);
+        taxi.stopRideRequestThread();
+
         try {
 
             Thread.sleep(5000);
@@ -34,6 +37,7 @@ public class RideThread extends Thread {
             int batteryConsumption = (int) Math.round(distanceRide);
 
             taxi.setPosition(ride.getDestinationPosition());
+            taxi.setDistance(taxi.getDistance() + distanceRide);
             taxi.setBattery(taxi.getBattery() - batteryConsumption);
 
             System.out.println("New position: " + taxi.getPosition());
@@ -42,6 +46,9 @@ public class RideThread extends Thread {
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
+
+        taxi.setInRide(false);
+        taxi.startRideRequestThread();
 
     }
 
