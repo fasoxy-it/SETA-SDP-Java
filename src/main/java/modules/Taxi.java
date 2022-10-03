@@ -44,6 +44,9 @@ public class Taxi {
     @JsonIgnore
     private boolean inRide;
 
+    @JsonIgnore
+    private int count;
+
     public Taxi() {}
 
     public Taxi(int id, String ip, int port) {
@@ -55,6 +58,7 @@ public class Taxi {
         taxiList = new ArrayList<>();
         rideList = new ArrayList<>();
         inRide = false;
+        count = 0;
     }
 
     public String toString() { return this.id + " " + this.ip + " " + this.port; }
@@ -118,6 +122,16 @@ public class Taxi {
         this.rideList.add(ride);
     }
 
+    public Ride getRide(int rideId) {
+
+        for (Ride ride : rideList) {
+            if (ride.getId() == rideId) {
+                return ride;
+            }
+        }
+        return null;
+    }
+
     public boolean getInRide() { return inRide; }
 
     public void setInRide(boolean inRide) { this.inRide = inRide; }
@@ -175,6 +189,10 @@ public class Taxi {
 
     }
 
+    public int getCount() { return count; }
 
+    public void setCount() { this.count = 0; }
+
+    public synchronized void addCount() { this.count++; }
 
 }

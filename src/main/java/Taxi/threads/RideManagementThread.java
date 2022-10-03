@@ -25,38 +25,21 @@ public class RideManagementThread extends Thread {
 
         final ManagedChannel channel = ManagedChannelBuilder.forTarget(otherTaxi.getIp() + ":" + otherTaxi.getPort()).usePlaintext().build();
 
-        ManagerGrpc.ManagerStub stub = ManagerGrpc.newStub(channel);
+        ManagerGrpc.ManagerBlockingStub stub = ManagerGrpc.newBlockingStub(channel);
 
         Definition.RideRequest request = Definition.RideRequest
                 .newBuilder()
-                .setId(ride.getId())
+                .setRideId(ride.getId())
+                .setTaxiId(taxi.getId())
+                .setTaxiBattery(taxi.getBattery())
                 .setDistance(Position.getDistance(taxi.getPosition(), ride.getStartingPosition()))
                 .build();
 
-        stub.ride(request, new StreamObserver<Definition.RideResponse>() {
+        Definition.RideResponse response = stub.ride(request);
 
-            @Override
-            public void onNext(Definition.RideResponse rideResponse) {
-                System.out.println(rideResponse.getResponse());
-
-                if (rideResponse.getResponse() == true) {
-                    RideThread rideThread = new RideThread(taxi, ride);
-                    rideThread.run();
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                throwable.printStackTrace();
-                channel.shutdown();
-            }
-
-            @Override
-            public void onCompleted() {
-                channel.shutdown();
-            }
-
-        });
+        if (response.getResponse() == true) {
+            taxi.getRide(ride.getId()).addCountResponse();
+        }
 
     }
 

@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import modules.Position;
 import modules.Taxi;
 
+import java.util.ArrayList;
+
 public class RideThread extends Thread {
 
     Taxi taxi;
@@ -22,6 +24,7 @@ public class RideThread extends Thread {
 
         taxi.setInRide(true);
         taxi.stopRideRequestThread();
+        taxi.setRideList(new ArrayList<>());
 
         try {
 

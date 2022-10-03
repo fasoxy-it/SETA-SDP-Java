@@ -45,17 +45,28 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
     @Override
     public void ride(Definition.RideRequest request, StreamObserver<Definition.RideResponse> responseStreamObserver) {
 
-        boolean r = true;
-        double d = 0.0;
+        boolean assign = true;
 
         for (Ride rideOther : taxi.getRideList()) {
 
-            if (request.getId() == rideOther.getId()) {
+            if (request.getRideId() == rideOther.getId()) {
 
-                d = Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition());
+                if (taxi.getInRide() == false) {
 
-                if (d < request.getDistance()) {
-                    r = false;
+                    if (request.getDistance() >= Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition())) {
+
+                        if (request.getTaxiBattery() <= taxi.getBattery()) {
+
+                            if (request.getTaxiId() < taxi.getId()) {
+
+                                assign = false;
+
+                            }
+
+                        }
+
+                    }
+
                 }
 
             }
@@ -64,7 +75,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         Definition.RideResponse response = Definition.RideResponse
                 .newBuilder()
-                .setResponse(r)
+                .setResponse(assign)
                 .build();
 
         responseStreamObserver.onNext(response);

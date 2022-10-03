@@ -7,26 +7,29 @@ import modules.Taxi;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RideRequestThread extends Thread {
 
     private Taxi taxi;
 
+    MqttClient client;
+    String broker = "tcp://localhost:1883";
+    String clientId = MqttClient.generateClientId();
+    String topic = "seta/smartcity/rides/district";
+
+    int qos = 2;
+
     public RideRequestThread(Taxi taxi) { this.taxi = taxi; }
+
 
     @Override
     public void run() {
 
-        MqttClient client;
-        String broker = "tcp://localhost:1883";
-        String clientId = MqttClient.generateClientId();
-        String topic = "seta/smartcity/rides/district";
         String district = Position.getDistrict(taxi.getPosition());
 
         topic = topic + district;
-
-        int qos = 2;
 
         try {
 
@@ -62,13 +65,27 @@ public class RideRequestThread extends Thread {
                     Ride ride = gson.fromJson(receivedMessage, Ride.class);
                     taxi.addRideToList(ride);
 
+                    ArrayList<Thread> threads = new ArrayList<Thread>();
+
                     for (Taxi otherTaxi : taxi.getTaxiList()) {
 
                         if (taxi.getId() != otherTaxi.getId()) {
+
+                            taxi.getRide(ride.getId()).addCountRequest();
+
                             RideManagementThread rideManagementThread = new RideManagementThread(taxi, otherTaxi, ride);
-                            rideManagementThread.run();
+                            rideManagementThread.start();
+                            rideManagementThread.join();
+
                         }
 
+                    }
+
+                    System.out.println("GET REQUEST: " + taxi.getRide(ride.getId()).getCountRequest());
+                    System.out.println("GET RESPONSE: " + taxi.getRide(ride.getId()).getCountResponse());
+
+                    if (taxi.getRide(ride.getId()).getCountRequest() == taxi.getRide(ride.getId()).getCountResponse()) {
+                        System.out.println("Taxi: " + taxi.getId() + " get Ride: " + ride.getId());
                     }
 
                 }
@@ -88,6 +105,18 @@ public class RideRequestThread extends Thread {
             command.nextLine();
             client.disconnect();
 
+        } catch (MqttException mqttException) {
+            mqttException.printStackTrace();
+        }
+
+    }
+
+    public void unsubscribe() {
+
+        try {
+            System.out.println("Unsubscribing ...");
+            client.unsubscribe(topic);
+            System.out.println("Unsubscribed from topics : " + topic);
         } catch (MqttException mqttException) {
             mqttException.printStackTrace();
         }

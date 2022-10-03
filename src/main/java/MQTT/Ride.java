@@ -1,6 +1,7 @@
 package MQTT;
 
 import modules.Position;
+import org.omg.CORBA.PRIVATE_MEMBER;
 import proto.Definition;
 
 public class Ride {
@@ -8,6 +9,9 @@ public class Ride {
     private int id;
     private Position startingPosition;
     private Position destinationPosition;
+
+    private int countRequest = 0;
+    private int countResponse = 0;
 
     public Ride() {}
 
@@ -27,6 +31,22 @@ public class Ride {
 
     public Position getDestinationPosition() {
         return destinationPosition;
+    }
+
+    public synchronized int getCountRequest() {
+        return countRequest;
+    }
+
+    public synchronized int getCountResponse() {
+        return countResponse;
+    }
+
+    public synchronized void addCountRequest() {
+        countRequest++;
+    }
+
+    public synchronized void addCountResponse() {
+        countResponse++;
     }
 
 }
