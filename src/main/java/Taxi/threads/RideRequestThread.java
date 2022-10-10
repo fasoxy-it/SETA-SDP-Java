@@ -23,7 +23,6 @@ public class RideRequestThread extends Thread {
 
     public RideRequestThread(Taxi taxi) { this.taxi = taxi; }
 
-
     @Override
     public void run() {
 
@@ -65,8 +64,6 @@ public class RideRequestThread extends Thread {
                     Ride ride = gson.fromJson(receivedMessage, Ride.class);
                     taxi.addRideToList(ride);
 
-                    ArrayList<Thread> threads = new ArrayList<Thread>();
-
                     for (Taxi otherTaxi : taxi.getTaxiList()) {
 
                         if (taxi.getId() != otherTaxi.getId()) {
@@ -81,11 +78,11 @@ public class RideRequestThread extends Thread {
 
                     }
 
-                    System.out.println("GET REQUEST: " + taxi.getRide(ride.getId()).getCountRequest());
-                    System.out.println("GET RESPONSE: " + taxi.getRide(ride.getId()).getCountResponse());
-
                     if (taxi.getRide(ride.getId()).getCountRequest() == taxi.getRide(ride.getId()).getCountResponse()) {
-                        System.out.println("Taxi: " + taxi.getId() + " get Ride: " + ride.getId());
+
+                        RideThread rideThread = new RideThread(taxi, ride);
+                        rideThread.start();
+
                     }
 
                 }
@@ -98,7 +95,7 @@ public class RideRequestThread extends Thread {
 
             System.out.println("Subscribing ...");
             client.subscribe(topic,qos);
-            System.out.println("Subscribed to topics : " + topic);
+            System.out.println("Subscribed to topic : " + topic);
 
             System.out.println("\n ***  Press a random key to exit *** \n");
             Scanner command = new Scanner(System.in);
@@ -116,7 +113,7 @@ public class RideRequestThread extends Thread {
         try {
             System.out.println("Unsubscribing ...");
             client.unsubscribe(topic);
-            System.out.println("Unsubscribed from topics : " + topic);
+            System.out.println("Unsubscribed from topic : " + topic);
         } catch (MqttException mqttException) {
             mqttException.printStackTrace();
         }

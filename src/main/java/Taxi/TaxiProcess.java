@@ -30,7 +30,7 @@ public class TaxiProcess {
         GRPCTaxiServer grpcTaxiServer = new GRPCTaxiServer(taxi);
         //RideRequestThread rideRequestThread = new RideRequestThread(taxi);
 
-        //reportThread.start();
+        reportThread.start();
         grpcTaxiServer.start();
         //rideRequestThread.start();
 

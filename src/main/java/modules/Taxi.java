@@ -45,7 +45,10 @@ public class Taxi {
     private boolean inRide;
 
     @JsonIgnore
-    private int count;
+    private int rides;
+
+    @JsonIgnore
+    private boolean inCharge;
 
     public Taxi() {}
 
@@ -58,7 +61,8 @@ public class Taxi {
         taxiList = new ArrayList<>();
         rideList = new ArrayList<>();
         inRide = false;
-        count = 0;
+        rides = 0;
+        inCharge = false;
     }
 
     public String toString() { return this.id + " " + this.ip + " " + this.port; }
@@ -136,6 +140,14 @@ public class Taxi {
 
     public void setInRide(boolean inRide) { this.inRide = inRide; }
 
+    public int getRides() { return rides; }
+
+    public void addRides() { this.rides++; }
+
+    public boolean getInCharge() { return inCharge; }
+
+    public void setInCharge(boolean inCharge) { this.inCharge = inCharge; }
+
     public void check(Client client) {
 
         WebResource webResource = client.resource("http://localhost:1337/taxis/get");
@@ -188,11 +200,5 @@ public class Taxi {
         }
 
     }
-
-    public int getCount() { return count; }
-
-    public void setCount() { this.count = 0; }
-
-    public synchronized void addCount() { this.count++; }
 
 }

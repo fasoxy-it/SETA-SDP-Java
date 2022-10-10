@@ -22,6 +22,16 @@ public class ReportThread extends Thread {
 
         while (true) {
 
+            System.out.println("Distance: " + taxi.getDistance() + ", Battery: " + taxi.getBattery() + ", Rides: " + taxi.getRides());
+
+            try {
+                Thread.sleep(15000);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+
+            /*
+
             Client client = Client.create();
             JSONObject payload = new JSONObject();
 
@@ -49,6 +59,8 @@ public class ReportThread extends Thread {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
+             */
 
         }
 
