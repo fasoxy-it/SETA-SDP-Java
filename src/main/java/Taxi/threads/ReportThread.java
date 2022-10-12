@@ -1,11 +1,12 @@
 package taxi.threads;
 
-import modules.Taxi;
-import taxi.TaxiProcess;
+import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import modules.Report;
+import modules.Taxi;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -22,27 +23,13 @@ public class ReportThread extends Thread {
 
         while (true) {
 
-            System.out.println("Distance: " + taxi.getDistance() + ", Battery: " + taxi.getBattery() + ", Rides: " + taxi.getRides());
-
-            try {
-                Thread.sleep(15000);
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
-
-            /*
-
             Client client = Client.create();
-            JSONObject payload = new JSONObject();
 
-            try {
+            Gson gson = new Gson();
 
-                payload.put("taxi", taxi.getId());
-                payload.put("battery", 100);
+            Report report = new Report(taxi.getId(), taxi.getPM10Averages(), taxi.getRides(), taxi.getDistance(), taxi.getBattery());
 
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
+            String payload = gson.toJson(report);
 
             WebResource webResource = client.resource("http://localhost:1337/reports/add");
 
@@ -52,6 +39,8 @@ public class ReportThread extends Thread {
                 response.getStatus();
                 System.out.println(response);
 
+                taxi.emptyPM10Averages();
+
                 Thread.sleep(15000);
 
             } catch (ClientHandlerException clientHandlerException) {
@@ -59,8 +48,6 @@ public class ReportThread extends Thread {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
-             */
 
         }
 

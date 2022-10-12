@@ -20,15 +20,18 @@ public class ReportService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response addReport(Report report) {
+        System.out.println("Arrivato!");
         Reports.getInstance().add(report);
         return Response.ok().build();
     }
 
+    /*
     @Path("get")
     @GET
     @Produces("application/json")
     public Response getReport() {
         return Response.ok(Reports.getInstance().getLastReport()).build();
     }
+    */
 
 }

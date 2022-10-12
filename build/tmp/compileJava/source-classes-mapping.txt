@@ -1,17 +1,17 @@
 simulators/Buffer.java
  simulators.Buffer
-modules/AddTaxiResponse.java
- modules.AddTaxiResponse
+modules/Report.java
+ modules.Report
 MQTT/Ride.java
  MQTT.Ride
-MQTT/Rides.java
- MQTT.Rides
-simulators/PM10Simulator.java
- simulators.PM10Simulator
+modules/AddTaxiResponse.java
+ modules.AddTaxiResponse
+MQTT/SETA.java
+ MQTT.SETA
 REST/AdministratorClient.java
  REST.AdministratorClient
-modules/Reports.java
- modules.Reports
+simulators/PM10Simulator.java
+ simulators.PM10Simulator
 proto/Definition.java
  proto.Definition
  proto.Definition$1
@@ -35,10 +35,10 @@ proto/Definition.java
  proto.Definition$WelcomeResponse$1
  proto.Definition$WelcomeResponse$Builder
  proto.Definition$WelcomeResponseOrBuilder
-REST/services/ReportService.java
- REST.services.ReportService
 simulators/Measurement.java
  simulators.Measurement
+MQTT/Rides.java
+ MQTT.Rides
 REST/AdministratorServer.java
  REST.AdministratorServer
 proto/ManagerGrpc.java
@@ -54,33 +54,37 @@ proto/ManagerGrpc.java
  proto.ManagerGrpc$MethodHandlers
 simulators/Simulator.java
  simulators.Simulator
-MQTT/SETA.java
- MQTT.SETA
+REST/services/ReportService.java
+ REST.services.ReportService
 modules/Position.java
  modules.Position
-modules/Report.java
- modules.Report
+modules/Reports.java
+ modules.Reports
 GRPC/GRPCTaxiServer.java
  GRPC.GRPCTaxiServer
 taxi/threads/RideRequestThread.java
  taxi.threads.RideRequestThread
  taxi.threads.RideRequestThread$1
-taxi/threads/WelcomeThread.java
- taxi.threads.WelcomeThread
- taxi.threads.WelcomeThread$1
 REST/services/TaxiService.java
  REST.services.TaxiService
-modules/Taxi.java
- modules.Taxi
 taxi/threads/RideManagementThread.java
  taxi.threads.RideManagementThread
+modules/TaxiBuffer.java
+ modules.TaxiBuffer
 GRPC/ManagerImpl.java
  GRPC.ManagerImpl
 taxi/threads/RideThread.java
  taxi.threads.RideThread
-modules/Taxis.java
- modules.Taxis
 taxi/TaxiProcess.java
  taxi.TaxiProcess
+modules/Taxis.java
+ modules.Taxis
+taxi/threads/WelcomeThread.java
+ taxi.threads.WelcomeThread
+ taxi.threads.WelcomeThread$1
+modules/Taxi.java
+ modules.Taxi
+taxi/threads/RechargeThread.java
+ taxi.threads.RechargeThread
 taxi/threads/ReportThread.java
  taxi.threads.ReportThread

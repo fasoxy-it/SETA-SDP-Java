@@ -29,20 +29,10 @@ public class Reports {
 
     public synchronized List<Report> getReportList() { return reportList; }
 
-    public synchronized int getLastReport() {
-
-        if (reportList.size() == 0) {
-            return 0;
-        } else {
-            return (reportList.get(reportList.size()-1)).getId();
-        }
-
-    }
-
     public synchronized Report add(Report report) {
 
-        report.setId();
         reportList.add(report);
+        System.out.println(report);
         return report;
 
     }

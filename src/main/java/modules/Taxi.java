@@ -10,6 +10,7 @@ import com.sun.jersey.api.client.WebResource;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import simulators.PM10Simulator;
 import taxi.threads.RideRequestThread;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,6 +51,15 @@ public class Taxi {
     @JsonIgnore
     private boolean inCharge;
 
+    @JsonIgnore
+    private TaxiBuffer pm10Buffer;
+
+    @JsonIgnore
+    private PM10Simulator pm10Simulator;
+
+    @JsonIgnore
+    private List<Double> pm10Averages;
+
     public Taxi() {}
 
     public Taxi(int id, String ip, int port) {
@@ -63,6 +73,7 @@ public class Taxi {
         inRide = false;
         rides = 0;
         inCharge = false;
+        pm10Averages = new ArrayList<>();
     }
 
     public String toString() { return this.id + " " + this.ip + " " + this.port; }
@@ -199,6 +210,24 @@ public class Taxi {
             clientHandlerException.printStackTrace();
         }
 
+    }
+
+    public void startPM10Sensor() {
+        pm10Buffer = new TaxiBuffer(this);
+        pm10Simulator = new PM10Simulator(pm10Buffer);
+        pm10Simulator.start();
+    }
+
+    public List<Double> getPM10Averages() {
+        return this.pm10Averages;
+    }
+
+    public void emptyPM10Averages() {
+        this.pm10Averages = new ArrayList<>();
+    }
+
+    public synchronized void addPM10AverageToPM10Averages(double pm10Average) {
+        this.pm10Averages.add(pm10Average);
     }
 
 }
