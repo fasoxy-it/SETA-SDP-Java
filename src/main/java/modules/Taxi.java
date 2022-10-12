@@ -106,6 +106,8 @@ public class Taxi {
 
     public void setDistance(double distance) { this.distance = distance; }
 
+    public void emptyDistance() { this.distance = 0.0; }
+
     public int getBattery() { return battery; }
 
     public void setBattery(int battery) {
@@ -154,6 +156,8 @@ public class Taxi {
     public int getRides() { return rides; }
 
     public void addRides() { this.rides++; }
+
+    public void emptyRides() { this.rides = 0;}
 
     public boolean getInCharge() { return inCharge; }
 
