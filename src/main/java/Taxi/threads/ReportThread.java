@@ -39,6 +39,8 @@ public class ReportThread extends Thread {
                 response.getStatus();
                 System.out.println(response);
 
+                taxi.emptyDistance();
+                taxi.emptyRides();
                 taxi.emptyPM10Averages();
 
                 Thread.sleep(15000);
