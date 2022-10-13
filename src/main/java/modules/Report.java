@@ -50,6 +50,6 @@ public class Report {
     public void setBattery(int battery) { this.battery = battery; }
 
     public String toString() {
-        return "Time: " + getTaxi() + ", Taxi: " + getTaxi() + ", Pollution: " + getPollution() + ", Distance: " + getDistance() + ", Battery: " + getBattery() + ", Rides: " + getRides();
+        return "Time: " + getTime() + ", Taxi: " + getTaxi() + ", Pollution: " + getPollution() + ", Distance: " + getDistance() + ", Battery: " + getBattery() + ", Rides: " + getRides();
     }
 }
