@@ -1,17 +1,15 @@
 package modules;
 
-import java.util.List;
-
 public class ReportRides {
 
     private double pollutionAvg;
-    private int ridesAvg;
+    private double ridesAvg;
     private double distanceAvg;
     private int batteryAvg;
 
     public ReportRides() {}
 
-    public ReportRides(double pollutionAvg, int ridesAvg, double distanceAvg, int batteryAvg) {
+    public ReportRides(double pollutionAvg, double ridesAvg, double distanceAvg, int batteryAvg) {
         this.pollutionAvg = pollutionAvg;
         this.ridesAvg = ridesAvg;
         this.distanceAvg = distanceAvg;
@@ -22,9 +20,9 @@ public class ReportRides {
 
     public void setPollutionAvg(double pollutionAvg) { this.pollutionAvg = pollutionAvg; }
 
-    public int getRidesAvg() { return ridesAvg; }
+    public double getRidesAvg() { return ridesAvg; }
 
-    public void setRidesAvg(int ridesAvg) { this.ridesAvg = ridesAvg; }
+    public void setRidesAvg(double ridesAvg) { this.ridesAvg = ridesAvg; }
 
     public double getDistanceAvg() { return distanceAvg; }
 

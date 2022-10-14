@@ -21,7 +21,7 @@ public class TaxiBuffer implements Buffer {
 
         if (measurements.size() < 8) {
             measurements.add(measurement);
-            System.out.println("Measurement add: " + measurement);
+            //System.out.println("Measurement add: " + measurement);
         } else {
             readAllAndClean();
         }
@@ -30,7 +30,7 @@ public class TaxiBuffer implements Buffer {
 
     @Override
     public List<Measurement> readAllAndClean() {
-        System.out.println("Measurement Read and Clean!");
+        //System.out.println("Measurement Read and Clean!");
 
         double sum = 0.0;
 

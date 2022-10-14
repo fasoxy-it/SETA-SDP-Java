@@ -5,7 +5,6 @@ import modules.Reports;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.text.ParseException;
 
 @Path("reports")
 public class ReportService {
@@ -21,7 +20,6 @@ public class ReportService {
     @Consumes("application/json")
     @Produces("application/json")
     public Response addReport(Report report) {
-        System.out.println("Arrivato!");
         Reports.getInstance().add(report);
         return Response.ok().build();
     }
@@ -30,14 +28,14 @@ public class ReportService {
     @GET
     @Produces("application/json")
     public Response getReport(@PathParam("n") int n, @PathParam("t") int t) {
-        return Response.ok(Reports.getInstance().getLastNReportsFromReportList(n, t)).build();
+        return Response.ok(Reports.getInstance().getLastNReportsFromReportListForTaxi(n, t)).build();
     }
 
     @Path("getT/{t1D}+{t1T}/{t2D}+{t2T}")
     @GET
     @Produces("application/json")
     public Response getReport(@PathParam("t1D") String t1D, @PathParam("t1T") String t1T, @PathParam("t2D") String t2D, @PathParam("t2T") String t2T) {
-        return Response.ok(Reports.getInstance().getT(t1D, t1T, t2D, t2T)).build();
+        return Response.ok(Reports.getInstance().getReportsFromReportListBetweenTimestamps(t1D, t1T, t2D, t2T)).build();
     }
 
 

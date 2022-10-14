@@ -5,11 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @XmlRootElement
@@ -34,7 +30,7 @@ public class Reports {
 
     public synchronized List<Report> getReportList() { return reportList; }
 
-    public synchronized ReportRides getLastNReportsFromReportList(int n, int t) {
+    public synchronized ReportRides getLastNReportsFromReportListForTaxi(int n, int t) {
 
         List<Report> reportSubList = new ArrayList<Report>();
 
@@ -76,7 +72,7 @@ public class Reports {
         double distanceSum = 0.0;
         int batterySum = 0;
         double pollutionSum = 0.0;
-        int ridesSum = 0;
+        double ridesSum = 0.0;
 
         for (double distance : distanceList) {
             distanceSum += distance;
@@ -97,7 +93,7 @@ public class Reports {
         double distanceAvg = distanceSum / distanceList.size();
         int batteryAvg = batterySum / batteryList.size();
         double pollutionAvg = pollutionSum / pollutionList.size();
-        int ridesAvg = ridesSum / ridesList.size();
+        double ridesAvg = ridesSum / ridesList.size();
 
         ReportRides reportRides = new ReportRides(pollutionAvg, ridesAvg, distanceAvg, batteryAvg);
 
@@ -105,7 +101,7 @@ public class Reports {
 
     }
 
-    public synchronized ReportRides getT(String t1D, String t1T, String t2D, String t2T) {
+    public synchronized ReportRides getReportsFromReportListBetweenTimestamps(String t1D, String t1T, String t2D, String t2T) {
 
         List<Report> reportSubList = new ArrayList<Report>();
 
@@ -148,7 +144,7 @@ public class Reports {
         double distanceSum = 0.0;
         int batterySum = 0;
         double pollutionSum = 0.0;
-        int ridesSum = 0;
+        double ridesSum = 0.0;
 
         for (double distance : distanceList) {
             distanceSum += distance;
@@ -169,7 +165,7 @@ public class Reports {
         double distanceAvg = distanceSum / distanceList.size();
         int batteryAvg = batterySum / batteryList.size();
         double pollutionAvg = pollutionSum / pollutionList.size();
-        int ridesAvg = ridesSum / ridesList.size();
+        double ridesAvg = ridesSum / ridesList.size();
 
         ReportRides reportRides = new ReportRides(pollutionAvg, ridesAvg, distanceAvg, batteryAvg);
 
