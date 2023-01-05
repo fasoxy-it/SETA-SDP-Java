@@ -43,6 +43,9 @@ public class RideThread extends Thread {
             taxi.setDistance(taxi.getDistance() + distanceRide);
             taxi.setBattery(taxi.getBattery() - batteryConsumption);
 
+            taxi.addRides();
+            taxi.setInRide(false);
+
             System.out.println("New position: " + taxi.getPosition());
             System.out.println("New battery level: " + taxi.getBattery());
 
@@ -52,12 +55,9 @@ public class RideThread extends Thread {
 
         if (taxi.getBattery() < 90) {
             System.out.println("Taxi needs recharge...");
-            taxi.addRides();
-            //taxi.setInCharge(true);
+            taxi.setWantCharge(true);
             taxi.startRechargeRequestThread();
         } else {
-            taxi.addRides();
-            taxi.setInRide(false);
             taxi.startRideRequestThread();
         }
 

@@ -79,6 +79,7 @@ public class Taxi {
         rideList = new ArrayList<>();
         inRide = false;
         rides = 0;
+        wantCharge = false;
         inCharge = false;
         pm10Averages = new ArrayList<>();
     }
