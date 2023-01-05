@@ -53,9 +53,9 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
                 if (taxi.getInRide() == false) {
 
-                    if (request.getDistance() >= Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition())) {
+                    if (request.getDistance() == Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition())) {
 
-                        if (request.getTaxiBattery() <= taxi.getBattery()) {
+                        if (request.getTaxiBattery() == taxi.getBattery()) {
 
                             if (request.getTaxiId() < taxi.getId()) {
 
@@ -63,10 +63,20 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
                             }
 
+                        } else if (request.getTaxiBattery() > taxi.getBattery()) {
+                            assign = true;
+                        } else {
+                            assign = false;
                         }
 
+                    } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition())) {
+                        assign = true;
+                    } else {
+                        assign = false;
                     }
 
+                } else {
+                    assign = true;
                 }
 
             }
@@ -76,6 +86,19 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
         Definition.RideResponse response = Definition.RideResponse
                 .newBuilder()
                 .setResponse(assign)
+                .build();
+
+        responseStreamObserver.onNext(response);
+        responseStreamObserver.onCompleted();
+
+    }
+
+    @Override
+    public void recharge(Definition.RechargeRequest request, StreamObserver<Definition.RechargeResponse> responseStreamObserver) {
+
+        Definition.RechargeResponse response = Definition.RechargeResponse
+                .newBuilder()
+                .setFree(true)
                 .build();
 
         responseStreamObserver.onNext(response);

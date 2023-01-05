@@ -19,6 +19,14 @@ proto/Definition.java
  proto.Definition$Position$1
  proto.Definition$Position$Builder
  proto.Definition$PositionOrBuilder
+ proto.Definition$RechargeRequest
+ proto.Definition$RechargeRequest$1
+ proto.Definition$RechargeRequest$Builder
+ proto.Definition$RechargeRequestOrBuilder
+ proto.Definition$RechargeResponse
+ proto.Definition$RechargeResponse$1
+ proto.Definition$RechargeResponse$Builder
+ proto.Definition$RechargeResponseOrBuilder
  proto.Definition$RideRequest
  proto.Definition$RideRequest$1
  proto.Definition$RideRequest$Builder
@@ -62,10 +70,10 @@ modules/Position.java
 taxi/threads/RideRequestThread.java
  taxi.threads.RideRequestThread
  taxi.threads.RideRequestThread$1
-taxi/threads/ReportThread.java
- taxi.threads.ReportThread
-simulators/Measurement.java
- simulators.Measurement
+modules/Report.java
+ modules.Report
+modules/Reports.java
+ modules.Reports
 MQTT/Rides.java
  MQTT.Rides
 modules/TaxiBuffer.java
@@ -76,17 +84,17 @@ taxi/threads/RideThread.java
  taxi.threads.RideThread
 taxi/TaxiProcess.java
  taxi.TaxiProcess
-taxi/threads/RechargeThread.java
- taxi.threads.RechargeThread
-simulators/PM10Simulator.java
- simulators.PM10Simulator
-modules/AddTaxiResponse.java
- modules.AddTaxiResponse
-modules/ReportRides.java
- modules.ReportRides
-modules/Report.java
- modules.Report
-modules/Reports.java
- modules.Reports
 REST/services/ReportService.java
  REST.services.ReportService
+modules/ReportRides.java
+ modules.ReportRides
+modules/AddTaxiResponse.java
+ modules.AddTaxiResponse
+simulators/PM10Simulator.java
+ simulators.PM10Simulator
+taxi/threads/RechargeThread.java
+ taxi.threads.RechargeThread
+simulators/Measurement.java
+ simulators.Measurement
+taxi/threads/ReportThread.java
+ taxi.threads.ReportThread

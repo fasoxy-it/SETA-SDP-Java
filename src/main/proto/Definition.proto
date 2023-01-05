@@ -34,3 +34,12 @@ message RideRequest {
 message RideResponse {
   required bool response = 1;
 }
+
+message RechargeRequest {
+  required int32  id = 1;
+  required int32 district = 2;
+}
+
+message RechargeResponse {
+  required bool free = 1;
+}

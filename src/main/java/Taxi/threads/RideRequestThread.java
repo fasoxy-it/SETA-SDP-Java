@@ -43,6 +43,7 @@ public class RideRequestThread extends Thread {
             Gson gson = new Gson();
 
             client.setCallback(new MqttCallback() {
+
                 @Override
                 public void connectionLost(Throwable cause) {
                     System.out.println("Connection lost! cause:" + cause.getMessage());
@@ -91,6 +92,7 @@ public class RideRequestThread extends Thread {
                 public void deliveryComplete(IMqttDeliveryToken token) {
 
                 }
+
             });
 
             System.out.println("Subscribing ...");

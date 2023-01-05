@@ -1,6 +1,7 @@
 package MQTT;
 
 import modules.Position;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.omg.CORBA.PRIVATE_MEMBER;
 import proto.Definition;
 
@@ -10,7 +11,9 @@ public class Ride {
     private Position startingPosition;
     private Position destinationPosition;
 
+    @JsonIgnore
     private int countRequest = 0;
+    @JsonIgnore
     private int countResponse = 0;
 
     public Ride() {}
