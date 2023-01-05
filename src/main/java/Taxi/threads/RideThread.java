@@ -50,9 +50,11 @@ public class RideThread extends Thread {
             interruptedException.printStackTrace();
         }
 
-        if (taxi.getBattery() < 30) {
+        if (taxi.getBattery() < 90) {
             System.out.println("Taxi needs recharge...");
-            taxi.setInCharge(true);
+            taxi.addRides();
+            //taxi.setInCharge(true);
+            taxi.startRechargeRequestThread();
         } else {
             taxi.addRides();
             taxi.setInRide(false);

@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import simulators.PM10Simulator;
+import taxi.threads.RechargeRequestThread;
 import taxi.threads.RideRequestThread;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,6 +51,9 @@ public class Taxi {
 
     @JsonIgnore
     private boolean inCharge;
+
+    @JsonIgnore
+    private RechargeRequestThread rechargeRequestThread;
 
     @JsonIgnore
     private TaxiBuffer pm10Buffer;
@@ -234,4 +238,9 @@ public class Taxi {
         this.pm10Averages.add(pm10Average);
     }
 
+
+    public void startRechargeRequestThread() {
+        rechargeRequestThread = new RechargeRequestThread(this);
+        rechargeRequestThread.start();
+    }
 }

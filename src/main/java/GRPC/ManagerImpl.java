@@ -92,18 +92,26 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
         responseStreamObserver.onCompleted();
 
     }
-
     @Override
     public void recharge(Definition.RechargeRequest request, StreamObserver<Definition.RechargeResponse> responseStreamObserver) {
 
+        boolean assign = true;
+
+        if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
+            if (taxi.getInCharge() == true) {
+                // Qualcosa
+            }
+        }
+
         Definition.RechargeResponse response = Definition.RechargeResponse
                 .newBuilder()
-                .setFree(true)
+                .setFree(assign)
                 .build();
 
         responseStreamObserver.onNext(response);
         responseStreamObserver.onCompleted();
 
     }
+
 
 }

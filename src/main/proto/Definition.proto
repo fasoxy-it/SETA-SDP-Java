@@ -4,6 +4,7 @@ service Manager {
 
   rpc Welcome(WelcomeMessage) returns (WelcomeResponse);
   rpc Ride(RideRequest) returns (RideResponse);
+  rpc Recharge(RechargeRequest) returns (RechargeResponse);
 
 }
 
