@@ -50,6 +50,9 @@ public class Taxi {
     private int rides;
 
     @JsonIgnore
+    private boolean wantCharge;
+
+    @JsonIgnore
     private boolean inCharge;
 
     @JsonIgnore
@@ -162,6 +165,10 @@ public class Taxi {
     public void addRides() { this.rides++; }
 
     public void emptyRides() { this.rides = 0;}
+
+    public boolean getWantCharge() { return wantCharge; }
+
+    public void setWantCharge(boolean wantCharge) { this.wantCharge = wantCharge; }
 
     public boolean getInCharge() { return inCharge; }
 
