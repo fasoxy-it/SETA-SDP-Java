@@ -73,9 +73,8 @@ REST/services/TaxiService.java
  REST.services.TaxiService
 MQTT/Ride.java
  MQTT.Ride
-taxi/threads/RechargeManagementThread.java
- taxi.threads.RechargeManagementThread
- taxi.threads.RechargeManagementThread$1
+GRPC/GRPCTaxiServer.java
+ GRPC.GRPCTaxiServer
 taxi/threads/RideManagementThread.java
  taxi.threads.RideManagementThread
 MQTT/Rides.java
@@ -92,17 +91,18 @@ taxi/TaxiProcess.java
  taxi.TaxiProcess
 modules/Taxis.java
  modules.Taxis
-taxi/threads/RechargeRequestThread.java
- taxi.threads.RechargeLock
- taxi.threads.RechargeRequestThread
+GRPC/ManagerImpl.java
+ GRPC.ManagerImpl
 taxi/threads/WelcomeThread.java
  taxi.threads.WelcomeThread
  taxi.threads.WelcomeThread$1
 modules/AddTaxiResponse.java
  modules.AddTaxiResponse
+taxi/threads/RechargeRequestThread.java
+ taxi.threads.RechargeLock
+ taxi.threads.RechargeRequestThread
+taxi/threads/RechargeManagementThread.java
+ taxi.threads.RechargeManagementThread
+ taxi.threads.RechargeManagementThread$1
 modules/Taxi.java
  modules.Taxi
-GRPC/GRPCTaxiServer.java
- GRPC.GRPCTaxiServer
-GRPC/ManagerImpl.java
- GRPC.ManagerImpl

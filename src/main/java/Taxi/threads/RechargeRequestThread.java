@@ -78,6 +78,7 @@ class RechargeLock {
         taxi.setInCharge(false);
         taxi.setWantCharge(null);
         taxi.rechargeLockServer.wakeUp();
+        taxi.startRideRequestThread();
     }
 
     public void wakeUp() {
