@@ -7,6 +7,9 @@ import modules.Taxi;
 import proto.Definition;
 import proto.ManagerGrpc;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
     Taxi taxi;
@@ -95,23 +98,64 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
     @Override
     public void recharge(Definition.RechargeRequest request, StreamObserver<Definition.RechargeResponse> responseStreamObserver) {
 
-        boolean assign = true;
+        System.out.println("RECIVER Request of charging from: " + request.getId() + " to: " + taxi.getId());
 
-        if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
-            if (taxi.getInCharge() == true) {
-                // Qualcosa
+        //if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
+            if (!taxi.getInCharge() && taxi.getWantCharge() == null || taxi.getId() == request.getId()) {
+                System.out.println("0");
+                Definition.RechargeResponse response = Definition.RechargeResponse
+                        .newBuilder()
+                        .setFree(true)
+                        .build();
+
+                responseStreamObserver.onNext(response);
+                responseStreamObserver.onCompleted();
+            } else if (taxi.getInCharge()) {
+                System.out.println("1");
+                taxi.rechargeLockServer.block();
+                Definition.RechargeResponse response = Definition.RechargeResponse
+                        .newBuilder()
+                        .setFree(true)
+                        .build();
+
+                responseStreamObserver.onNext(response);
+                responseStreamObserver.onCompleted();
+            } else if (!taxi.getInCharge() && taxi.getWantCharge() != null) {
+                Instant requestInstant = Instant.ofEpochSecond( request.getTimestamp().getSeconds());
+                System.out.println("Taxi: " + request.getId() + " Request Instant: " + requestInstant);
+                Instant responseInstant = Instant.ofEpochSecond( new Timestamp(Long.valueOf(taxi.getWantCharge())).getTime());
+                System.out.println("Taxi: " + taxi.getId() + " Response Instant: " + responseInstant);
+                if (responseInstant.isBefore(requestInstant)) {
+                    System.out.println("2");
+                    Definition.RechargeResponse response = Definition.RechargeResponse
+                            .newBuilder()
+                            .setFree(true)
+                            .build();
+
+                    responseStreamObserver.onNext(response);
+                    responseStreamObserver.onCompleted();
+                } else {
+                    System.out.println("3");
+                    taxi.rechargeLockServer.block();
+                    Definition.RechargeResponse response = Definition.RechargeResponse
+                            .newBuilder()
+                            .setFree(true)
+                            .build();
+
+                    responseStreamObserver.onNext(response);
+                    responseStreamObserver.onCompleted();
+                }
             }
-        }
+        /*} else {
+            Definition.RechargeResponse response = Definition.RechargeResponse
+                    .newBuilder()
+                    .setFree(true)
+                    .build();
 
-        Definition.RechargeResponse response = Definition.RechargeResponse
-                .newBuilder()
-                .setFree(assign)
-                .build();
-
-        responseStreamObserver.onNext(response);
-        responseStreamObserver.onCompleted();
+            responseStreamObserver.onNext(response);
+            responseStreamObserver.onCompleted();
+        }*/
 
     }
-
 
 }

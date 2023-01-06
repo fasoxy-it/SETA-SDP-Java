@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import simulators.PM10Simulator;
+import taxi.threads.RechargeLockServer;
 import taxi.threads.RechargeRequestThread;
 import taxi.threads.RideRequestThread;
 
@@ -50,7 +51,10 @@ public class Taxi {
     private int rides;
 
     @JsonIgnore
-    private boolean wantCharge;
+    public RechargeLockServer rechargeLockServer = new RechargeLockServer();
+
+    @JsonIgnore
+    private String wantCharge;
 
     @JsonIgnore
     private boolean inCharge;
@@ -79,7 +83,7 @@ public class Taxi {
         rideList = new ArrayList<>();
         inRide = false;
         rides = 0;
-        wantCharge = false;
+        wantCharge = null;
         inCharge = false;
         pm10Averages = new ArrayList<>();
     }
@@ -167,9 +171,9 @@ public class Taxi {
 
     public void emptyRides() { this.rides = 0;}
 
-    public boolean getWantCharge() { return wantCharge; }
+    public String getWantCharge() { return wantCharge; }
 
-    public void setWantCharge(boolean wantCharge) { this.wantCharge = wantCharge; }
+    public void setWantCharge(String wantCharge) { this.wantCharge = wantCharge; }
 
     public boolean getInCharge() { return inCharge; }
 

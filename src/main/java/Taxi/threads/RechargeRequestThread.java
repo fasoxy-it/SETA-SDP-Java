@@ -5,6 +5,8 @@ import io.grpc.ManagedChannelBuilder;
 import modules.Position;
 import modules.Taxi;
 
+import java.sql.Timestamp;
+
 public class RechargeRequestThread extends Thread {
 
     Taxi taxi;
@@ -17,7 +19,7 @@ public class RechargeRequestThread extends Thread {
 
         for (Taxi otherTaxi : taxi.getTaxiList()) {
 
-            // Da sistemare!!!
+            // Da sistemare!!! L'algoritmo di Ricart e Agrawala vuole che la richiesta venga effettuata anche a se stesso.
 
             if (taxi.getId() != otherTaxi.getId()) {
                 RechargeManagementThread rechargeManagementThread = new RechargeManagementThread(taxi, otherTaxi, rechargeLock);
@@ -66,9 +68,14 @@ class RechargeLock {
 
         taxi.setPosition(new Position(0,0)); //Non va bene! Occorre settare la posizione della stazione di ricarica del distretto corrente.
         taxi.setBattery(100);
-        taxi.setInCharge(false);
 
         System.out.println("Taxi recharged!");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println("Taxi recharged! " + timestamp);
+
+        taxi.setInCharge(false);
+        taxi.setWantCharge(null);
+        taxi.rechargeLockServer.wakeUp();
     }
 
     public void wakeUp() {
