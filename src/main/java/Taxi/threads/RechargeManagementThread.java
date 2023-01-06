@@ -33,10 +33,6 @@ public class RechargeManagementThread extends Thread {
                 .setTaxiId(taxi.getId())
                 .setDistrict(Integer.parseInt(Position.getDistrict(taxi.getPosition())))
                 .setTimestamp(taxi.getWantCharge())
-
-                // Penso vada messo il timestamp del momento in cui il Taxi ha necessita di ricaricarsi
-
-
                 .build();
 
         System.out.println("SENDER Request of charging from: " + request.getTaxiId() + " to: " + otherTaxi.getId());
@@ -44,7 +40,7 @@ public class RechargeManagementThread extends Thread {
         stub.recharge(request, new StreamObserver<Definition.RechargeResponse>() {
             @Override
             public void onNext(Definition.RechargeResponse rechargeResponse) {
-                System.out.println("SENDER R Request of charging from: " + rechargeResponse.getTaxiId() + " with value of: " + rechargeResponse.getFree() + " at timestamp: " + rechargeResponse.getTimestamp());
+                System.out.println("SENDER (RECIVER) Request of charging from: " + rechargeResponse.getTaxiId() + " with value of: " + rechargeResponse.getFree() + " at timestamp: " + rechargeResponse.getTimestamp());
                 if (rechargeResponse.getFree()) {
                     rechargeLock.wakeUp();
                 }

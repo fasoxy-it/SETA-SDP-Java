@@ -60,6 +60,22 @@ public class Position {
         return new Position(x, y);
     }
 
+    public Position getDistrictPosition(String district) {
+
+        if (district == "1") {
+            return new Position(0,0);
+        } else if (district == "2") {
+            return new Position(0,9);
+        } else if (district == "3") {
+            return new Position(9,9);
+        } else if (district == "4") {
+            return new Position(9,0);
+        } else {
+            return null;
+        }
+
+    }
+
     public static String getDistrict(Position position) {
 
         int x = position.getX();

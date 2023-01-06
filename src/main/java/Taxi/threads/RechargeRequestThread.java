@@ -41,7 +41,7 @@ class RechargeLock {
     Taxi taxi;
 
     public RechargeLock(Taxi taxi) {
-        responses = 0; //Deve essere 0
+        responses = 0;
         lock = new Object();
         this.taxi = taxi;
     }
@@ -58,9 +58,8 @@ class RechargeLock {
             }
         }
 
-        System.out.println("Recharging...");
-        Timestamp timestamp0 = new Timestamp(System.currentTimeMillis());
-        System.out.println("Taxi recharging... " + timestamp0);
+        Timestamp timestampStartRecharging = new Timestamp(System.currentTimeMillis());
+        System.out.println("Taxi recharging... " + timestampStartRecharging);
         taxi.setInCharge(true);
         try {
             Thread.sleep(10000);
@@ -68,12 +67,13 @@ class RechargeLock {
             interruptedException.printStackTrace();
         }
 
-        taxi.setPosition(new Position(0,0)); //Non va bene! Occorre settare la posizione della stazione di ricarica del distretto corrente.
+        //taxi.setPosition(new Position(0,0)); //Non va bene! Occorre settare la posizione della stazione di ricarica del distretto corrente.
+        taxi.setPosition(new Position().getDistrictPosition(String.valueOf(Position.getDistrict(taxi.getPosition()))));
+        System.out.println("Recharge position: " + taxi.getPosition());
         taxi.setBattery(100);
 
-        System.out.println("Taxi recharged!");
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        System.out.println("Taxi recharged! " + timestamp);
+        Timestamp timestampFinishRecharging = new Timestamp(System.currentTimeMillis());
+        System.out.println("Taxi recharged! " + timestampFinishRecharging);
 
         taxi.setInCharge(false);
         taxi.setWantCharge(null);

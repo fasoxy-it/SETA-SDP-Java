@@ -100,7 +100,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         System.out.println("RECIVER Request of charging from: " + request.getTaxiId() + " to: " + taxi.getId());
 
-        //if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
+        if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
             if (!taxi.getInCharge() && taxi.getWantCharge() == null || taxi.getId() == request.getTaxiId()) {
                 System.out.println("0");
                 Definition.RechargeResponse response = Definition.RechargeResponse
@@ -155,15 +155,17 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                     responseStreamObserver.onCompleted();
                 }
             }
-        /*} else {
+        } else {
             Definition.RechargeResponse response = Definition.RechargeResponse
                     .newBuilder()
+                    .setTaxiId(taxi.getId())
                     .setFree(true)
+                    .setTimestamp( String.valueOf(new Timestamp(System.currentTimeMillis())))
                     .build();
 
             responseStreamObserver.onNext(response);
             responseStreamObserver.onCompleted();
-        }*/
+        }
 
     }
 
