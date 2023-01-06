@@ -21,10 +21,10 @@ public class RechargeRequestThread extends Thread {
 
             // Da sistemare!!! L'algoritmo di Ricart e Agrawala vuole che la richiesta venga effettuata anche a se stesso.
 
-            if (taxi.getId() != otherTaxi.getId()) {
+            //if (taxi.getId() != otherTaxi.getId()) {
                 RechargeManagementThread rechargeManagementThread = new RechargeManagementThread(taxi, otherTaxi, rechargeLock);
                 rechargeManagementThread.start();
-            }
+            //}
 
         }
 
@@ -41,7 +41,7 @@ class RechargeLock {
     Taxi taxi;
 
     public RechargeLock(Taxi taxi) {
-        responses = 1; //Deve essere 0
+        responses = 0; //Deve essere 0
         lock = new Object();
         this.taxi = taxi;
     }
@@ -59,6 +59,8 @@ class RechargeLock {
         }
 
         System.out.println("Recharging...");
+        Timestamp timestamp0 = new Timestamp(System.currentTimeMillis());
+        System.out.println("Taxi recharging... " + timestamp0);
         taxi.setInCharge(true);
         try {
             Thread.sleep(10000);
