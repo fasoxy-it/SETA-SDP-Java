@@ -1,5 +1,6 @@
 package taxi.threads;
 
+import com.google.protobuf.Timestamp;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -29,13 +30,21 @@ public class RechargeManagementThread extends Thread {
 
         Definition.RechargeRequest request = Definition.RechargeRequest
                 .newBuilder()
+                .setTaxiId(taxi.getId())
                 .setDistrict(Integer.parseInt(Position.getDistrict(taxi.getPosition())))
-                .setId(taxi.getId())
+                .setTimestamp(taxi.getWantCharge())
+
+                // Penso vada messo il timestamp del momento in cui il Taxi ha necessita di ricaricarsi
+
+
                 .build();
+
+        System.out.println("SENDER Request of charging from: " + request.getTaxiId() + " to: " + otherTaxi.getId());
 
         stub.recharge(request, new StreamObserver<Definition.RechargeResponse>() {
             @Override
             public void onNext(Definition.RechargeResponse rechargeResponse) {
+                System.out.println("SENDER R Request of charging from: " + rechargeResponse.getTaxiId() + " with value of: " + rechargeResponse.getFree() + " at timestamp: " + rechargeResponse.getTimestamp());
                 if (rechargeResponse.getFree()) {
                     rechargeLock.wakeUp();
                 }

@@ -39,11 +39,14 @@ message RideResponse {
 }
 
 message RechargeRequest {
-  required int32  id = 1;
+  required int32  taxiId = 1;
   required int32 district = 2;
-  required google.protobuf.Timestamp timestamp = 3;
+  //required google.protobuf.Timestamp timestamp = 3;
+  required string timestamp = 3;
 }
 
 message RechargeResponse {
-  required bool free = 1;
+  required int32 taxiId = 1;
+  required bool free = 2;
+  required string timestamp = 3;
 }

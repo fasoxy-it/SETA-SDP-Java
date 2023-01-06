@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import modules.Position;
 import modules.Taxi;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class RideThread extends Thread {
@@ -55,7 +56,9 @@ public class RideThread extends Thread {
 
         if (taxi.getBattery() < 90) {
             System.out.println("Taxi needs recharge...");
-            taxi.setWantCharge(true);
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            System.out.println("Taxi needs recharge... " + timestamp);
+            taxi.setWantCharge(String.valueOf(timestamp.getTime()));
             taxi.startRechargeRequestThread();
         } else {
             taxi.startRideRequestThread();
