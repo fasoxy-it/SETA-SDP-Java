@@ -19,12 +19,8 @@ public class RechargeRequestThread extends Thread {
 
         for (Taxi otherTaxi : taxi.getTaxiList()) {
 
-            // Da sistemare!!! L'algoritmo di Ricart e Agrawala vuole che la richiesta venga effettuata anche a se stesso.
-
-            //if (taxi.getId() != otherTaxi.getId()) {
                 RechargeManagementThread rechargeManagementThread = new RechargeManagementThread(taxi, otherTaxi, rechargeLock);
                 rechargeManagementThread.start();
-            //}
 
         }
 
@@ -58,6 +54,17 @@ class RechargeLock {
             }
         }
 
+        double distanceRide = Position.getDistance(taxi.getPosition(), new Position().getDistrictPosition(String.valueOf(Position.getDistrict(taxi.getPosition()))));
+
+        int batteryConsumption = (int) Math.round(distanceRide);
+
+        taxi.setPosition(new Position().getDistrictPosition(String.valueOf(Position.getDistrict(taxi.getPosition()))));
+        taxi.setDistance(taxi.getDistance() + distanceRide);
+        taxi.setBattery(taxi.getBattery() - batteryConsumption);
+
+        System.out.println("New position: " + taxi.getPosition());
+        System.out.println("New battery level: " + taxi.getBattery());
+
         Timestamp timestampStartRecharging = new Timestamp(System.currentTimeMillis());
         System.out.println("Taxi recharging... " + timestampStartRecharging);
         taxi.setInCharge(true);
@@ -67,8 +74,6 @@ class RechargeLock {
             interruptedException.printStackTrace();
         }
 
-        //taxi.setPosition(new Position(0,0)); //Non va bene! Occorre settare la posizione della stazione di ricarica del distretto corrente.
-        taxi.setPosition(new Position().getDistrictPosition(String.valueOf(Position.getDistrict(taxi.getPosition()))));
         System.out.println("Recharge position: " + taxi.getPosition());
         taxi.setBattery(100);
 

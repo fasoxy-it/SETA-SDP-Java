@@ -54,7 +54,7 @@ public class RideThread extends Thread {
             interruptedException.printStackTrace();
         }
 
-        if (taxi.getBattery() < 30) {
+        if (taxi.getBattery() < 90) {
             System.out.println("Taxi needs recharge...");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             System.out.println("Taxi needs recharge... " + timestamp);
