@@ -62,8 +62,8 @@ modules/ReportRides.java
  modules.ReportRides
 simulators/Simulator.java
  simulators.Simulator
-taxi/threads/ReportThread.java
- taxi.threads.ReportThread
+GRPC/GRPCTaxiServer.java
+ GRPC.GRPCTaxiServer
 modules/Position.java
  modules.Position
 taxi/threads/RideRequestThread.java
@@ -73,8 +73,9 @@ REST/services/TaxiService.java
  REST.services.TaxiService
 MQTT/Ride.java
  MQTT.Ride
-GRPC/GRPCTaxiServer.java
- GRPC.GRPCTaxiServer
+taxi/threads/RechargeManagementThread.java
+ taxi.threads.RechargeManagementThread
+ taxi.threads.RechargeManagementThread$1
 taxi/threads/RideManagementThread.java
  taxi.threads.RideManagementThread
 MQTT/Rides.java
@@ -83,26 +84,25 @@ MQTT/SETA.java
  MQTT.SETA
 modules/TaxiBuffer.java
  modules.TaxiBuffer
-taxi/threads/RechargeThread.java
- taxi.threads.RechargeThread
+GRPC/ManagerImpl.java
+ GRPC.ManagerImpl
 taxi/threads/RideThread.java
  taxi.threads.RideThread
 taxi/TaxiProcess.java
  taxi.TaxiProcess
 modules/Taxis.java
  modules.Taxis
-GRPC/ManagerImpl.java
- GRPC.ManagerImpl
+taxi/threads/RechargeRequestThread.java
+ taxi.threads.RechargeLock
+ taxi.threads.RechargeRequestThread
 taxi/threads/WelcomeThread.java
  taxi.threads.WelcomeThread
  taxi.threads.WelcomeThread$1
 modules/AddTaxiResponse.java
  modules.AddTaxiResponse
-taxi/threads/RechargeRequestThread.java
- taxi.threads.RechargeLock
- taxi.threads.RechargeRequestThread
-taxi/threads/RechargeManagementThread.java
- taxi.threads.RechargeManagementThread
- taxi.threads.RechargeManagementThread$1
 modules/Taxi.java
  modules.Taxi
+taxi/threads/RechargeThread.java
+ taxi.threads.RechargeThread
+taxi/threads/ReportThread.java
+ taxi.threads.ReportThread

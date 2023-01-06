@@ -65,11 +65,11 @@ public class Position {
         if (district == "1") {
             return new Position(0,0);
         } else if (district == "2") {
-            return new Position(0,9);
+            return new Position(9,0);
         } else if (district == "3") {
             return new Position(9,9);
         } else if (district == "4") {
-            return new Position(9,0);
+            return new Position(0,9);
         } else {
             return null;
         }
