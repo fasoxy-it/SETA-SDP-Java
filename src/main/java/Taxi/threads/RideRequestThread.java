@@ -38,7 +38,7 @@ public class RideRequestThread extends Thread {
 
             System.out.println("Connecting Broker " + broker);
             client.connect(connectOptions);
-            System.out.println("Connected");
+            System.out.println("Connected!");
 
             Gson gson = new Gson();
 
@@ -46,7 +46,7 @@ public class RideRequestThread extends Thread {
 
                 @Override
                 public void connectionLost(Throwable cause) {
-                    System.out.println("Connection lost! cause:" + cause.getMessage());
+                    System.out.println("Connection lost! cause: " + cause.getMessage());
                 }
 
                 @Override
@@ -54,37 +54,40 @@ public class RideRequestThread extends Thread {
 
                     String time = new Timestamp(System.currentTimeMillis()).toString();
                     String receivedMessage = new String(message.getPayload());
-                    System.out.println("Received a Message!" +
+                    System.out.println("Received a Ride!" +
                             "\n\tTime:    " + time +
                             "\n\tTopic:   " + topic +
-                            "\n\tMessage: " + receivedMessage +
-                            "\n\tQoS:     " + message.getQos() + "\n");
-
-                    System.out.println("\n ***  Press a random key to exit *** \n");
+                            "\n\tMessage: " + receivedMessage);
 
                     Ride ride = gson.fromJson(receivedMessage, Ride.class);
                     taxi.addRideToList(ride);
 
+                    RideLock rideLock = new RideLock(taxi, ride);
+
                     for (Taxi otherTaxi : taxi.getTaxiList()) {
 
-                        if (taxi.getId() != otherTaxi.getId()) {
+                        //if (taxi.getId() != otherTaxi.getId()) {
 
-                            taxi.getRide(ride.getId()).addCountRequest();
+                            //taxi.getRide(ride.getId()).addCountRequest();
 
-                            RideManagementThread rideManagementThread = new RideManagementThread(taxi, otherTaxi, ride);
+                            RideManagementThread rideManagementThread = new RideManagementThread(taxi, otherTaxi, ride, rideLock);
                             rideManagementThread.start();
-                            rideManagementThread.join();
+                            //rideManagementThread.join();
 
-                        }
+                        //}
 
                     }
 
+                    rideLock.block();
+
+                    /*
                     if (taxi.getRide(ride.getId()).getCountRequest() == taxi.getRide(ride.getId()).getCountResponse()) {
 
                         RideThread rideThread = new RideThread(taxi, ride);
                         rideThread.start();
 
                     }
+                    */
 
                 }
 
@@ -98,11 +101,6 @@ public class RideRequestThread extends Thread {
             System.out.println("Subscribing ...");
             client.subscribe(topic,qos);
             System.out.println("Subscribed to topic : " + topic);
-
-            System.out.println("\n ***  Press a random key to exit *** \n");
-            Scanner command = new Scanner(System.in);
-            command.nextLine();
-            client.disconnect();
 
         } catch (MqttException mqttException) {
             mqttException.printStackTrace();
@@ -121,5 +119,61 @@ public class RideRequestThread extends Thread {
         }
 
     }
+}
 
+class RideLock {
+
+    public int responses;
+    public int responsesTrue;
+    Object lock;
+    Taxi taxi;
+    Ride ride;
+
+    public RideLock(Taxi taxi, Ride ride) {
+        responses = 0;
+        responsesTrue = 0;
+        lock = new Object();
+        this.taxi = taxi;
+        this.ride = ride;
+    }
+
+    public void block() {
+        synchronized (lock) {
+            System.out.println("Waiting...");
+            while (responses < taxi.getTaxiList().size()) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
+            }
+        }
+
+        if (responses == responsesTrue) {
+
+            System.out.println("Responses is equal to ResponsesTrue");
+
+            if (!taxi.getInRide()) {
+                RideThread rideThread = new RideThread(taxi, ride);
+                rideThread.start();
+            } else {
+                System.err.println("[RIDE: " + ride.getId() + "] Can't do this ride because I'm already involved in another ride!");
+                // Occorre rilanciare la ride!!!
+            }
+        }
+
+
+    }
+
+    public void wakeUp(boolean assign) {
+        if (assign) {
+            responsesTrue++;
+        }
+
+        responses++;
+
+        synchronized (lock) {
+            lock.notifyAll();
+        }
+    }
 }

@@ -15,9 +15,8 @@ REST/AdministratorClient.java
  REST.AdministratorClient
 modules/Taxis.java
  modules.Taxis
-taxi/threads/RechargeRequestThread.java
- taxi.threads.RechargeLock
- taxi.threads.RechargeRequestThread
+taxi/threads/RideThread.java
+ taxi.threads.RideThread
 proto/Definition.java
  proto.Definition
  proto.Definition$1
@@ -87,8 +86,8 @@ modules/TaxiBuffer.java
  modules.TaxiBuffer
 GRPC/ManagerImpl.java
  GRPC.ManagerImpl
-taxi/threads/RideThread.java
- taxi.threads.RideThread
+simulators/PM10Simulator.java
+ simulators.PM10Simulator
 taxi/TaxiProcess.java
  taxi.TaxiProcess
 REST/services/ReportService.java
@@ -97,8 +96,9 @@ modules/ReportRides.java
  modules.ReportRides
 modules/AddTaxiResponse.java
  modules.AddTaxiResponse
-simulators/PM10Simulator.java
- simulators.PM10Simulator
+taxi/threads/RechargeRequestThread.java
+ taxi.threads.RechargeLock
+ taxi.threads.RechargeRequestThread
 taxi/threads/RideRequestThread.java
  taxi.threads.RideLock
  taxi.threads.RideRequestThread

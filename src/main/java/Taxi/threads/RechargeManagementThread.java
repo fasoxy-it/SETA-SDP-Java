@@ -26,6 +26,8 @@ public class RechargeManagementThread extends Thread {
 
         final ManagedChannel channel = ManagedChannelBuilder.forTarget(otherTaxi.getIp() + ":" + otherTaxi.getPort()).usePlaintext().build();
 
+        boolean[] nextNotResponding = {false};
+
         ManagerGrpc.ManagerStub stub = ManagerGrpc.newStub(channel);
 
         Definition.RechargeRequest request = Definition.RechargeRequest
@@ -35,12 +37,12 @@ public class RechargeManagementThread extends Thread {
                 .setTimestamp(taxi.getWantCharge())
                 .build();
 
-        System.out.println("SENDER Request of charging from: " + request.getTaxiId() + " to: " + otherTaxi.getId());
+        System.out.println("[CHARGE] [SENDER]: Request of charging from: " + taxi.getId() + " to: " + otherTaxi.getId());
 
         stub.recharge(request, new StreamObserver<Definition.RechargeResponse>() {
             @Override
             public void onNext(Definition.RechargeResponse rechargeResponse) {
-                System.out.println("SENDER (RECIVER) Request of charging from: " + rechargeResponse.getTaxiId() + " with value of: " + rechargeResponse.getFree() + " at timestamp: " + rechargeResponse.getTimestamp());
+                System.out.println("[CHARGE] [RECIVER]: Response of charging from: " + otherTaxi.getId() + " with value of: " + rechargeResponse.getFree() + " at timestamp: " + rechargeResponse.getTimestamp());
                 if (rechargeResponse.getFree()) {
                     rechargeLock.wakeUp();
                 }
@@ -48,7 +50,15 @@ public class RechargeManagementThread extends Thread {
 
             @Override
             public void onError(Throwable throwable) {
-
+                channel.shutdownNow();
+                if (throwable.getMessage().equals("UNAVAILABLE: io exception")) {
+                    System.err.println(otherTaxi.getId() + " not responding!");
+                    nextNotResponding[0] = true;
+                    synchronized (nextNotResponding) {
+                        System.out.println("PROVA NOTIFY");
+                        nextNotResponding.notify();
+                    }
+                }
             }
 
             @Override
@@ -56,6 +66,22 @@ public class RechargeManagementThread extends Thread {
                 channel.shutdownNow();
             }
         });
+
+        try {
+            synchronized (nextNotResponding) {
+                System.out.println("PROVA WAIT");
+                nextNotResponding.wait();
+            }
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
+
+        if (nextNotResponding[0]) {
+            System.out.println("RERUN startRechargeRequestThread");
+            taxi.removeTaxiFromList(otherTaxi.getId());
+            System.out.println(taxi.getTaxiList());
+            taxi.startRechargeRequestThread();
+        }
 
     }
 
