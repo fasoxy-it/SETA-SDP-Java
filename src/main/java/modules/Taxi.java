@@ -134,6 +134,16 @@ public class Taxi {
         this.taxiList.add(taxi);
     }
 
+    public synchronized void removeTaxiFromList(int taxiId) {
+
+        for (Taxi taxi: getTaxiList()) {
+            if (taxi.getId() == taxiId) {
+                taxiList.remove(taxi);
+            }
+        }
+
+    }
+
     public void startRideRequestThread() {
         rideRequestThread = new RideRequestThread(this);
         rideRequestThread.start();
