@@ -9,6 +9,8 @@ import modules.Taxi;
 import proto.Definition;
 import proto.ManagerGrpc;
 
+import java.sql.Timestamp;
+
 public class RideManagementThread extends Thread {
 
     Taxi taxi;
@@ -37,12 +39,12 @@ public class RideManagementThread extends Thread {
                 .setDistance(Position.getDistance(taxi.getPosition(), ride.getStartingPosition()))
                 .build();
 
-        System.out.println("[RIDE: " + ride.getId() + "] [SENDER]: Request of riding from: " + taxi.getId() + " to: " + otherTaxi.getId());
+        System.out.println("[RIDE: " + ride.getId() + "] [SENDER]: Request of riding from: " + taxi.getId() + " to: " + otherTaxi.getId()  + " at timestamp: " + new Timestamp(System.currentTimeMillis()));
 
         stub.ride(request, new StreamObserver<Definition.RideResponse>() {
             @Override
             public void onNext(Definition.RideResponse rideResponse) {
-                System.out.println("[RIDE: " + ride.getId() + "] [RECIVER]: Response of riding from: " + otherTaxi.getId() + " with value of: " + rideResponse.getResponse());
+                System.out.println("[RIDE: " + ride.getId() + "] [RECIVER]: Response of riding from: " + otherTaxi.getId() + " with value of: " + rideResponse.getResponse() + " at timestamp: " + new Timestamp(System.currentTimeMillis()));
                 if (rideResponse.getResponse()) {
                     rideLock.wakeUp(true);
                 } else {
@@ -53,7 +55,11 @@ public class RideManagementThread extends Thread {
             @Override
             public void onError(Throwable throwable) {
                 channel.shutdownNow();
-                System.err.println(throwable.getMessage());
+                if (throwable.getMessage().equals("UNAVAILABLE: io exception")) {
+                    System.err.println("[RIDE: " + ride.getId() + "] " + otherTaxi.getId() + " not responding at timestamp: " + new Timestamp(System.currentTimeMillis()));
+                    taxi.removeTaxiFromList(otherTaxi.getId());
+                    taxi.startRechargeThread(ride);
+                }
             }
 
             @Override

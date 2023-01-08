@@ -1,10 +1,12 @@
 package taxi.threads;
 
 import MQTT.Ride;
+import MQTT.Rides;
 import javafx.geometry.Pos;
 import modules.Position;
 import modules.Taxi;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class RideThread extends Thread {
 
     public void run() {
 
-        System.out.println("Doing the delivery of the order: " + ride.getId());
+        System.out.println("[RIDE: " + ride.getId() + "] " + "Doing the ride at the timestamp: " + new Timestamp(System.currentTimeMillis()));
 
         taxi.setInRide(true);
         taxi.stopRideRequestThread();
@@ -32,11 +34,11 @@ public class RideThread extends Thread {
             Thread.sleep(5000);
 
             double distanceFromStartingPosition = Position.getDistance(taxi.getPosition(), ride.getStartingPosition());
-            System.out.println("Taxi arrived to the Starting Position!");
+            System.out.println("[RIDE: " + ride.getId() + "] " +"Taxi arrived to the Starting Position at the timestamp: " + new Timestamp(System.currentTimeMillis()));
             double distanceFromDestinationPosition = Position.getDistance(ride.getStartingPosition(), ride.getDestinationPosition());
-            System.out.println("Taxi arrived to the Destination Position!");
+            System.out.println("[RIDE: " + ride.getId() + "] " +"Taxi arrived to the Destination Position at the timestamp: " + new Timestamp(System.currentTimeMillis()));
             double distanceRide = distanceFromStartingPosition + distanceFromDestinationPosition;
-            System.out.println("Taxi finished the ride!");
+            System.out.println("[RIDE: " + ride.getId() + "] " +"Taxi finished the ride at the timestamp: " + new Timestamp(System.currentTimeMillis()));
 
             int batteryConsumption = (int) Math.round(distanceRide);
 
@@ -47,17 +49,16 @@ public class RideThread extends Thread {
             taxi.addRides();
             taxi.setInRide(false);
 
-            System.out.println("New position: " + taxi.getPosition());
-            System.out.println("New battery level: " + taxi.getBattery());
+            System.out.println("[TAXI] New position: " + taxi.getPosition() + " at the timestamp: " + new Timestamp(System.currentTimeMillis()));
+            System.out.println("[TAXI] New battery level: " + taxi.getBattery() + " at the timestamp: " + new Timestamp(System.currentTimeMillis()));
 
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
 
         if (taxi.getBattery() < 90) {
-            System.out.println("Taxi needs recharge...");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            System.out.println("Taxi needs recharge... " + timestamp);
+            System.out.println("[CHARGE] " + "Taxi needs recharge... " + timestamp);
             taxi.setWantCharge(String.valueOf(timestamp.getTime()));
             taxi.startRechargeRequestThread();
         } else {

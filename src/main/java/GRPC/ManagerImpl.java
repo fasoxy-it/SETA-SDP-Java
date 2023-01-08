@@ -98,7 +98,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
     @Override
     public void recharge(Definition.RechargeRequest request, StreamObserver<Definition.RechargeResponse> responseStreamObserver) {
 
-        System.out.println("RECIVER Request of charging from: " + request.getTaxiId() + " to: " + taxi.getId());
+        //System.out.println("RECIVER Request of charging from: " + request.getTaxiId() + " to: " + taxi.getId());
 
         if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
             if (!taxi.getInCharge() && taxi.getWantCharge() == null || taxi.getId() == request.getTaxiId()) {

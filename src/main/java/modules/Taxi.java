@@ -13,10 +13,12 @@ import org.codehaus.jettison.json.JSONObject;
 import simulators.PM10Simulator;
 import taxi.threads.RechargeLockServer;
 import taxi.threads.RechargeRequestThread;
+import taxi.threads.RechargeThread;
 import taxi.threads.RideRequestThread;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @XmlRootElement
@@ -61,6 +63,9 @@ public class Taxi {
 
     @JsonIgnore
     private RechargeRequestThread rechargeRequestThread;
+
+    @JsonIgnore
+    private RechargeThread rechargeThread;
 
     @JsonIgnore
     private TaxiBuffer pm10Buffer;
@@ -136,17 +141,27 @@ public class Taxi {
 
     public synchronized void removeTaxiFromList(int taxiId) {
 
-        for (Taxi taxi: getTaxiList()) {
+        /*for (Taxi taxi: getTaxiList()) {
             if (taxi.getId() == taxiId) {
                 taxiList.remove(taxi);
             }
-        }
+        }*/
 
+        for (Iterator<Taxi> taxiIterator = getTaxiList().listIterator(); taxiIterator.hasNext(); ) {
+            if (taxiIterator.next().getId() == taxiId) {
+                taxiIterator.remove();
+            }
+        }
     }
 
     public void startRideRequestThread() {
         rideRequestThread = new RideRequestThread(this);
         rideRequestThread.start();
+    }
+
+    public void startRechargeThread(Ride ride) {
+        rechargeThread = new RechargeThread(this, ride);
+        rechargeThread.start();
     }
 
     public void stopRideRequestThread() {
@@ -171,9 +186,9 @@ public class Taxi {
         return null;
     }
 
-    public boolean getInRide() { return inRide; }
+    public synchronized boolean getInRide() { return inRide; }
 
-    public void setInRide(boolean inRide) { this.inRide = inRide; }
+    public synchronized void setInRide(boolean inRide) { this.inRide = inRide; }
 
     public int getRides() { return rides; }
 
