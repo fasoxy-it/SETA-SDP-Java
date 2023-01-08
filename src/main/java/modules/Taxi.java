@@ -1,8 +1,6 @@
 package modules;
 
 import MQTT.Ride;
-import MQTT.Rides;
-import com.google.gson.JsonArray;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -13,8 +11,8 @@ import org.codehaus.jettison.json.JSONObject;
 import simulators.PM10Simulator;
 import taxi.threads.RechargeLockServer;
 import taxi.threads.RechargeRequestThread;
-import taxi.threads.RechargeThread;
 import taxi.threads.RideRequestThread;
+import taxi.threads.SETARideRequestThread;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ public class Taxi {
     private List<Taxi> taxiList;
 
     @JsonIgnore
-    private RideRequestThread rideRequestThread;
+    private SETARideRequestThread SETARideRequestThread;
 
     @JsonIgnore
     private List<Ride> rideList;
@@ -65,7 +63,7 @@ public class Taxi {
     private RechargeRequestThread rechargeRequestThread;
 
     @JsonIgnore
-    private RechargeThread rechargeThread;
+    private RideRequestThread rideRequestThread;
 
     @JsonIgnore
     private TaxiBuffer pm10Buffer;
@@ -154,18 +152,18 @@ public class Taxi {
         }
     }
 
-    public void startRideRequestThread() {
-        rideRequestThread = new RideRequestThread(this);
+    public void startSETARideRequestThread() {
+        SETARideRequestThread = new SETARideRequestThread(this);
+        SETARideRequestThread.start();
+    }
+
+    public void startRideThread(Ride ride) {
+        rideRequestThread = new RideRequestThread(this, ride);
         rideRequestThread.start();
     }
 
-    public void startRechargeThread(Ride ride) {
-        rechargeThread = new RechargeThread(this, ride);
-        rechargeThread.start();
-    }
-
-    public void stopRideRequestThread() {
-        rideRequestThread.unsubscribe();
+    public void stopSETARideRequestThread() {
+        SETARideRequestThread.unsubscribe();
     }
 
     public List<Ride> getRideList() { return rideList; }

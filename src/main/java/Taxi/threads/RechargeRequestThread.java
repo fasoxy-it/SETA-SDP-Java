@@ -1,7 +1,5 @@
 package taxi.threads;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import modules.Position;
 import modules.Taxi;
 
@@ -44,7 +42,7 @@ class RechargeLock {
 
     public void block() {
         synchronized (lock) {
-            System.out.println("Waiting");
+            System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [CHARGE] Waiting...");
             while (responses < taxi.getTaxiList().size()) {
                 try {
                     lock.wait();
@@ -62,28 +60,29 @@ class RechargeLock {
         taxi.setDistance(taxi.getDistance() + distanceRide);
         taxi.setBattery(taxi.getBattery() - batteryConsumption);
 
-        System.out.println("New position: " + taxi.getPosition());
-        System.out.println("New battery level: " + taxi.getBattery());
+        //System.out.println("[CHARGE] New position: " + taxi.getPosition());
+        //System.out.println("[CHARGE] New battery level: " + taxi.getBattery());
 
-        Timestamp timestampStartRecharging = new Timestamp(System.currentTimeMillis());
-        System.out.println("Taxi recharging... " + timestampStartRecharging);
+        //Timestamp timestampStartRecharging = new Timestamp(System.currentTimeMillis());
+        System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [CHARGE] Taxi recharging...");
         taxi.setInCharge(true);
+
         try {
             Thread.sleep(10000);
         } catch (InterruptedException interruptedException) {
             interruptedException.printStackTrace();
         }
 
-        System.out.println("Recharge position: " + taxi.getPosition());
+        //System.out.println("[CHARGE] Recharge position: " + taxi.getPosition());
         taxi.setBattery(100);
 
-        Timestamp timestampFinishRecharging = new Timestamp(System.currentTimeMillis());
-        System.out.println("Taxi recharged! " + timestampFinishRecharging);
+        //Timestamp timestampFinishRecharging = new Timestamp(System.currentTimeMillis());
+        System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [CHARGE] Taxi recharged!");
 
         taxi.setInCharge(false);
         taxi.setWantCharge(null);
         taxi.rechargeLockServer.wakeUp();
-        taxi.startRideRequestThread();
+        taxi.startSETARideRequestThread();
     }
 
     public void wakeUp() {

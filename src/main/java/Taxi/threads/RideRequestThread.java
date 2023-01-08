@@ -1,124 +1,37 @@
 package taxi.threads;
 
 import MQTT.Ride;
-import com.google.gson.Gson;
-import modules.Position;
+import modules.Log;
 import modules.Taxi;
-import org.eclipse.paho.client.mqttv3.*;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class RideRequestThread extends Thread {
 
-    private Taxi taxi;
+    Taxi taxi;
+    Ride ride;
 
-    MqttClient client;
-    String broker = "tcp://localhost:1883";
-    String clientId = MqttClient.generateClientId();
-    String topic = "seta/smartcity/rides/district";
-
-    int qos = 2;
-
-    public RideRequestThread(Taxi taxi) { this.taxi = taxi; }
+    public RideRequestThread(Taxi taxi, Ride ride) {
+        this.taxi = taxi;
+        this.ride = ride;
+    }
 
     @Override
     public void run() {
 
-        String district = Position.getDistrict(taxi.getPosition());
+        RideLock rideLock = new RideLock(taxi, ride);
 
-        topic = topic + district;
+        for (Taxi otherTaxi : taxi.getTaxiList()) {
 
-        try {
+            RideManagementThread rideManagementThread = new RideManagementThread(taxi, otherTaxi, ride, rideLock);
+            rideManagementThread.start();
 
-            client = new MqttClient(broker, clientId);
-            MqttConnectOptions connectOptions = new MqttConnectOptions();
-            connectOptions.setCleanSession(true);
-
-            System.out.println("Connecting Broker " + broker);
-            client.connect(connectOptions);
-            System.out.println("Connected!");
-
-            Gson gson = new Gson();
-
-            client.setCallback(new MqttCallback() {
-
-                @Override
-                public void connectionLost(Throwable cause) {
-                    System.out.println("Connection lost! cause: " + cause.getMessage());
-                }
-
-                @Override
-                public void messageArrived(String topic, MqttMessage message) throws Exception {
-
-                    String time = new Timestamp(System.currentTimeMillis()).toString();
-                    String receivedMessage = new String(message.getPayload());
-                    System.out.println("Received a Ride!" +
-                            "\n\tTime:    " + time +
-                            "\n\tTopic:   " + topic +
-                            "\n\tMessage: " + receivedMessage);
-
-                    Ride ride = gson.fromJson(receivedMessage, Ride.class);
-                    taxi.addRideToList(ride);
-
-                    RideLock rideLock = new RideLock(taxi, ride);
-
-                    for (Taxi otherTaxi : taxi.getTaxiList()) {
-
-                        //if (taxi.getId() != otherTaxi.getId()) {
-
-                            //taxi.getRide(ride.getId()).addCountRequest();
-
-                            RideManagementThread rideManagementThread = new RideManagementThread(taxi, otherTaxi, ride, rideLock);
-                            rideManagementThread.start();
-                            //rideManagementThread.join();
-
-                        //}
-
-                    }
-
-                    rideLock.block();
-
-                    /*
-                    if (taxi.getRide(ride.getId()).getCountRequest() == taxi.getRide(ride.getId()).getCountResponse()) {
-
-                        RideThread rideThread = new RideThread(taxi, ride);
-                        rideThread.start();
-
-                    }
-                    */
-
-                }
-
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken token) {
-
-                }
-
-            });
-
-            System.out.println("Subscribing ...");
-            client.subscribe(topic,qos);
-            System.out.println("Subscribed to topic : " + topic);
-
-        } catch (MqttException mqttException) {
-            mqttException.printStackTrace();
         }
+
+        rideLock.block();
 
     }
 
-    public void unsubscribe() {
-
-        try {
-            System.out.println("Unsubscribing ...");
-            client.unsubscribe(topic);
-            System.out.println("Unsubscribed from topic : " + topic);
-        } catch (MqttException mqttException) {
-            mqttException.printStackTrace();
-        }
-
-    }
 }
 
 class RideLock {
@@ -139,7 +52,7 @@ class RideLock {
 
     public void block() {
         synchronized (lock) {
-            System.out.println("Waiting...");
+            System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] Waiting...");
             while (responses < taxi.getTaxiList().size()) {
                 try {
                     lock.wait();
@@ -151,15 +64,19 @@ class RideLock {
 
         if (responses == responsesTrue) {
 
-            System.out.println("Responses is equal to ResponsesTrue");
+            //System.out.println("Responses is equal to ResponsesTrue");
 
             if (!taxi.getInRide()) {
+                System.out.println(Log.ANSI_GREEN + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] Riding assign!" + Log.ANSI_RESET);
+                taxi.setInRide(true);
                 RideThread rideThread = new RideThread(taxi, ride);
                 rideThread.start();
             } else {
-                System.err.println("[RIDE: " + ride.getId() + "] Can't do this ride because I'm already involved in another ride!");
+                System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] Can't do this ride because I'm already involved in another ride!" + Log.ANSI_RESET);
                 // Occorre rilanciare la ride!!!
             }
+        } else {
+            System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] Riding assign to other!" + Log.ANSI_RESET);
         }
 
 

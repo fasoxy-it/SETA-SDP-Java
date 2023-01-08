@@ -102,7 +102,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
             if (!taxi.getInCharge() && taxi.getWantCharge() == null || taxi.getId() == request.getTaxiId()) {
-                System.out.println("0");
+                //System.out.println("0");
                 Definition.RechargeResponse response = Definition.RechargeResponse
                         .newBuilder()
                         .setTaxiId(taxi.getId())
@@ -113,7 +113,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                 responseStreamObserver.onNext(response);
                 responseStreamObserver.onCompleted();
             } else if (taxi.getInCharge()) {
-                System.out.println("1");
+                //System.out.println("1");
                 taxi.rechargeLockServer.block();
                 Definition.RechargeResponse response = Definition.RechargeResponse
                         .newBuilder()
@@ -131,7 +131,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                 Instant responseInstant = Instant.ofEpochSecond( new Timestamp(Long.valueOf(taxi.getWantCharge())).getTime());
                 System.out.println("Taxi: " + taxi.getId() + " Response Instant: " + new Timestamp(Long.valueOf(taxi.getWantCharge())));
                 if (requestInstant.isBefore(responseInstant)) {
-                    System.out.println("2");
+                    //System.out.println("2");
                     Definition.RechargeResponse response = Definition.RechargeResponse
                             .newBuilder()
                             .setTaxiId(taxi.getId())
@@ -142,7 +142,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                     responseStreamObserver.onNext(response);
                     responseStreamObserver.onCompleted();
                 } else {
-                    System.out.println("3");
+                    //System.out.println("3");
                     taxi.rechargeLockServer.block();
                     Definition.RechargeResponse response = Definition.RechargeResponse
                             .newBuilder()

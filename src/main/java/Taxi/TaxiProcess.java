@@ -5,7 +5,6 @@ import com.sun.jersey.api.client.Client;
 import modules.Position;
 import modules.Taxi;
 import taxi.threads.ReportThread;
-import taxi.threads.RideRequestThread;
 import taxi.threads.WelcomeThread;
 
 public class TaxiProcess {
@@ -34,7 +33,7 @@ public class TaxiProcess {
         reportThread.start();
         grpcTaxiServer.start();
 
-        taxi.startRideRequestThread();
+        taxi.startSETARideRequestThread();
 
         for (Taxi otherTaxi : taxi.getTaxiList()) {
 

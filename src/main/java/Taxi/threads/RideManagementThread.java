@@ -39,12 +39,12 @@ public class RideManagementThread extends Thread {
                 .setDistance(Position.getDistance(taxi.getPosition(), ride.getStartingPosition()))
                 .build();
 
-        System.out.println("[RIDE: " + ride.getId() + "] [SENDER]: Request of riding from: " + taxi.getId() + " to: " + otherTaxi.getId()  + " at timestamp: " + new Timestamp(System.currentTimeMillis()));
+        System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [SENDER]: Request of riding to: " + otherTaxi.getId());
 
         stub.ride(request, new StreamObserver<Definition.RideResponse>() {
             @Override
             public void onNext(Definition.RideResponse rideResponse) {
-                System.out.println("[RIDE: " + ride.getId() + "] [RECIVER]: Response of riding from: " + otherTaxi.getId() + " with value of: " + rideResponse.getResponse() + " at timestamp: " + new Timestamp(System.currentTimeMillis()));
+                System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [RECIVER]: Response for riding from: " + otherTaxi.getId() + " with value of: " + rideResponse.getResponse());
                 if (rideResponse.getResponse()) {
                     rideLock.wakeUp(true);
                 } else {
@@ -58,7 +58,7 @@ public class RideManagementThread extends Thread {
                 if (throwable.getMessage().equals("UNAVAILABLE: io exception")) {
                     System.err.println("[RIDE: " + ride.getId() + "] " + otherTaxi.getId() + " not responding at timestamp: " + new Timestamp(System.currentTimeMillis()));
                     taxi.removeTaxiFromList(otherTaxi.getId());
-                    taxi.startRechargeThread(ride);
+                    taxi.startRideThread(ride);
                 }
             }
 
@@ -69,30 +69,5 @@ public class RideManagementThread extends Thread {
         });
 
     }
-
-
-    /*
-    public void run() {
-
-        final ManagedChannel channel = ManagedChannelBuilder.forTarget(otherTaxi.getIp() + ":" + otherTaxi.getPort()).usePlaintext().build();
-
-        ManagerGrpc.ManagerBlockingStub stub = ManagerGrpc.newBlockingStub(channel);
-
-        Definition.RideRequest request = Definition.RideRequest
-                .newBuilder()
-                .setRideId(ride.getId())
-                .setTaxiId(taxi.getId())
-                .setTaxiBattery(taxi.getBattery())
-                .setDistance(Position.getDistance(taxi.getPosition(), ride.getStartingPosition()))
-                .build();
-
-        Definition.RideResponse response = stub.ride(request);
-
-        if (response.getResponse() == true) {
-            taxi.getRide(ride.getId()).addCountResponse();
-        }
-
-    }
-    */
 
 }
