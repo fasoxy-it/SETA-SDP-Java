@@ -157,7 +157,7 @@ public class Taxi {
         SETARideRequestThread.start();
     }
 
-    public void startRideThread(Ride ride) {
+    public void startRideRequestThread(Ride ride) {
         rideRequestThread = new RideRequestThread(this, ride);
         rideRequestThread.start();
     }
@@ -211,7 +211,7 @@ public class Taxi {
             ClientResponse response = webResource.type("application/json").get(ClientResponse.class);
             response.getStatus();
             String result = response.getEntity(String.class);
-            System.out.println(response);
+            //System.out.println(response);
 
             setId(Integer.parseInt(result) + 1);
             setIp("localhost");
@@ -243,7 +243,7 @@ public class Taxi {
 
             ClientResponse response = webResource.type("application/json").post(ClientResponse.class, payload);
             response.getStatus();
-            System.out.println(response);
+            //System.out.println(response);
 
             AddTaxiResponse addTaxiResponse = response.getEntity(AddTaxiResponse.class);
             setTaxiList(addTaxiResponse.getTaxis());

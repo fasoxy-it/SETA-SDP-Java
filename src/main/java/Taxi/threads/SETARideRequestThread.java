@@ -66,7 +66,7 @@ public class SETARideRequestThread extends Thread {
 
                     System.out.println(Log.ANSI_PURPLE + taxi.getRideList() + Log.ANSI_RESET);
 
-                    taxi.startRideThread(ride);
+                    taxi.startRideRequestThread(ride);
 
                 }
 
