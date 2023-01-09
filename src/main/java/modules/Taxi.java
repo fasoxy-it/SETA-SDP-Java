@@ -155,6 +155,10 @@ public class Taxi {
         }
     }
 
+    public void sendConfirm() {
+        SETARideRequestThread.send();
+    }
+
     public void startSETARideRequestThread() {
         SETARideRequestThread = new SETARideRequestThread(this);
         SETARideRequestThread.start();

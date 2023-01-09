@@ -24,7 +24,7 @@ public class GRPCTaxiServer extends Thread {
 
             server.start();
 
-            System.out.println("Server started!");
+            //System.out.println("Server started!");
 
             server.awaitTermination();
 

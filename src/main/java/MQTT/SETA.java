@@ -29,7 +29,7 @@ public class SETA {
             client.connect(connectOptions);
             System.out.println("Connected");
 
-            while (true) {
+            while (rideId < 21) {
 
                 for (int i = 0; i < 2; i++) {
 

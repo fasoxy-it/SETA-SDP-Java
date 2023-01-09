@@ -9,6 +9,8 @@ import org.eclipse.paho.client.mqttv3.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MQTTBroker {
 
@@ -28,6 +30,7 @@ public class MQTTBroker {
         Gson gson = new Gson();
 
         ArrayList<Ride> rideList = new ArrayList<Ride>();
+        Timer timer = new Timer();
 
         try {
             client = new MqttClient(broker, clientId);
@@ -47,8 +50,6 @@ public class MQTTBroker {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
 
-                    System.out.println(topic);
-
                     if (Objects.equals(topic, "seta/smartcity/rides/seta")) {
 
                         String receivedMessage = new String(message.getPayload());
@@ -56,29 +57,25 @@ public class MQTTBroker {
                         Ride ride = gson.fromJson(receivedMessage, Ride.class);
                         rideList.add(ride);
 
-                        System.out.println(rideList);
+                        System.out.println("[" + new Timestamp(System.currentTimeMillis())+ "] " + ride);
 
                         // Invio la richiesta ai Taxi
 
                         MqttMessage sendMessage = new MqttMessage(receivedMessage.getBytes());
                         message.setQos(qos);
 
-                        System.out.println("Publishing message: " + ride + "...");
                         client.publish(pubTopic + Position.getDistrict(ride.getStartingPosition()), sendMessage);
-                        System.out.println("Message published");
 
                     } else if (Objects.equals(topic, "seta/smartcity/rides/done")) {
 
                         String receivedMessage = new String(message.getPayload());
                         Ride ride = gson.fromJson(receivedMessage, Ride.class);
 
-                        System.out.println(Log.ANSI_RED + ride + Log.ANSI_RESET);
+                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis())+ "] " + ride + Log.ANSI_RESET);
 
                         // Remove della Ride
 
                         rideList.removeIf(r -> r.getId() == ride.getId());
-
-                        System.out.println(rideList);
 
                     }
 
@@ -90,6 +87,38 @@ public class MQTTBroker {
 
                 }
             });
+
+            //while (rideList.size() != 0) {
+
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            if (rideList.size() != 0) {
+
+                                for (Ride ride: rideList) {
+
+                                    String jsonRide = gson.toJson(ride);
+
+                                    MqttMessage sendMessage = new MqttMessage(jsonRide.getBytes());
+                                    sendMessage.setQos(qos);
+
+                                    client.publish(pubTopic + Position.getDistrict(ride.getStartingPosition()), sendMessage);
+
+                                    //System.out.println("RECALL");
+
+                                }
+                            }
+
+                        } catch (MqttException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                }, 0, 1000);
+
+            //}
 
             System.out.println(Log.ANSI_YELLOW + "[" + new Timestamp(System.currentTimeMillis()) + "] [SETA] Subscribing ..." + Log.ANSI_RESET);
             client.subscribe(subTopic1,qos);

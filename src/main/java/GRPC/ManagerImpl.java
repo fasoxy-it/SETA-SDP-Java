@@ -8,6 +8,7 @@ import modules.Taxi;
 import proto.Definition;
 import proto.ManagerGrpc;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -42,7 +43,8 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
         taxi.addTaxiToList(taxiOther);
 
         for (int i=0; i<taxi.getTaxiList().size(); i++) {
-            System.out.println("Taxi: " + taxi.getTaxiList().get(i).getId() + " Position: " + taxi.getTaxiList().get(i).getPosition());
+            System.out.println(Log.ANSI_CYAN + "[" + new Timestamp(System.currentTimeMillis()) + "] New Taxi joined the Smart City with Id: " + taxi.getTaxiList().get(i).getId() + " and Position: (" + taxi.getTaxiList().get(i).getPosition() + ")" + Log.ANSI_RESET);
+            //System.out.println("Taxi: " + taxi.getTaxiList().get(i).getId() + " Position: " + taxi.getTaxiList().get(i).getPosition());
         }
     }
 
@@ -70,9 +72,13 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                         }
 
                     } else if (request.getTaxiBattery() > taxi.getBattery()) {
+
                         assign = true;
+
                     } else {
+
                         assign = false;
+
                     }
 
                 } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
@@ -86,6 +92,21 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                 }
 
             }
+
+        } else if (taxi.getInRide()) {
+
+            if (taxi.getWichRide().getId() == request.getRideId()) {
+
+                assign = false;
+
+                System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] Sto facendo questa!"); // Da togliere
+
+            } else {
+
+                assign = true;
+
+            }
+
 
         } else {
 
