@@ -37,7 +37,7 @@ public class ReportThread extends Thread {
 
                 ClientResponse response = webResource.type("application/json").post(ClientResponse.class, payload);
                 response.getStatus();
-                System.out.println(response);
+                //System.out.println(response);
 
                 taxi.emptyDistance();
                 taxi.emptyRides();

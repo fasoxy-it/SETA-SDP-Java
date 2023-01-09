@@ -32,7 +32,7 @@ public class SETA {
 
                 for (int i = 0; i < 2; i++) {
 
-                    Ride ride = new Ride(rideId);
+                    Ride ride = new Ride(rideId, new Position().getRandomStartingDestinationPosition(), new Position().getRandomStartingDestinationPosition());
                     String jsonRide = gson.toJson(ride);
 
                     MqttMessage message = new MqttMessage(jsonRide.getBytes());

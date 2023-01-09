@@ -15,6 +15,12 @@ message Position {
   required int32 y = 2;
 }
 
+message Ride {
+  required int32 id = 1;
+  required Position startingPosition = 2;
+  required Position destinationPosition = 3;
+}
+
 message WelcomeMessage {
   required int32 id = 1;
   required string ip = 2;
@@ -32,6 +38,7 @@ message RideRequest {
   required int32 taxiId = 2;
   required int32 taxiBattery = 3;
   required double distance = 4;
+  optional Ride ride = 5;
 }
 
 message RideResponse {

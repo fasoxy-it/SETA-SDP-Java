@@ -1,5 +1,6 @@
 package MQTT;
 
+import javafx.geometry.Pos;
 import modules.Position;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.omg.CORBA.PRIVATE_MEMBER;
@@ -18,10 +19,10 @@ public class Ride {
 
     public Ride() {}
 
-    public Ride(int id) {
+    public Ride(int id, Position startingPosition, Position destinationPosition) {
         this.id = id;
-        this.startingPosition = new Position().getRandomStartingDestinationPosition();
-        this.destinationPosition = new Position().getRandomStartingDestinationPosition();
+        this.startingPosition = startingPosition; //new Position().getRandomStartingDestinationPosition();
+        this.destinationPosition = destinationPosition; //new Position().getRandomStartingDestinationPosition();
     }
 
     public String toString() { return "Id: " + this.id + ", Starting position: (" + this.startingPosition.getX() + ", " + this.startingPosition.getY() + "), Destination position: (" + this.destinationPosition.getX() + ", " + this.destinationPosition.getY() + ")"; }

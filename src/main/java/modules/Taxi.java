@@ -171,7 +171,34 @@ public class Taxi {
     public void setRideList(List<Ride> rideList) { this.rideList = rideList; }
 
     public synchronized void addRideToList(Ride ride) {
-        this.rideList.add(ride);
+
+        if (gT(ride.getId())) {
+            this.rideList.add(ride);
+            System.out.println(Log.ANSI_CYAN + "Ha aggiunto una ride da un'altro taxi: " + ride.getId() + Log.ANSI_RESET);
+        }
+
+    }
+
+    public synchronized void removeRideToList(int rideId) {
+
+        for (Iterator<Ride> rideIterator = getRideList().listIterator(); rideIterator.hasNext(); ) {
+            if (rideIterator.next().getId() == rideId) {
+                rideIterator.remove();
+            }
+        }
+
+    }
+
+    public synchronized boolean gT(int rideId) {
+
+        for (Ride ride: rideList) {
+            if (ride.getId() == rideId) {
+                return false;
+            }
+        }
+
+        return true;
+
     }
 
     public Ride getRide(int rideId) {

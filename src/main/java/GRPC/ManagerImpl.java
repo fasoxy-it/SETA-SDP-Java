@@ -2,6 +2,7 @@ package GRPC;
 
 import MQTT.Ride;
 import io.grpc.stub.StreamObserver;
+import modules.Log;
 import modules.Position;
 import modules.Taxi;
 import proto.Definition;
@@ -50,6 +51,49 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         boolean assign = true;
 
+        Ride ride = new Ride(request.getRide().getId(), new Position(request.getRide().getStartingPosition().getX(), request.getRide().getStartingPosition().getY()), new Position(request.getRide().getDestinationPosition().getX(), request.getRide().getDestinationPosition().getY()));
+
+        if (!taxi.getInRide() && !taxi.getInCharge()) {
+
+            if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == Integer.parseInt(Position.getDistrict(ride.getStartingPosition()))) {
+
+                taxi.addRideToList(ride); // Bisogna controllare che non ci sia già
+
+                if (request.getDistance() == Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
+
+                    if (request.getTaxiBattery() == taxi.getBattery()) {
+
+                        if (request.getTaxiId() < taxi.getId()) {
+
+                            assign = false;
+
+                        }
+
+                    } else if (request.getTaxiBattery() > taxi.getBattery()) {
+                        assign = true;
+                    } else {
+                        assign = false;
+                    }
+
+                } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
+
+                    assign = true;
+
+                } else {
+
+                    assign = false;
+
+                }
+
+            }
+
+        } else {
+
+            assign = true;
+
+        }
+
+        /*
         for (Ride rideOther : taxi.getRideList()) {
 
             if (request.getRideId() == rideOther.getId()) {
@@ -85,6 +129,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
             }
 
         }
+        */
 
         Definition.RideResponse response = Definition.RideResponse
                 .newBuilder()
