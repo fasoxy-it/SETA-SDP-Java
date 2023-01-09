@@ -69,8 +69,11 @@ class RideLock {
             if (!taxi.getInRide()) {
                 System.out.println(Log.ANSI_GREEN + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] Riding assign!" + Log.ANSI_RESET);
                 taxi.setInRide(true);
+
+                taxi.setWichRide(ride);
                 RideThread rideThread = new RideThread(taxi, ride);
                 rideThread.start();
+
             } else {
                 System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] Can't do this ride because I'm already involved in another ride!" + Log.ANSI_RESET);
                 // Occorre rilanciare la ride!!!
@@ -83,6 +86,7 @@ class RideLock {
     }
 
     public void wakeUp(boolean assign) {
+
         if (assign) {
             responsesTrue++;
         }
@@ -92,5 +96,6 @@ class RideLock {
         synchronized (lock) {
             lock.notifyAll();
         }
+
     }
 }

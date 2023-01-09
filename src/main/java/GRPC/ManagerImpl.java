@@ -57,7 +57,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
             if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == Integer.parseInt(Position.getDistrict(ride.getStartingPosition()))) {
 
-                taxi.addRideToList(ride); // Bisogna controllare che non ci sia già
+                //taxi.addRideToList(ride); // Bisogna controllare che non ci sia già
 
                 if (request.getDistance() == Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
 

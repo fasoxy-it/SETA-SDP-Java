@@ -14,7 +14,8 @@ public class SETA {
         MqttClient client;
         String broker = "tcp://localhost:1883";
         String clientId = MqttClient.generateClientId();
-        String topic = "seta/smartcity/rides/district";
+        //String topic = "seta/smartcity/rides/district";
+        String topic = "seta/smartcity/rides/seta";
         int qos = 2;
         int rideId = 1;
         Gson gson = new Gson();
@@ -40,7 +41,8 @@ public class SETA {
 
                     System.out.println("Publishing message: " + ride + " ...");
 
-                    client.publish(topic + Position.getDistrict(ride.getStartingPosition()), message);
+                    //client.publish(topic + Position.getDistrict(ride.getStartingPosition()), message);
+                    client.publish(topic, message);
 
                     System.out.println("Message published");
 

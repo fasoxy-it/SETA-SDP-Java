@@ -48,6 +48,9 @@ public class Taxi {
     private boolean inRide;
 
     @JsonIgnore
+    private Ride wichRide;
+
+    @JsonIgnore
     private int rides;
 
     @JsonIgnore
@@ -157,13 +160,17 @@ public class Taxi {
         SETARideRequestThread.start();
     }
 
+    public void subscribeSETARideRequestThread() {
+        SETARideRequestThread.subscribe();
+    }
+
     public void startRideRequestThread(Ride ride) {
         rideRequestThread = new RideRequestThread(this, ride);
         rideRequestThread.start();
     }
 
-    public void stopSETARideRequestThread() {
-        SETARideRequestThread.unsubscribe();
+    public void stopSETARideRequestThread(String topic) {
+        SETARideRequestThread.unsubscribe(topic);
     }
 
     public List<Ride> getRideList() { return rideList; }
@@ -214,6 +221,10 @@ public class Taxi {
     public synchronized boolean getInRide() { return inRide; }
 
     public synchronized void setInRide(boolean inRide) { this.inRide = inRide; }
+
+    public synchronized Ride getWichRide() { return wichRide; }
+
+    public synchronized void setWichRide(Ride ride) { this.wichRide = ride; }
 
     public int getRides() { return rides; }
 
