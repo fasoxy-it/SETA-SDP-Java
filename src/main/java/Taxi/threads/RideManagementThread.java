@@ -33,6 +33,22 @@ public class RideManagementThread extends Thread {
 
         Definition.RideRequest request = Definition.RideRequest
                 .newBuilder()
+                .setRide(Definition.Ride
+                        .newBuilder()
+                        .setId(ride.getId())
+                        .setStartingPosition(Definition.Position
+                                .newBuilder()
+                                .setX(ride.getStartingPosition().getX())
+                                .setY(ride.getStartingPosition().getY())
+                                .build()
+                        )
+                        .setDestinationPosition(Definition.Position
+                                .newBuilder()
+                                .setX(ride.getDestinationPosition().getX())
+                                .setY(ride.getDestinationPosition().getY())
+                                .build()
+                        )
+                )
                 .setRideId(ride.getId())
                 .setTaxiId(taxi.getId())
                 .setTaxiBattery(taxi.getBattery())
