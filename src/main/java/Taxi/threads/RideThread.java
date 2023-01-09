@@ -24,7 +24,7 @@ public class RideThread extends Thread {
         System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + "Doing the ride!");
 
         taxi.setInRide(true);
-        taxi.stopSETARideRequestThread();
+        taxi.stopSETARideRequestThread("seta/smartcity/rides/district" + Position.getDistrict(ride.getStartingPosition()));
         taxi.setRideList(new ArrayList<>());
 
         try {
@@ -46,6 +46,7 @@ public class RideThread extends Thread {
 
             taxi.addRides();
             taxi.setInRide(false);
+            taxi.setWichRide(null);
 
             System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [TAXI] New position: " + taxi.getPosition());
             System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [TAXI] New battery level: " + taxi.getBattery());
@@ -60,7 +61,7 @@ public class RideThread extends Thread {
             taxi.setWantCharge(String.valueOf(timestamp.getTime()));
             taxi.startRechargeRequestThread();
         } else {
-            taxi.startSETARideRequestThread();
+            taxi.subscribeSETARideRequestThread();
         }
 
     }

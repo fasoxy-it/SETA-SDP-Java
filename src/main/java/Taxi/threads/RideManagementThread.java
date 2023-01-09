@@ -35,6 +35,7 @@ public class RideManagementThread extends Thread {
                 .newBuilder()
                 .setRide(Definition.Ride
                         .newBuilder()
+                        // Aggiungere Time???
                         .setId(ride.getId())
                         .setStartingPosition(Definition.Position
                                 .newBuilder()
@@ -49,10 +50,10 @@ public class RideManagementThread extends Thread {
                                 .build()
                         )
                 )
-                .setRideId(ride.getId())
+                .setRideId(ride.getId()) // Togliere...
                 .setTaxiId(taxi.getId())
                 .setTaxiBattery(taxi.getBattery())
-                .setDistance(Position.getDistance(taxi.getPosition(), ride.getStartingPosition()))
+                .setDistance(Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) // Potrei mettere la posizione così che il taxi la aggiorna
                 .build();
 
         System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [SENDER]: Request of riding to: " + otherTaxi.getId());
