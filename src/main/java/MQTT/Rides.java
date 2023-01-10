@@ -23,6 +23,14 @@ public class Rides {
         rides.add(ride);
     }
 
+    public synchronized void remove(Ride ride) {
+        rides.removeIf(r -> r.getId() == ride.getId());
+    }
+
+    public synchronized Ride get(int index) {
+        return rides.get(index);
+    }
+
     public synchronized int size() { return rides.size(); }
 
 }

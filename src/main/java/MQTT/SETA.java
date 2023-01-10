@@ -3,10 +3,12 @@ package MQTT;
 import com.google.gson.Gson;
 import modules.Log;
 import modules.Position;
+import modules.Taxi;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class SETA {
@@ -25,7 +27,9 @@ public class SETA {
 
         Gson gson = new Gson();
 
-        ArrayList<Ride> rideList = new ArrayList<Ride>();
+        //ArrayList<Ride> rideList = new ArrayList<Ride>();
+
+        Rides rides = new Rides();
 
         try {
             client = new MqttClient(broker, clientId);
@@ -78,7 +82,9 @@ public class SETA {
 
                         // Remove della Ride
 
-                        rideList.removeIf(r -> r.getId() == ride.getId());
+                        //rideList.removeIf(r -> r.getId() == ride.getId());
+                        rides.remove(ride);
+
 
                     }
 
@@ -100,23 +106,21 @@ public class SETA {
                 for (int i = 0; i < 2; i++) {
 
                     Ride ride = new Ride(rideId, new Position().getRandomStartingDestinationPosition(), new Position().getRandomStartingDestinationPosition());
-                    String jsonRide = gson.toJson(ride);
 
-                    rideList.add(ride);
-
-                    MqttMessage sendMessage = new MqttMessage(jsonRide.getBytes());
-                    sendMessage.setQos(qos);
-
-                    System.out.println("[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrictFromPosition(ride.getStartingPosition()) + "]");
-
-                    //System.out.println("[RIDE] Publishing message: " + ride + " ...");
-
-                    client.publish(pubTopic + Position.getDistrictFromPosition(ride.getStartingPosition()), sendMessage);
-
-                    //System.out.println("[RIDE] Message published");
+                    //rideList.add(ride);
+                    rides.add(ride);
 
                     rideId++;
 
+                    System.out.println("[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrictFromPosition(ride.getStartingPosition()) + "]");
+
+                }
+
+                for (int i = 0; i < rides.size(); i++) {
+                    String jsonRide = gson.toJson(rides.get(i));
+                    MqttMessage sendMessage = new MqttMessage(jsonRide.getBytes());
+                    sendMessage.setQos(qos);
+                    client.publish(pubTopic + Position.getDistrictFromPosition(rides.get(i).getStartingPosition()), sendMessage);
                 }
 
                 Thread.sleep(5000);

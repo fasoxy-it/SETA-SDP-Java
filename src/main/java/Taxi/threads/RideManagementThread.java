@@ -73,7 +73,9 @@ public class RideManagementThread extends Thread {
             public void onError(Throwable throwable) {
                 channel.shutdownNow();
                 if (throwable.getMessage().equals("UNAVAILABLE: io exception")) {
-                    System.err.println("[RIDE: " + ride.getId() + "] " + otherTaxi.getId() + " not responding at timestamp: " + new Timestamp(System.currentTimeMillis()));
+                    //System.err.println("[RIDE: " + ride.getId() + "] " + otherTaxi.getId() + " not responding at timestamp: " + new Timestamp(System.currentTimeMillis()));
+                    System.err.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + otherTaxi.getId() + " not responding!");
+
                     taxi.removeTaxiFromList(otherTaxi.getId());
                     taxi.startRideRequestThread(ride);
                 }
