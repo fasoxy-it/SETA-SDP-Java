@@ -52,11 +52,11 @@ class RechargeLock {
             }
         }
 
-        double distanceRide = Position.getDistance(taxi.getPosition(), new Position().getDistrictPosition(String.valueOf(Position.getDistrict(taxi.getPosition()))));
+        double distanceRide = Position.getDistance(taxi.getPosition(), new Position().getPositionFromDistrict(String.valueOf(Position.getDistrictFromPosition(taxi.getPosition()))));
 
         int batteryConsumption = (int) Math.round(distanceRide);
 
-        taxi.setPosition(new Position().getDistrictPosition(String.valueOf(Position.getDistrict(taxi.getPosition()))));
+        taxi.setPosition(new Position().getPositionFromDistrict(String.valueOf(Position.getDistrictFromPosition(taxi.getPosition()))));
         taxi.setDistance(taxi.getDistance() + distanceRide);
         taxi.setBattery(taxi.getBattery() - batteryConsumption);
 

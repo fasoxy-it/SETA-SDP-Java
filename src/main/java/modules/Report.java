@@ -11,7 +11,7 @@ public class Report {
     private int taxi;
     private List<Double> pollution;
     private int rides;
-    private double distance ;
+    private double distance;
     private int battery;
 
     public Report() {}

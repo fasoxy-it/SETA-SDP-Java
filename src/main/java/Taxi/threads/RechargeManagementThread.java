@@ -3,7 +3,6 @@ package taxi.threads;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import modules.Log;
 import modules.Position;
 import modules.Taxi;
 import proto.Definition;
@@ -33,7 +32,7 @@ public class RechargeManagementThread extends Thread {
         Definition.RechargeRequest request = Definition.RechargeRequest
                 .newBuilder()
                 .setTaxiId(taxi.getId())
-                .setDistrict(Integer.parseInt(Position.getDistrict(taxi.getPosition())))
+                .setDistrict(Integer.parseInt(Position.getDistrictFromPosition(taxi.getPosition())))
                 .setTimestamp(taxi.getWantCharge())
                 .build();
 

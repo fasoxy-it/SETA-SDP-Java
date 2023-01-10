@@ -6,7 +6,6 @@ import modules.Position;
 import modules.Taxi;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 public class RideThread extends Thread {
 
@@ -24,7 +23,7 @@ public class RideThread extends Thread {
         System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + "Doing the ride!");
 
         taxi.setInRide(true);
-        taxi.unsubscribeSETARideRequestThread("seta/smartcity/rides/district" + Position.getDistrict(ride.getStartingPosition()));
+        taxi.unsubscribeSETARideRequestThread("seta/smartcity/rides/district" + Position.getDistrictFromPosition(ride.getStartingPosition()));
         //taxi.setRideList(new ArrayList<>());
 
         try {

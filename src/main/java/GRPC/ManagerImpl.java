@@ -8,7 +8,6 @@ import modules.Taxi;
 import proto.Definition;
 import proto.ManagerGrpc;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -55,9 +54,9 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         Ride ride = new Ride(request.getRide().getId(), new Position(request.getRide().getStartingPosition().getX(), request.getRide().getStartingPosition().getY()), new Position(request.getRide().getDestinationPosition().getX(), request.getRide().getDestinationPosition().getY()));
 
-        if (!taxi.getInRide() && !taxi.getInCharge()) {
+        if (!taxi.getInRide() && !taxi.getInCharge() && taxi.getWantCharge() != null) {
 
-            if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == Integer.parseInt(Position.getDistrict(ride.getStartingPosition()))) {
+            if (Integer.parseInt(Position.getDistrictFromPosition(taxi.getPosition())) == Integer.parseInt(Position.getDistrictFromPosition(ride.getStartingPosition()))) {
 
                 //taxi.addRideToList(ride); // Bisogna controllare che non ci sia già
 
@@ -166,7 +165,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         //System.out.println("RECIVER Request of charging from: " + request.getTaxiId() + " to: " + taxi.getId());
 
-        if (Integer.parseInt(Position.getDistrict(taxi.getPosition())) == request.getDistrict()) {
+        if (Integer.parseInt(Position.getDistrictFromPosition(taxi.getPosition())) == request.getDistrict()) {
             if (!taxi.getInCharge() && taxi.getWantCharge() == null || taxi.getId() == request.getTaxiId()) {
                 //System.out.println("0");
                 Definition.RechargeResponse response = Definition.RechargeResponse
@@ -207,7 +206,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
                     responseStreamObserver.onNext(response);
                     responseStreamObserver.onCompleted();
-                } else {
+                } else if (responseInstant.isBefore(requestInstant)) {
                     //System.out.println("3");
                     taxi.rechargeLockServer.block();
                     Definition.RechargeResponse response = Definition.RechargeResponse
@@ -219,6 +218,29 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
                     responseStreamObserver.onNext(response);
                     responseStreamObserver.onCompleted();
+                } else {
+                    if (request.getTaxiId() < taxi.getId()) {
+                        taxi.rechargeLockServer.block();
+                        Definition.RechargeResponse response = Definition.RechargeResponse
+                                .newBuilder()
+                                .setTaxiId(taxi.getId())
+                                .setFree(true)
+                                .setTimestamp( String.valueOf(new Timestamp(System.currentTimeMillis())))
+                                .build();
+
+                        responseStreamObserver.onNext(response);
+                        responseStreamObserver.onCompleted();
+                    } else {
+                        Definition.RechargeResponse response = Definition.RechargeResponse
+                                .newBuilder()
+                                .setTaxiId(taxi.getId())
+                                .setFree(true)
+                                .setTimestamp( String.valueOf(new Timestamp(System.currentTimeMillis())))
+                                .build();
+
+                        responseStreamObserver.onNext(response);
+                        responseStreamObserver.onCompleted();
+                    }
                 }
             }
         } else {

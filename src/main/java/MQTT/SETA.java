@@ -74,8 +74,7 @@ public class SETA {
 
                         //System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis())+ "] " + ride + Log.ANSI_RESET);
 
-                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrict(ride.getStartingPosition()) + "]" + Log.ANSI_RESET);
-
+                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrictFromPosition(ride.getStartingPosition()) + "]" + Log.ANSI_RESET);
 
                         // Remove della Ride
 
@@ -108,11 +107,11 @@ public class SETA {
                     MqttMessage sendMessage = new MqttMessage(jsonRide.getBytes());
                     sendMessage.setQos(qos);
 
-                    System.out.println("[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrict(ride.getStartingPosition()) + "]");
+                    System.out.println("[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrictFromPosition(ride.getStartingPosition()) + "]");
 
                     //System.out.println("[RIDE] Publishing message: " + ride + " ...");
 
-                    client.publish(pubTopic + Position.getDistrict(ride.getStartingPosition()), sendMessage);
+                    client.publish(pubTopic + Position.getDistrictFromPosition(ride.getStartingPosition()), sendMessage);
 
                     //System.out.println("[RIDE] Message published");
 

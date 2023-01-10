@@ -109,7 +109,7 @@ public class SETARideRequestThread extends Thread {
 
             try {
 
-                String district = Position.getDistrict(taxi.getPosition());
+                String district = Position.getDistrictFromPosition(taxi.getPosition());
 
                 System.out.println(Log.ANSI_YELLOW + "[" + new Timestamp(System.currentTimeMillis()) + "] [SETA] Subscribing ..." + Log.ANSI_RESET);
                 client.subscribe(subTopic + district, qos);

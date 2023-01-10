@@ -15,15 +15,19 @@ public class Ride {
     private Position startingPosition;
     private Position destinationPosition;
 
+    /*
+
     @JsonIgnore
     private int countRequest = 0;
     @JsonIgnore
     private int countResponse = 0;
 
+    */
+
     public Ride() {}
 
     public Ride(int id, Position startingPosition, Position destinationPosition) {
-        this.time = new Timestamp(System.currentTimeMillis()).toString();
+        this.time = new Timestamp(System.currentTimeMillis()).toString(); // Non va bene!
         this.id = id;
         this.startingPosition = startingPosition; //new Position().getRandomStartingDestinationPosition();
         this.destinationPosition = destinationPosition; //new Position().getRandomStartingDestinationPosition();
@@ -43,6 +47,8 @@ public class Ride {
         return destinationPosition;
     }
 
+    /*
+
     public synchronized int getCountRequest() {
         return countRequest;
     }
@@ -58,5 +64,7 @@ public class Ride {
     public synchronized void addCountResponse() {
         countResponse++;
     }
+
+    */
 
 }

@@ -1,7 +1,5 @@
 package modules;
 
-import javafx.geometry.Pos;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -60,7 +58,7 @@ public class Position {
         return new Position(x, y);
     }
 
-    public Position getDistrictPosition(String district) {
+    public Position getPositionFromDistrict(String district) {
 
         if (district == "1") {
             return new Position(0,0);
@@ -76,7 +74,7 @@ public class Position {
 
     }
 
-    public static String getDistrict(Position position) {
+    public static String getDistrictFromPosition(Position position) {
 
         int x = position.getX();
         int y = position.getY();

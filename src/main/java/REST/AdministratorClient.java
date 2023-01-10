@@ -25,7 +25,7 @@ public class AdministratorClient {
 
         boolean exit = false;
 
-        while (exit == false) {
+        while (!exit) {
 
             switch (scanner.nextInt()) {
 
