@@ -5,6 +5,7 @@ import com.sun.jersey.api.client.Client;
 import modules.Position;
 import modules.Taxi;
 import taxi.threads.ReportThread;
+import taxi.threads.TaxiInput;
 import taxi.threads.WelcomeThread;
 
 import java.sql.Timestamp;
@@ -30,6 +31,9 @@ public class TaxiProcess {
 
         System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [Taxi] New Taxi created with Id: " + taxi.getId());
 
+        TaxiInput taxiInput = new TaxiInput(taxi);
+        taxiInput.start();
+
         taxi.startPM10Sensor();
 
         ReportThread reportThread = new ReportThread(taxi);
@@ -47,23 +51,6 @@ public class TaxiProcess {
                 welcomeThread.run();
             } else {
                 otherTaxi.setPosition(new Position(taxi.getPosition().getX(), taxi.getPosition().getY()));
-            }
-
-        }
-
-        boolean exit = false;
-
-        while (exit == false) {
-
-            switch (scanner.nextLine()) {
-
-                case "quit": System.out.println("Uscire");
-                    exit = true;
-                    System.exit(0);
-                    break;
-
-                default:
-                    System.out.println("Inserire un comando valido tra quelli possibili");
             }
 
         }

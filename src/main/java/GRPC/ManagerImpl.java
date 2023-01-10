@@ -54,6 +54,75 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         Ride ride = new Ride(request.getRide().getId(), new Position(request.getRide().getStartingPosition().getX(), request.getRide().getStartingPosition().getY()), new Position(request.getRide().getDestinationPosition().getX(), request.getRide().getDestinationPosition().getY()));
 
+        if (Integer.parseInt(Position.getDistrictFromPosition(taxi.getPosition())) == Integer.parseInt(Position.getDistrictFromPosition(ride.getStartingPosition()))) {
+
+            if (!taxi.getInRide() && !taxi.getInCharge() && taxi.getWantCharge() == null) {
+
+                if (request.getDistance() == Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
+
+                    if (request.getTaxiBattery() == taxi.getBattery()) {
+
+                        if (request.getTaxiId() < taxi.getId()) {
+
+                            assign = false;
+
+                        }
+
+                    } else if (request.getTaxiBattery() > taxi.getBattery()) {
+
+                        assign = true;
+                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI!" + Log.ANSI_RESET);
+                        System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
+
+                    } else {
+
+                        assign = false;
+
+                    }
+
+                } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
+
+                    assign = true;
+                    System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI1!" + Log.ANSI_RESET);
+                    System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
+
+
+                } else {
+
+                    assign = false;
+
+                }
+
+            } else if (taxi.getInRide()) {
+
+                if (taxi.getWichRide().getId() == request.getRideId()) {
+
+                    assign = false;
+
+                    System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + " Sto facendo questa!"); // Da togliere
+
+                } else {
+
+                    System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI2!" + Log.ANSI_RESET);
+
+                    assign = true;
+                    System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
+
+                }
+
+
+            }
+
+
+        }
+        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI3!" + Log.ANSI_RESET);
+        System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
+
+
+
+
+
+        /*
         if (!taxi.getInRide() && !taxi.getInCharge() && taxi.getWantCharge() != null) {
 
             if (Integer.parseInt(Position.getDistrictFromPosition(taxi.getPosition())) == Integer.parseInt(Position.getDistrictFromPosition(ride.getStartingPosition()))) {
@@ -73,6 +142,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                     } else if (request.getTaxiBattery() > taxi.getBattery()) {
 
                         assign = true;
+                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI!" + Log.ANSI_RESET);
 
                     } else {
 
@@ -83,6 +153,8 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                 } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
 
                     assign = true;
+                    System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI1!" + Log.ANSI_RESET);
+
 
                 } else {
 
@@ -98,9 +170,11 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
                 assign = false;
 
-                System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] Sto facendo questa!"); // Da togliere
+                System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + " Sto facendo questa!"); // Da togliere
 
             } else {
+
+                System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI2!" + Log.ANSI_RESET);
 
                 assign = true;
 
@@ -109,9 +183,13 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         } else {
 
-            assign = true;
+            System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI3!" + Log.ANSI_RESET);
+
+            //assign = true;
 
         }
+
+        */
 
         /*
         for (Ride rideOther : taxi.getRideList()) {

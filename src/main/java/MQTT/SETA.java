@@ -95,7 +95,7 @@ public class SETA {
             client.subscribe(subTopic,qos);
             System.out.println(Log.ANSI_YELLOW + "[" + new Timestamp(System.currentTimeMillis()) + "] [SETA] Subscribed to topic : " + subTopic + Log.ANSI_RESET);
 
-            while (rideId < 21) {
+            while (true) {
 
                 for (int i = 0; i < 2; i++) {
 

@@ -25,17 +25,19 @@ public class TaxiInput extends Thread {
             switch (scanner.nextLine()) {
 
                 case "exit":
-                    System.out.println(Log.ANSI_BLUE + new Timestamp(System.currentTimeMillis()) +  "exit" + Log.ANSI_RESET);
+                    Timestamp timestampExit = new Timestamp(System.currentTimeMillis());
+                    System.out.println(Log.ANSI_BLUE + timestampExit +  "exit" + Log.ANSI_RESET);
+                    taxi.setWantExit(timestampExit.toString());
                     //System.exit(0);
                     break;
 
                 case "recharge":
-                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                    System.out.println(Log.ANSI_BLUE + "[" + timestamp + "] [CHARGE] " + "Taxi needs recharge... " + Log.ANSI_RESET);
+                    Timestamp timestampRecharge = new Timestamp(System.currentTimeMillis());
+                    System.out.println(Log.ANSI_BLUE + "[" + timestampRecharge + "] [CHARGE] " + "Taxi wants recharge... " + Log.ANSI_RESET);
 
                     if (!taxi.getInRide()) {
                         taxi.unsubscribeSETARideRequestThread("seta/smartcity/rides/district" + Position.getDistrictFromPosition(taxi.getPosition()));
-                        taxi.setWantCharge(String.valueOf(timestamp.getTime()));
+                        taxi.setWantCharge(String.valueOf(timestampRecharge.getTime()));
                         taxi.startRechargeRequestThread();
                     } else {
                         System.out.println(Log.ANSI_BLUE + "[" + new Timestamp(System.currentTimeMillis()) + "] [CHARGE] " + "Can't recharge now! Taxi is involved in a Ride." + Log.ANSI_RESET);

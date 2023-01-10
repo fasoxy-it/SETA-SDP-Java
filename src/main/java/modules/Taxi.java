@@ -63,6 +63,9 @@ public class Taxi {
     private boolean inCharge;
 
     @JsonIgnore
+    private String wantExit;
+
+    @JsonIgnore
     private RechargeRequestThread rechargeRequestThread;
 
     @JsonIgnore
@@ -248,6 +251,9 @@ public class Taxi {
     public boolean getInCharge() { return inCharge; }
 
     public void setInCharge(boolean inCharge) { this.inCharge = inCharge; }
+
+    public synchronized String getWantExit() { return wantExit; }
+    public synchronized void setWantExit(String wantExit) { this.wantExit = wantExit; }
 
     public void check(Client client) {
 
