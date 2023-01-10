@@ -8,8 +8,8 @@ import java.util.List;
 
 public class TaxiBuffer implements Buffer {
 
-    private List<Measurement> measurements;
     private Taxi taxi;
+    private List<Measurement> measurements;
 
     public TaxiBuffer(Taxi taxi) {
         measurements = new ArrayList<>();
@@ -21,7 +21,6 @@ public class TaxiBuffer implements Buffer {
 
         if (measurements.size() < 8) {
             measurements.add(measurement);
-            //System.out.println("Measurement add: " + measurement);
         } else {
             readAllAndClean();
         }
@@ -30,7 +29,6 @@ public class TaxiBuffer implements Buffer {
 
     @Override
     public List<Measurement> readAllAndClean() {
-        //System.out.println("Measurement Read and Clean!");
 
         double sum = 0.0;
 

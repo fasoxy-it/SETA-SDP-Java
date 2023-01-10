@@ -3,10 +3,13 @@ package taxi.threads;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import modules.Log;
 import modules.Position;
 import modules.Taxi;
 import proto.Definition;
 import proto.ManagerGrpc;
+
+import java.sql.Timestamp;
 
 public class WelcomeThread extends Thread {
 
@@ -43,7 +46,7 @@ public class WelcomeThread extends Thread {
             public void onNext(Definition.WelcomeResponse welcomeResponse) {
 
                 // Risposta dagli altri taxi già presenti
-                System.out.println("Taxi: " + welcomeResponse.getId() + " Position: " + welcomeResponse.getPosition().getX() + " " + welcomeResponse.getPosition().getY());
+                System.out.println(Log.ANSI_CYAN + "[" + new Timestamp(System.currentTimeMillis()) + "] Old Taxi joined the Smart City with Id: " + welcomeResponse.getId() + " and Position: (" + welcomeResponse.getPosition().getX() + " " + welcomeResponse.getPosition().getY() + ")" + Log.ANSI_RESET);
 
                 otherTaxi.setPosition(new Position(welcomeResponse.getPosition().getX(), welcomeResponse.getPosition().getY()));
 

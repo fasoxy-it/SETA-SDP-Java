@@ -99,8 +99,9 @@ GRPC/ManagerImpl.java
  GRPC.ManagerImpl
 taxi/threads/RideThread.java
  taxi.threads.RideThread
-taxi/TaxiProcess.java
- taxi.TaxiProcess
+taxi/threads/RideManagementThread.java
+ taxi.threads.RideManagementThread
+ taxi.threads.RideManagementThread$1
 modules/Taxis.java
  modules.Taxis
 taxi/threads/SETARideRequestThread.java
@@ -115,6 +116,5 @@ taxi/threads/RideRequestThread.java
  taxi.threads.RideRequestThread
 modules/Taxi.java
  modules.Taxi
-taxi/threads/RideManagementThread.java
- taxi.threads.RideManagementThread
- taxi.threads.RideManagementThread$1
+taxi/TaxiProcess.java
+ taxi.TaxiProcess

@@ -24,7 +24,7 @@ public class RideThread extends Thread {
         System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + "Doing the ride!");
 
         taxi.setInRide(true);
-        taxi.stopSETARideRequestThread("seta/smartcity/rides/district" + Position.getDistrict(ride.getStartingPosition()));
+        taxi.unsubscribeSETARideRequestThread("seta/smartcity/rides/district" + Position.getDistrict(ride.getStartingPosition()));
         taxi.setRideList(new ArrayList<>());
 
         try {

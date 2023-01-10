@@ -39,10 +39,10 @@ public class Taxi {
     private List<Taxi> taxiList;
 
     @JsonIgnore
-    private SETARideRequestThread SETARideRequestThread;
+    private SETARideRequestThread SETARideRequestThread; // Da cambiare il nome --> Thread che si occupa di
 
     @JsonIgnore
-    private List<Ride> rideList;
+    private List<Ride> rideList; // Non penso che serva!!!
 
     @JsonIgnore
     private boolean inRide;
@@ -86,8 +86,9 @@ public class Taxi {
         battery = 100;
         distance = 0;
         taxiList = new ArrayList<>();
-        rideList = new ArrayList<>();
+        //rideList = new ArrayList<>();
         inRide = false;
+        wichRide = null;
         rides = 0;
         wantCharge = null;
         inCharge = false;
@@ -168,14 +169,16 @@ public class Taxi {
         SETARideRequestThread.subscribe();
     }
 
+    public void unsubscribeSETARideRequestThread(String topic) {
+        SETARideRequestThread.unsubscribe(topic);
+    }
+
     public void startRideRequestThread(Ride ride) {
         rideRequestThread = new RideRequestThread(this, ride);
         rideRequestThread.start();
     }
 
-    public void stopSETARideRequestThread(String topic) {
-        SETARideRequestThread.unsubscribe(topic);
-    }
+    /*
 
     public List<Ride> getRideList() { return rideList; }
 
@@ -221,6 +224,8 @@ public class Taxi {
         }
         return null;
     }
+
+    */
 
     public synchronized boolean getInRide() { return inRide; }
 
@@ -314,7 +319,6 @@ public class Taxi {
     public synchronized void addPM10AverageToPM10Averages(double pm10Average) {
         this.pm10Averages.add(pm10Average);
     }
-
 
     public void startRechargeRequestThread() {
         rechargeRequestThread = new RechargeRequestThread(this);
