@@ -25,7 +25,7 @@ public class RideThread extends Thread {
 
         taxi.setInRide(true);
         taxi.unsubscribeSETARideRequestThread("seta/smartcity/rides/district" + Position.getDistrict(ride.getStartingPosition()));
-        taxi.setRideList(new ArrayList<>());
+        //taxi.setRideList(new ArrayList<>());
 
         try {
 
