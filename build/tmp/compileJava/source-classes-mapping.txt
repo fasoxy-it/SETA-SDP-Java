@@ -86,8 +86,9 @@ proto/ManagerGrpc.java
  proto.ManagerGrpc$MethodHandlers
 simulators/Simulator.java
  simulators.Simulator
-GRPC/GRPCTaxiServer.java
- GRPC.GRPCTaxiServer
+MQTT/SETA.java
+ MQTT.SETA
+ MQTT.SETA$1
 modules/Position.java
  modules.Position
 taxi/threads/RideRequestThread.java
@@ -101,8 +102,8 @@ MQTT/Rides.java
  MQTT.Rides
 modules/TaxiBuffer.java
  modules.TaxiBuffer
-GRPC/ManagerImpl.java
- GRPC.ManagerImpl
+simulators/Measurement.java
+ simulators.Measurement
 taxi/threads/RideThread.java
  taxi.threads.RideThread
 taxi/TaxiProcess.java
@@ -111,20 +112,19 @@ REST/services/ReportService.java
  REST.services.ReportService
 modules/ReportRides.java
  modules.ReportRides
-taxi/threads/TaxiInput.java
- taxi.threads.TaxiInput
+simulators/PM10Simulator.java
+ simulators.PM10Simulator
 modules/AddTaxiResponse.java
  modules.AddTaxiResponse
 taxi/threads/SETARideRequestThread.java
  taxi.threads.SETARideRequestThread
  taxi.threads.SETARideRequestThread$1
-simulators/PM10Simulator.java
- simulators.PM10Simulator
-simulators/Measurement.java
- simulators.Measurement
+GRPC/GRPCTaxiServer.java
+ GRPC.GRPCTaxiServer
+taxi/threads/TaxiInput.java
+ taxi.threads.TaxiInput
+GRPC/ManagerImpl.java
+ GRPC.ManagerImpl
 taxi/threads/ExitThread.java
  taxi.threads.ExitThread
  taxi.threads.ExitThread$1
-MQTT/SETA.java
- MQTT.SETA
- MQTT.SETA$1

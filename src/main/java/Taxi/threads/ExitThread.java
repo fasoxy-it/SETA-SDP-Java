@@ -36,7 +36,7 @@ public class ExitThread {
         stub.exit(request, new StreamObserver<Definition.ExitResponse>() {
             @Override
             public void onNext(Definition.ExitResponse exitResponse) {
-                System.out.println(Log.ANSI_CYAN + "[" + new Timestamp(System.currentTimeMillis()) + "] " + exitResponse.getOk() + Log.ANSI_RESET);
+                //System.out.println(Log.ANSI_CYAN + "[" + new Timestamp(System.currentTimeMillis()) + "] " + exitResponse.getOk() + Log.ANSI_RESET);
             }
 
             @Override
