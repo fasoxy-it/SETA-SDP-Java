@@ -27,8 +27,6 @@ public class SETA {
 
         Gson gson = new Gson();
 
-        //ArrayList<Ride> rideList = new ArrayList<Ride>();
-
         Rides rides = new Rides();
 
         try {
@@ -49,45 +47,12 @@ public class SETA {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
 
-                    if (Objects.equals(topic, "seta/smartcity/rides/seta")) {
+                    String receivedMessage = new String(message.getPayload());
+                    Ride ride = gson.fromJson(receivedMessage, Ride.class);
 
-                        // NON SERVE PIÚ
+                    System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrictFromPosition(ride.getStartingPosition()) + "]" + Log.ANSI_RESET);
 
-                        /*
-
-                        String receivedMessage = new String(message.getPayload());
-
-                        Ride ride = gson.fromJson(receivedMessage, Ride.class);
-                        rideList.add(ride);
-
-                        System.out.println("[" + new Timestamp(System.currentTimeMillis())+ "] " + ride);
-
-                        // Invio la richiesta ai Taxi
-
-                        MqttMessage sendMessage = new MqttMessage(receivedMessage.getBytes());
-                        message.setQos(qos);
-
-                        client.publish(pubTopic + Position.getDistrict(ride.getStartingPosition()), sendMessage);
-
-                        */
-
-                    } else if (Objects.equals(topic, "seta/smartcity/rides/done")) {
-
-                        String receivedMessage = new String(message.getPayload());
-                        Ride ride = gson.fromJson(receivedMessage, Ride.class);
-
-                        //System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis())+ "] " + ride + Log.ANSI_RESET);
-
-                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrictFromPosition(ride.getStartingPosition()) + "]" + Log.ANSI_RESET);
-
-                        // Remove della Ride
-
-                        //rideList.removeIf(r -> r.getId() == ride.getId());
-                        rides.remove(ride);
-
-
-                    }
-
+                    rides.remove(ride);
 
                 }
 
@@ -106,10 +71,7 @@ public class SETA {
                 for (int i = 0; i < 2; i++) {
 
                     Ride ride = new Ride(rideId, new Position().getRandomStartingDestinationPosition(), new Position().getRandomStartingDestinationPosition());
-
-                    //rideList.add(ride);
                     rides.add(ride);
-
                     rideId++;
 
                     System.out.println("[" + new Timestamp(System.currentTimeMillis())+ "] [RIDE: " + ride.getId()  + "] [DISTRICT: " + Position.getDistrictFromPosition(ride.getStartingPosition()) + "]");

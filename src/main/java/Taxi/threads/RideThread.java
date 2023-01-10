@@ -54,13 +54,19 @@ public class RideThread extends Thread {
             interruptedException.printStackTrace();
         }
 
-        if (taxi.getBattery() < 90) {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            System.out.println(Log.ANSI_BLUE + "[" + timestamp + "] [CHARGE] " + "Taxi needs recharge... " + Log.ANSI_RESET);
-            taxi.setWantCharge(String.valueOf(timestamp.getTime()));
-            taxi.startRechargeRequestThread();
+        if (taxi.getWantExit() == null) {
+            if (taxi.getBattery() < 30) {
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                System.out.println(Log.ANSI_BLUE + "[" + timestamp + "] [CHARGE] " + "Taxi needs recharge... " + Log.ANSI_RESET);
+                taxi.setWantCharge(String.valueOf(timestamp.getTime()));
+                taxi.startRechargeRequestThread();
+            } else {
+                taxi.subscribeSETARideRequestThread();
+            }
         } else {
-            taxi.subscribeSETARideRequestThread();
+            taxi.exit();
+            System.out.println(Log.ANSI_BLUE + "[" + new Timestamp(System.currentTimeMillis()) +  "] [TAXI] Taxi exits!" + Log.ANSI_RESET);
+            System.exit(0);
         }
 
     }

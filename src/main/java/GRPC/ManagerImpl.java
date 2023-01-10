@@ -48,6 +48,23 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
     }
 
     @Override
+    public void exit(Definition.ExitMessage request, StreamObserver<Definition.ExitResponse> exitResponseStreamObserver) {
+
+        Definition.ExitResponse response = Definition.ExitResponse
+                .newBuilder()
+                .setOk("Ok")
+                .build();
+
+        exitResponseStreamObserver.onNext(response);
+        exitResponseStreamObserver.onCompleted();
+
+        taxi.removeTaxiFromList(request.getId());
+
+        System.out.println(Log.ANSI_CYAN + "[" + new Timestamp(System.currentTimeMillis()) + "] Remove taxi: " + request.getId() + Log.ANSI_RESET);
+
+    }
+
+    @Override
     public void ride(Definition.RideRequest request, StreamObserver<Definition.RideResponse> responseStreamObserver) {
 
         boolean assign = true;
@@ -71,8 +88,6 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                     } else if (request.getTaxiBattery() > taxi.getBattery()) {
 
                         assign = true;
-                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI!" + Log.ANSI_RESET);
-                        System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
 
                     } else {
 
@@ -83,9 +98,6 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                 } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
 
                     assign = true;
-                    System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI1!" + Log.ANSI_RESET);
-                    System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
-
 
                 } else {
 
@@ -99,14 +111,11 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
                     assign = false;
 
-                    System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + " Sto facendo questa!"); // Da togliere
+                    //System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + " Sto facendo questa!"); // Da togliere
 
                 } else {
 
-                    System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI2!" + Log.ANSI_RESET);
-
                     assign = true;
-                    System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
 
                 }
 
@@ -115,119 +124,6 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
 
         }
-        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI3!" + Log.ANSI_RESET);
-        System.out.println(taxi.getInRide() + taxi.getWantCharge() + taxi.getInCharge());
-
-
-
-
-
-        /*
-        if (!taxi.getInRide() && !taxi.getInCharge() && taxi.getWantCharge() != null) {
-
-            if (Integer.parseInt(Position.getDistrictFromPosition(taxi.getPosition())) == Integer.parseInt(Position.getDistrictFromPosition(ride.getStartingPosition()))) {
-
-                //taxi.addRideToList(ride); // Bisogna controllare che non ci sia già
-
-                if (request.getDistance() == Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
-
-                    if (request.getTaxiBattery() == taxi.getBattery()) {
-
-                        if (request.getTaxiId() < taxi.getId()) {
-
-                            assign = false;
-
-                        }
-
-                    } else if (request.getTaxiBattery() > taxi.getBattery()) {
-
-                        assign = true;
-                        System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI!" + Log.ANSI_RESET);
-
-                    } else {
-
-                        assign = false;
-
-                    }
-
-                } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), ride.getStartingPosition())) {
-
-                    assign = true;
-                    System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI1!" + Log.ANSI_RESET);
-
-
-                } else {
-
-                    assign = false;
-
-                }
-
-            }
-
-        } else if (taxi.getInRide()) {
-
-            if (taxi.getWichRide().getId() == request.getRideId()) {
-
-                assign = false;
-
-                System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] " + " Sto facendo questa!"); // Da togliere
-
-            } else {
-
-                System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI2!" + Log.ANSI_RESET);
-
-                assign = true;
-
-            }
-
-
-        } else {
-
-            System.out.println(Log.ANSI_RED + "[" + new Timestamp(System.currentTimeMillis()) + "] [RIDE: " + ride.getId() + "] [To TAXI: " + request.getTaxiId() + "] ECCOMI3!" + Log.ANSI_RESET);
-
-            //assign = true;
-
-        }
-
-        */
-
-        /*
-        for (Ride rideOther : taxi.getRideList()) {
-
-            if (request.getRideId() == rideOther.getId()) {
-
-                if (taxi.getInRide() == false) {
-
-                    if (request.getDistance() == Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition())) {
-
-                        if (request.getTaxiBattery() == taxi.getBattery()) {
-
-                            if (request.getTaxiId() < taxi.getId()) {
-
-                                assign = false;
-
-                            }
-
-                        } else if (request.getTaxiBattery() > taxi.getBattery()) {
-                            assign = true;
-                        } else {
-                            assign = false;
-                        }
-
-                    } else if (request.getDistance() < Position.getDistance(taxi.getPosition(), rideOther.getStartingPosition())) {
-                        assign = true;
-                    } else {
-                        assign = false;
-                    }
-
-                } else {
-                    assign = true;
-                }
-
-            }
-
-        }
-        */
 
         Definition.RideResponse response = Definition.RideResponse
                 .newBuilder()
@@ -241,11 +137,8 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
     @Override
     public void recharge(Definition.RechargeRequest request, StreamObserver<Definition.RechargeResponse> responseStreamObserver) {
 
-        //System.out.println("RECIVER Request of charging from: " + request.getTaxiId() + " to: " + taxi.getId());
-
         if (Integer.parseInt(Position.getDistrictFromPosition(taxi.getPosition())) == request.getDistrict()) {
             if (!taxi.getInCharge() && taxi.getWantCharge() == null || taxi.getId() == request.getTaxiId()) {
-                //System.out.println("0");
                 Definition.RechargeResponse response = Definition.RechargeResponse
                         .newBuilder()
                         .setTaxiId(taxi.getId())
@@ -256,7 +149,6 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                 responseStreamObserver.onNext(response);
                 responseStreamObserver.onCompleted();
             } else if (taxi.getInCharge()) {
-                //System.out.println("1");
                 taxi.rechargeLockServer.block();
                 Definition.RechargeResponse response = Definition.RechargeResponse
                         .newBuilder()
@@ -274,7 +166,6 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                 Instant responseInstant = Instant.ofEpochSecond( new Timestamp(Long.valueOf(taxi.getWantCharge())).getTime());
                 System.out.println("Taxi: " + taxi.getId() + " Response Instant: " + new Timestamp(Long.valueOf(taxi.getWantCharge())));
                 if (requestInstant.isBefore(responseInstant)) {
-                    //System.out.println("2");
                     Definition.RechargeResponse response = Definition.RechargeResponse
                             .newBuilder()
                             .setTaxiId(taxi.getId())
@@ -285,7 +176,6 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
                     responseStreamObserver.onNext(response);
                     responseStreamObserver.onCompleted();
                 } else if (responseInstant.isBefore(requestInstant)) {
-                    //System.out.println("3");
                     taxi.rechargeLockServer.block();
                     Definition.RechargeResponse response = Definition.RechargeResponse
                             .newBuilder()

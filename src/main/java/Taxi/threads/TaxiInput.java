@@ -26,9 +26,17 @@ public class TaxiInput extends Thread {
 
                 case "exit":
                     Timestamp timestampExit = new Timestamp(System.currentTimeMillis());
-                    System.out.println(Log.ANSI_BLUE + timestampExit +  "exit" + Log.ANSI_RESET);
+                    System.out.println(Log.ANSI_BLUE + "[" + timestampExit +  "] [TAXI] Taxi wants exit..." + Log.ANSI_RESET);
                     taxi.setWantExit(timestampExit.toString());
-                    //System.exit(0);
+                    //System.out.println(timestampExit);
+
+                    for (Taxi otherTaxi : taxi.getTaxiList()) {
+                        if (!(otherTaxi.getId() == taxi.getId())) {
+                            ExitThread exitThread = new ExitThread(taxi, otherTaxi);
+                            exitThread.run();
+                        }
+                    }
+
                     break;
 
                 case "recharge":

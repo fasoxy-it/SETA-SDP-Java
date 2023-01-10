@@ -27,6 +27,9 @@ public class Taxi {
     private int port;
 
     @JsonIgnore
+    private Client client;
+
+    @JsonIgnore
     private Position position;
 
     @JsonIgnore
@@ -86,6 +89,7 @@ public class Taxi {
         this.id = id;
         this.ip = ip;
         this.port = port;
+        client = new Client();
         battery = 100;
         distance = 0;
         taxiList = new ArrayList<>();
@@ -255,7 +259,7 @@ public class Taxi {
     public synchronized String getWantExit() { return wantExit; }
     public synchronized void setWantExit(String wantExit) { this.wantExit = wantExit; }
 
-    public void check(Client client) {
+    public void check() {
 
         WebResource webResource = client.resource("http://localhost:1337/taxis/get");
 
@@ -276,7 +280,7 @@ public class Taxi {
 
     }
 
-    public void start(Client client) {
+    public void start() {
 
         JSONObject payload = new JSONObject();
 
@@ -304,6 +308,19 @@ public class Taxi {
 
         } catch (ClientHandlerException clientHandlerException) {
             clientHandlerException.printStackTrace();
+        }
+
+    }
+
+    public void exit() {
+
+        WebResource webResource = client.resource("http://localhost:1337/taxis/remove/"+ getId());
+
+        try {
+            webResource.type("application/json").delete();
+
+        } catch (ClientHandlerException e) {
+            System.out.println("> Server not reachable");
         }
 
     }

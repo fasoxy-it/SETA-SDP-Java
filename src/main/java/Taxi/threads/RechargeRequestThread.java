@@ -1,5 +1,6 @@
 package taxi.threads;
 
+import modules.Log;
 import modules.Position;
 import modules.Taxi;
 
@@ -83,7 +84,15 @@ class RechargeLock {
         taxi.setWantCharge(null);
         taxi.rechargeLockServer.wakeUp();
         //taxi.startSETARideRequestThread();
-        taxi.subscribeSETARideRequestThread();
+
+        if (taxi.getWantExit() == null) {
+            taxi.subscribeSETARideRequestThread();
+        } else {
+            taxi.exit();
+            System.out.println(Log.ANSI_BLUE + "[" + new Timestamp(System.currentTimeMillis()) +  "] [TAXI] Taxi exits!" + Log.ANSI_RESET);
+            System.exit(0);
+        }
+
     }
 
     public void wakeUp() {

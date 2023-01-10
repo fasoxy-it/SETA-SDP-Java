@@ -19,15 +19,15 @@ public class TaxiProcess {
 
     private static int port;
 
-    public static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
 
-        Client client = Client.create();
+        //Client client = Client.create();
 
         Taxi taxi = new Taxi(id, ip, port);
-        taxi.check(client);
-        taxi.start(client);
+        //taxi.check(client);
+        taxi.check();
+        //taxi.start(client);
+        taxi.start();
 
         System.out.println("[" + new Timestamp(System.currentTimeMillis()) + "] [Taxi] New Taxi created with Id: " + taxi.getId());
 
