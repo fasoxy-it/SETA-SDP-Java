@@ -60,7 +60,7 @@ public class ManagerImpl extends ManagerGrpc.ManagerImplBase {
 
         taxi.removeTaxiFromList(request.getId());
 
-        System.out.println(Log.ANSI_CYAN + "[" + new Timestamp(System.currentTimeMillis()) + "] Remove taxi: " + request.getId() + Log.ANSI_RESET);
+        System.out.println(Log.ANSI_CYAN + "[" + new Timestamp(System.currentTimeMillis()) + "] Taxi exited from the Smart City with Id: " + request.getId() + Log.ANSI_RESET);
 
     }
 
